@@ -1,0 +1,15 @@
+﻿@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task ScrollViewer_ScrollBarVisibility()
+    {
+        var viewer = await Render<AC.ScrollViewer>(
+            @<ScrollViewer HorizontalScrollBarVisibility="AC.Primitives.ScrollBarVisibility.Disabled" />);
+
+        Assert.Equal(AC.Primitives.ScrollBarVisibility.Disabled, viewer.HorizontalScrollBarVisibility);
+    }
+}

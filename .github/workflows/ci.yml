@@ -1,0 +1,55 @@
+﻿name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+            dotnet-version: '9.0.x'
+
+      - name: Restore
+        run: dotnet restore src/Blazonia.UnitTests/Blazonina.UnitTests.csproj
+
+      - name: Test (with TRX output)
+        run: >-
+          dotnet test src/Blazonia.UnitTests/Blazonina.UnitTests.csproj -c Debug
+          --logger "trx;LogFileName=tests.trx"
+          --results-directory src/Blazonia.UnitTests/TestResults
+          
+      - name: Generate Coverage Reports
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.4.12
+        with:
+          reports: 'src/Blazonia.UnitTests/TestResults/coverage/coverage.cobertura.xml'
+          targetdir: 'src/Blazonia.UnitTests/TestResults/coverage/reports'
+          reporttypes: 'Html;Badges'
+          title: 'Blazonia Code Coverage'
+
+      - name: Upload Coverage Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: src/Blazonia.UnitTests/TestResults/coverage/reports/
+          
+      - name: Report Unit Test Results and Coverage
+        if: always()
+        uses: bibipkins/dotnet-test-reporter@v1.4.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-title: 'Unit Test Results'
+          results-path: src/Blazonia.UnitTests/TestResults/*.trx
+          coverage-path: src/Blazonia.UnitTests/TestResults/coverage/coverage.cobertura.xml
+          coverage-type: cobertura

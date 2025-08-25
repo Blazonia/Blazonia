@@ -1,0 +1,24 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task Label_With_Content_Is_Set()
+    {
+        var label = await Render<AC.Label>(
+            @<Label>Hello World</Label>);
+
+        Assert.Equal("Hello World", label.Content?.ToString());
+    }
+
+    [AvaloniaFact]
+    public async Task Label_With_Custom_Class_Is_Applied()
+    {
+        var label = await Render<AC.Label>(
+            @<Label Classes="custom-label">Test</Label>);
+
+        Assert.Contains("custom-label", label.Classes);
+    }
+}

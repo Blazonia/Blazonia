@@ -1,0 +1,75 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task CheckBox_With_Default_Properties_Is_Created()
+    {
+        var checkBox = await Render<AC.CheckBox>(
+            @<CheckBox />);
+
+        Assert.NotNull(checkBox);
+        Assert.IsType<AC.CheckBox>(checkBox);
+        Assert.Null(checkBox.IsChecked);
+        Assert.False(checkBox.IsThreeState);
+    }
+
+    [AvaloniaFact]
+    public async Task CheckBox_With_Content_Is_Set()
+    {
+        var checkBox = await Render<AC.CheckBox>(
+            @<CheckBox>Accept Terms</CheckBox>);
+
+        Assert.Equal("Accept Terms", checkBox.Content?.ToString());
+    }
+
+    [AvaloniaFact]
+    public async Task CheckBox_With_IsChecked_True_Is_Set()
+    {
+        var checkBox = await Render<AC.CheckBox>(
+            @<CheckBox IsChecked="true" />);
+
+        Assert.True(checkBox.IsChecked);
+    }
+
+    [AvaloniaFact]
+    public async Task CheckBox_With_IsChecked_False_Is_Set()
+    {
+        var checkBox = await Render<AC.CheckBox>(
+            @<CheckBox IsChecked="false" />);
+
+        Assert.False(checkBox.IsChecked);
+    }
+
+    [AvaloniaFact]
+    public async Task CheckBox_With_IsThreeState_True_Is_Set()
+    {
+        var checkBox = await Render<AC.CheckBox>(
+            @<CheckBox IsThreeState="true" />);
+
+        Assert.True(checkBox.IsThreeState);
+    }
+
+    [AvaloniaFact]
+    public async Task CheckBox_With_IsThreeState_And_Null_Checked_Is_Set()
+    {
+        var checkBox = await Render<AC.CheckBox>(
+            @<CheckBox IsThreeState="true" IsChecked="null" />);
+
+        Assert.True(checkBox.IsThreeState);
+        Assert.Null(checkBox.IsChecked);
+    }
+
+    [AvaloniaFact]
+    public async Task CheckBox_With_All_Properties_Is_Set()
+    {
+        var checkBox = await Render<AC.CheckBox>(
+            @<CheckBox IsChecked="true" IsThreeState="false">Test Checkbox</CheckBox>);
+
+        Assert.Equal("Test Checkbox", checkBox.Content?.ToString());
+        Assert.True(checkBox.IsChecked);
+        Assert.False(checkBox.IsThreeState);
+    }
+}

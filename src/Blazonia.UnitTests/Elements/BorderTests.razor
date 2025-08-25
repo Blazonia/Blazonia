@@ -1,0 +1,18 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+
+    [AvaloniaFact]
+    public async Task BorderWithColor()
+    {
+        var border = await Render<AC.Border>(
+            @<Border Background="AM.Colors.Olive">
+            </Border>);
+
+        Assert.Equal(border.Background, AM.Brushes.Olive);
+    }
+
+}

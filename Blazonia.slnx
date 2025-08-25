@@ -1,0 +1,44 @@
+﻿<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="iPhone" />
+    <Platform Name="iPhoneSimulator" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="src\Directory.Build.props" />
+    <File Path="src\Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="Readme.md" />
+    <File Path="THIRD-PARTY-NOTICES.txt" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Avalonia/">
+    <Project Path="src\Blazonia.ComponentGenerator\Blazonia.ComponentGenerator.csproj">
+      <Configuration Solution="Debug|iPhone" Project="Debug|Any CPU" />
+      <Configuration Solution="Debug|iPhoneSimulator" Project="Debug|Any CPU" />
+      <Configuration Solution="Release|iPhone" Project="Release|Any CPU" />
+      <Configuration Solution="Release|iPhoneSimulator" Project="Release|Any CPU" />
+    </Project>
+    <Project Path="src\Blazonia.UnitTests\Blazonina.UnitTests.csproj" Type="Classic C#">
+      <Configuration Solution="Debug|iPhone" Project="Debug|Any CPU" />
+      <Configuration Solution="Debug|iPhoneSimulator" Project="Debug|Any CPU" />
+      <Configuration Solution="Release|iPhone" Project="Release|Any CPU" />
+      <Configuration Solution="Release|iPhoneSimulator" Project="Release|Any CPU" />
+    </Project>
+    <Project Path="src\Blazonia\Blazonia.csproj">
+      <Configuration Solution="Debug|iPhone" Project="Debug|Any CPU" />
+      <Configuration Solution="Debug|iPhoneSimulator" Project="Debug|Any CPU" />
+      <Configuration Solution="Release|iPhone" Project="Release|Any CPU" />
+      <Configuration Solution="Release|iPhoneSimulator" Project="Release|Any CPU" />
+    </Project>
+  </Folder>
+  <Folder Name="/src/Avalonia/samples/">
+    <Project Path="src\Blazonia.HelloWorld\Blazonia.HelloWorld.csproj">
+      <Configuration Solution="Debug|iPhone" Project="Debug|Any CPU" />
+      <Configuration Solution="Debug|iPhoneSimulator" Project="Debug|Any CPU" />
+      <Configuration Solution="Release|iPhone" Project="Release|Any CPU" />
+      <Configuration Solution="Release|iPhoneSimulator" Project="Release|Any CPU" />
+    </Project>
+  </Folder>
+</Solution>

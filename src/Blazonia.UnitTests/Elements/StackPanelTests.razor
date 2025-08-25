@@ -1,0 +1,82 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task StackPanel_With_Default_Properties_Is_Created()
+    {
+        var stackPanel = await Render<AC.StackPanel>(
+            @<StackPanel />);
+
+        Assert.NotNull(stackPanel);
+        Assert.IsType<AC.StackPanel>(stackPanel);
+        Assert.Equal(Avalonia.Layout.Orientation.Vertical, stackPanel.Orientation);
+        Assert.Equal(0, stackPanel.Spacing);
+    }
+
+    [AvaloniaFact]
+    public async Task StackPanel_Orientation()
+    {
+        var panel = await Render<AC.StackPanel>(
+            @<StackPanel Orientation="Orientation.Vertical" />);
+
+        Assert.Equal(Avalonia.Layout.Orientation.Vertical, panel.Orientation);
+    }
+
+    [AvaloniaFact]
+    public async Task StackPanel_With_Horizontal_Orientation_Is_Set()
+    {
+        var stackPanel = await Render<AC.StackPanel>(
+            @<StackPanel Orientation="Orientation.Horizontal" />);
+
+        Assert.Equal(Avalonia.Layout.Orientation.Horizontal, stackPanel.Orientation);
+    }
+
+    [AvaloniaFact]
+    public async Task StackPanel_With_Spacing_Is_Set()
+    {
+        var stackPanel = await Render<AC.StackPanel>(
+            @<StackPanel Spacing="10" />);
+
+        Assert.Equal(10, stackPanel.Spacing);
+    }
+
+    [AvaloniaFact]
+    public async Task StackPanel_With_Children_Is_Created()
+    {
+        var stackPanel = await Render<AC.StackPanel>(
+            @<StackPanel>
+                <TextBlock>Item 1</TextBlock>
+                <TextBlock>Item 2</TextBlock>
+                <TextBlock>Item 3</TextBlock>
+            </StackPanel>);
+
+        Assert.Equal(3, stackPanel.Children.Count);
+    }
+
+    [AvaloniaFact]
+    public async Task StackPanel_With_All_Properties_Is_Set()
+    {
+        var stackPanel = await Render<AC.StackPanel>(
+            @<StackPanel Orientation="Orientation.Horizontal" Spacing="15">
+                <Button>Button 1</Button>
+                <Button>Button 2</Button>
+            </StackPanel>);
+
+        Assert.Equal(Avalonia.Layout.Orientation.Horizontal, stackPanel.Orientation);
+        Assert.Equal(15, stackPanel.Spacing);
+        Assert.Equal(2, stackPanel.Children.Count);
+    }
+
+    [AvaloniaFact]
+    public async Task StackPanel_With_SnapPoints_Properties_Is_Set()
+    {
+        var stackPanel = await Render<AC.StackPanel>(
+            @<StackPanel AreHorizontalSnapPointsRegular="true" AreVerticalSnapPointsRegular="false" />);
+
+        Assert.True(stackPanel.AreHorizontalSnapPointsRegular);
+        Assert.False(stackPanel.AreVerticalSnapPointsRegular);
+    }
+}

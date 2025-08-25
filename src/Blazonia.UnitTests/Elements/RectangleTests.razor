@@ -1,0 +1,79 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@using Blazonia.Components.Shapes
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task Rectangle_With_Default_Properties_Is_Created()
+    {
+        var rectangle = await Render<ACS.Rectangle>(
+            @<Rectangle />);
+
+        Assert.NotNull(rectangle);
+        Assert.IsType<ACS.Rectangle>(rectangle);
+    }
+
+    [AvaloniaFact]
+    public async Task Rectangle_With_RadiusX_Is_Set()
+    {
+        var rectangle = await Render<ACS.Rectangle>(
+            @<Rectangle RadiusX="5" />);
+
+        Assert.Equal(5, rectangle.RadiusX);
+    }
+
+    [AvaloniaFact]
+    public async Task Rectangle_With_RadiusY_Is_Set()
+    {
+        var rectangle = await Render<ACS.Rectangle>(
+            @<Rectangle RadiusY="3" />);
+
+        Assert.Equal(3, rectangle.RadiusY);
+    }
+
+    [AvaloniaFact]
+    public async Task Rectangle_With_Both_Radii_Is_Set()
+    {
+        var rectangle = await Render<ACS.Rectangle>(
+            @<Rectangle RadiusX="5" RadiusY="3" />);
+
+        Assert.Equal(5, rectangle.RadiusX);
+        Assert.Equal(3, rectangle.RadiusY);
+    }
+
+    [AvaloniaFact]
+    public async Task Rectangle_With_Fill_Color_Is_Set()
+    {
+        var rectangle = await Render<ACS.Rectangle>(
+            @<Rectangle Fill="Red" />);
+
+        Assert.NotNull(rectangle.Fill);
+        Assert.IsType<Avalonia.Media.Immutable.ImmutableSolidColorBrush>(rectangle.Fill);
+        var brush = (Avalonia.Media.Immutable.ImmutableSolidColorBrush)rectangle.Fill;
+        Assert.Equal(Avalonia.Media.Colors.Red, brush.Color);
+    }
+
+    [AvaloniaFact]
+    public async Task Rectangle_With_Stroke_Is_Set()
+    {
+        var rectangle = await Render<ACS.Rectangle>(
+            @<Rectangle Stroke="Blue" StrokeThickness="2" />);
+
+        Assert.NotNull(rectangle.Stroke);
+        Assert.IsType<Avalonia.Media.Immutable.ImmutableSolidColorBrush>(rectangle.Stroke);
+        var brush = (Avalonia.Media.Immutable.ImmutableSolidColorBrush)rectangle.Stroke;
+        Assert.Equal(Avalonia.Media.Colors.Blue, brush.Color);
+        Assert.Equal(2, rectangle.StrokeThickness);
+    }
+
+    [AvaloniaFact]
+    public async Task Rectangle_With_Stretch_Is_Set()
+    {
+        var rectangle = await Render<ACS.Rectangle>(
+            @<Rectangle Stretch="UniformToFill" />);
+
+        Assert.Equal(Avalonia.Media.Stretch.UniformToFill, rectangle.Stretch);
+    }
+}

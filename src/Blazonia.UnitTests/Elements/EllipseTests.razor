@@ -1,0 +1,65 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@using Blazonia.Components.Shapes
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task Ellipse_With_Default_Properties_Is_Created()
+    {
+        var ellipse = await Render<ACS.Ellipse>(
+            @<Ellipse />);
+
+        Assert.NotNull(ellipse);
+        Assert.IsType<ACS.Ellipse>(ellipse);
+    }
+
+    [AvaloniaFact]
+    public async Task Ellipse_With_Fill_Color_Is_Set()
+    {
+        var ellipse = await Render<ACS.Ellipse>(
+            @<Ellipse Fill="Green" />);
+
+        Assert.NotNull(ellipse.Fill);
+        Assert.IsType<Avalonia.Media.Immutable.ImmutableSolidColorBrush>(ellipse.Fill);
+        var brush = (Avalonia.Media.Immutable.ImmutableSolidColorBrush)ellipse.Fill;
+        Assert.Equal(Avalonia.Media.Colors.Green, brush.Color);
+    }
+
+    [AvaloniaFact]
+    public async Task Ellipse_With_Stroke_And_Thickness_Is_Set()
+    {
+        var ellipse = await Render<ACS.Ellipse>(
+            @<Ellipse Stroke="Black" StrokeThickness="3" />);
+
+        Assert.NotNull(ellipse.Stroke);
+        Assert.IsType<Avalonia.Media.Immutable.ImmutableSolidColorBrush>(ellipse.Stroke);
+        var brush = (Avalonia.Media.Immutable.ImmutableSolidColorBrush)ellipse.Stroke;
+        Assert.Equal(Avalonia.Media.Colors.Black, brush.Color);
+        Assert.Equal(3, ellipse.StrokeThickness);
+    }
+
+    [AvaloniaFact]
+    public async Task Ellipse_With_Stretch_Is_Set()
+    {
+        var ellipse = await Render<ACS.Ellipse>(
+            @<Ellipse Stretch="Fill" />);
+
+        Assert.Equal(Avalonia.Media.Stretch.Fill, ellipse.Stretch);
+    }
+
+    [AvaloniaFact]
+    public async Task Ellipse_With_Stroke_Dash_Array_Is_Set()
+    {
+        var ellipse = await Render<ACS.Ellipse>(
+            @<Ellipse Stroke="Red" StrokeThickness="2" StrokeDashArray="5,2,1,2" />);
+
+        Assert.NotNull(ellipse.StrokeDashArray);
+        Assert.Equal(4, ellipse.StrokeDashArray.Count);
+        Assert.Equal(5, ellipse.StrokeDashArray[0]);
+        Assert.Equal(2, ellipse.StrokeDashArray[1]);
+        Assert.Equal(1, ellipse.StrokeDashArray[2]);
+        Assert.Equal(2, ellipse.StrokeDashArray[3]);
+    }
+}

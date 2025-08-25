@@ -1,0 +1,62 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task ListBox_With_Default_Properties_Is_Created()
+    {
+        var listBox = await Render<AC.ListBox>(
+            @<ListBox />);
+
+        Assert.NotNull(listBox);
+        Assert.IsType<AC.ListBox>(listBox);
+        Assert.Equal(Avalonia.Controls.SelectionMode.Single, listBox.SelectionMode);
+    }
+
+    [AvaloniaFact]
+    public async Task ListBox_With_SelectionMode_Multiple_Is_Set()
+    {
+        var listBox = await Render<AC.ListBox>(
+            @<ListBox SelectionMode="Multiple" />);
+
+        Assert.Equal(Avalonia.Controls.SelectionMode.Multiple, listBox.SelectionMode);
+    }
+
+    [AvaloniaFact]
+    public async Task ListBox_With_SelectionMode_Extended_Is_Set()
+    {
+        var listBox = await Render<AC.ListBox>(
+            @<ListBox SelectionMode="Extended" />);
+
+        Assert.Equal(Avalonia.Controls.SelectionMode.Extended, listBox.SelectionMode);
+    }
+
+    [AvaloniaFact]
+    public async Task ListBox_With_Items_Is_Created()
+    {
+        var listBox = await Render<AC.ListBox>(
+            @<ListBox>
+                <ListBoxItem>Item 1</ListBoxItem>
+                <ListBoxItem>Item 2</ListBoxItem>
+                <ListBoxItem>Item 3</ListBoxItem>
+            </ListBox>);
+
+        Assert.Equal(3, listBox.Items.Count);
+    }
+
+    [AvaloniaFact]
+    public async Task ListBox_With_All_Properties_Is_Set()
+    {
+        var listBox = await Render<AC.ListBox>(
+            @<ListBox SelectionMode="Multiple">
+                <ListBoxItem>Option A</ListBoxItem>
+                <ListBoxItem>Option B</ListBoxItem>
+                <ListBoxItem>Option C</ListBoxItem>
+            </ListBox>);
+
+        Assert.Equal(Avalonia.Controls.SelectionMode.Multiple, listBox.SelectionMode);
+        Assert.Equal(3, listBox.Items.Count);
+    }
+}

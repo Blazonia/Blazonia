@@ -1,0 +1,15 @@
+﻿@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task ToggleSwitch_IsChecked()
+    {
+        var toggle = await Render<AC.ToggleSwitch>(
+            @<ToggleSwitch IsChecked="true" />);
+
+        Assert.True(toggle.IsChecked);
+    }
+}

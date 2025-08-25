@@ -1,0 +1,34 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task TextBox_With_Text_Is_Set()
+    {
+        var textBox = await Render<AC.TextBox>(
+            @<TextBox Text="Hello World" />);
+
+        Assert.Equal("Hello World", textBox.Text);
+    }
+
+    [AvaloniaFact]
+    public async Task TextBox_With_Watermark_Is_Set()
+    {
+        var textBox = await Render<AC.TextBox>(
+            @<TextBox Watermark="Enter text here" />);
+
+        Assert.Equal("Enter text here", textBox.Watermark);
+    }
+
+    [AvaloniaFact]
+    public async Task TextBox_Is_ReadOnly()
+    {
+        var textBox = await Render<AC.TextBox>(
+            @<TextBox IsReadOnly="true" Text="Read Only" />);
+
+        Assert.True(textBox.IsReadOnly);
+        Assert.Equal("Read Only", textBox.Text);
+    }
+}

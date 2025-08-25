@@ -1,0 +1,26 @@
+@using System.Reflection
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task Image_With_Source_Is_Set()
+    {
+        var image = await Render<AC.Image>(
+            @<Image Source="@($"avares://{Assembly.GetCallingAssembly().FullName}/Empty.png")" />);
+
+        Assert.Equal("Avalonia.Media.Imaging.Bitmap", image.Source?.ToString());
+    }
+
+    [AvaloniaFact]
+    public async Task Image_With_Width_And_Height_Is_Set()
+    {
+        var image = await Render<AC.Image>(
+            @<Image Source="@($"avares://{Assembly.GetCallingAssembly().FullName}/Empty.png")" Width="100" Height="50" />);
+
+        Assert.Equal(100, image.Width);
+        Assert.Equal(50, image.Height);
+    }
+}

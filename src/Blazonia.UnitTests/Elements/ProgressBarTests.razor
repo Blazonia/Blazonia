@@ -1,0 +1,100 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task ProgressBar_With_Default_Properties_Is_Created()
+    {
+        var progressBar = await Render<AC.ProgressBar>(
+            @<ProgressBar />);
+
+        Assert.NotNull(progressBar);
+        Assert.IsType<AC.ProgressBar>(progressBar);
+        Assert.False(progressBar.IsIndeterminate);
+        Assert.Equal(Avalonia.Layout.Orientation.Horizontal, progressBar.Orientation);
+        Assert.False(progressBar.ShowProgressText);
+        Assert.Equal(0, progressBar.Minimum);
+        Assert.Equal(100, progressBar.Maximum);
+        Assert.Equal(0, progressBar.Value);
+    }
+
+    [AvaloniaFact]
+    public async Task ProgressBar_With_Value_Is_Set()
+    {
+        var progressBar = await Render<AC.ProgressBar>(
+            @<ProgressBar Value="75" />);
+
+        Assert.Equal(75, progressBar.Value);
+    }
+
+    [AvaloniaFact]
+    public async Task ProgressBar_With_IsIndeterminate_True_Is_Set()
+    {
+        var progressBar = await Render<AC.ProgressBar>(
+            @<ProgressBar IsIndeterminate="true" />);
+
+        Assert.True(progressBar.IsIndeterminate);
+    }
+
+    [AvaloniaFact]
+    public async Task ProgressBar_With_Vertical_Orientation_Is_Set()
+    {
+        var progressBar = await Render<AC.ProgressBar>(
+            @<ProgressBar Orientation="Vertical" />);
+
+        Assert.Equal(Avalonia.Layout.Orientation.Vertical, progressBar.Orientation);
+    }
+
+    [AvaloniaFact]
+    public async Task ProgressBar_With_ShowProgressText_True_Is_Set()
+    {
+        var progressBar = await Render<AC.ProgressBar>(
+            @<ProgressBar ShowProgressText="true" />);
+
+        Assert.True(progressBar.ShowProgressText);
+    }
+
+    [AvaloniaFact]
+    public async Task ProgressBar_With_ProgressTextFormat_Is_Set()
+    {
+        var progressBar = await Render<AC.ProgressBar>(
+            @<ProgressBar ProgressTextFormat="{0}%" />);
+
+        Assert.Equal("{0}%", progressBar.ProgressTextFormat);
+    }
+
+    [AvaloniaFact]
+    public async Task ProgressBar_With_Minimum_And_Maximum_Is_Set()
+    {
+        var progressBar = await Render<AC.ProgressBar>(
+            @<ProgressBar Minimum="10" Maximum="200" Value="50" />);
+
+        Assert.Equal(10, progressBar.Minimum);
+        Assert.Equal(200, progressBar.Maximum);
+        Assert.Equal(50, progressBar.Value);
+    }
+
+    [AvaloniaFact]
+    public async Task ProgressBar_With_All_Properties_Is_Set()
+    {
+        var progressBar = await Render<AC.ProgressBar>(
+            @<ProgressBar
+                Value="75"
+                Minimum="0"
+                Maximum="100"
+                IsIndeterminate="false"
+                Orientation="Horizontal"
+                ShowProgressText="true"
+                ProgressTextFormat="{0:F0}%" />);
+
+        Assert.Equal(75, progressBar.Value);
+        Assert.Equal(0, progressBar.Minimum);
+        Assert.Equal(100, progressBar.Maximum);
+        Assert.False(progressBar.IsIndeterminate);
+        Assert.Equal(Avalonia.Layout.Orientation.Horizontal, progressBar.Orientation);
+        Assert.True(progressBar.ShowProgressText);
+        Assert.Equal("{0:F0}%", progressBar.ProgressTextFormat);
+    }
+}

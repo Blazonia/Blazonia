@@ -1,0 +1,15 @@
+﻿@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task Button_With_Content_Is_Set()
+    {
+        var button = await Render<AC.Button>(
+            @<Button>Hello</Button>);
+
+        Assert.Equal("Hello", button.Content?.ToString());
+    }
+}

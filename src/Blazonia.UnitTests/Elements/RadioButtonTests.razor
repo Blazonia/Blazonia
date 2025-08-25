@@ -1,0 +1,71 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task RadioButton_With_Default_Properties_Is_Created()
+    {
+        var radioButton = await Render<AC.RadioButton>(
+            @<RadioButton />);
+
+        Assert.NotNull(radioButton);
+        Assert.IsType<AC.RadioButton>(radioButton);
+        Assert.Null(radioButton.IsChecked);
+        Assert.Null(radioButton.GroupName);
+    }
+
+    [AvaloniaFact]
+    public async Task RadioButton_With_Content_Is_Set()
+    {
+        var radioButton = await Render<AC.RadioButton>(
+            @<RadioButton>Option 1</RadioButton>);
+
+        Assert.Equal("Option 1", radioButton.Content?.ToString());
+    }
+
+    [AvaloniaFact]
+    public async Task RadioButton_With_GroupName_Is_Set()
+    {
+        var radioButton = await Render<AC.RadioButton>(
+            @<RadioButton GroupName="options" />);
+
+        Assert.Equal("options", radioButton.GroupName);
+    }
+
+    [AvaloniaFact]
+    public async Task RadioButton_With_IsChecked_True_Is_Set()
+    {
+        var radioButton = await Render<AC.RadioButton>(
+            @<RadioButton IsChecked="true" />);
+
+        Assert.True(radioButton.IsChecked);
+    }
+
+    [AvaloniaFact]
+    public async Task RadioButton_With_All_Properties_Is_Set()
+    {
+        var radioButton = await Render<AC.RadioButton>(
+            @<RadioButton GroupName="choices" IsChecked="false">Choice A</RadioButton>);
+
+        Assert.Equal("Choice A", radioButton.Content?.ToString());
+        Assert.Equal("choices", radioButton.GroupName);
+        Assert.False(radioButton.IsChecked);
+    }
+
+    [AvaloniaFact]
+    public async Task RadioButton_GroupName_Differentiates_Groups()
+    {
+        var radioButton1 = await Render<AC.RadioButton>(
+            @<RadioButton GroupName="group1" IsChecked="true">Option 1</RadioButton>);
+
+        var radioButton2 = await Render<AC.RadioButton>(
+            @<RadioButton GroupName="group2" IsChecked="true">Option 2</RadioButton>);
+
+        Assert.Equal("group1", radioButton1.GroupName);
+        Assert.Equal("group2", radioButton2.GroupName);
+        Assert.True(radioButton1.IsChecked);
+        Assert.True(radioButton2.IsChecked); // Different groups can both be checked
+    }
+}

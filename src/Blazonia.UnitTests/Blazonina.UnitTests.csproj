@@ -1,0 +1,85 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+<PropertyGroup>
+        <EnableDefaultContentItems>false</EnableDefaultContentItems>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <OutputType>Library</OutputType>
+        <RootNamespace>Blazonina.UnitTests</RootNamespace>
+        <TargetFramework>net9.0</TargetFramework>
+        <EnablePreviewFeatures>true</EnablePreviewFeatures>
+        <!-- Code coverage defaults via coverlet -->
+        <CollectCoverage>true</CollectCoverage>
+        <CoverletOutput>$(MSBuildProjectDirectory)\TestResults\coverage\coverage</CoverletOutput>
+        <CoverletOutputFormat>cobertura,lcov</CoverletOutputFormat>
+        <!-- Exclude test assembly itself from coverage -->
+        <ExcludeByFile>**\*.g.cs;**\obj\**\*.cs;**\bin\**\*.cs</ExcludeByFile>
+        <Exclude>[xunit.*]*</Exclude>
+<!--    <EnableDefaultContentItems>false</EnableDefaultContentItems>-->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="MainAppPage.razor" />
+        <Content Include="MainAppPage.razor" />
+        <None Remove="Test.razor" />
+        <Content Include="Test.razor" />
+        <None Remove="Elements\BorderTests.razor" />
+        <Content Include="Elements\BorderTests.razor" />
+        <None Remove="Elements\ElementTestBase.razor" />
+        <Content Include="Elements\ElementTestBase.razor" />
+        <None Remove="Elements\ButtonTests.razor" />
+        <Content Include="Elements\ButtonTests.razor" />
+        <None Remove="Elements\SliderTests.razor" />
+        <Content Include="Elements\SliderTests.razor" />
+        <None Remove="Elements\ToggleSwitchTests.razor" />
+        <Content Include="Elements\ToggleSwitchTests.razor" />
+        <None Remove="Elements\StackPanelTests.razor" />
+        <Content Include="Elements\StackPanelTests.razor" />
+        <None Remove="Elements\SeparatorTests.razor" />
+        <Content Include="Elements\SeparatorTests.razor" />
+        <None Remove="Elements\ScrollViewerTests.razor" />
+        <Content Include="Elements\ScrollViewerTests.razor" />
+        <None Remove="Elements\LabelTests.razor" />
+        <Content Include="Elements\LabelTests.razor" />
+        <None Remove="Elements\ImageTests.razor" />
+        <Content Include="Elements\ImageTests.razor" />
+        <None Remove="Elements\TextBoxTests.razor" />
+        <Content Include="Elements\TextBoxTests.razor" />
+        <None Remove="_Imports.razor" />
+        <Content Include="_Imports.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="Xunit"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+        <PackageReference Include="xunit"/>
+        <PackageReference Include="xunit.runner.visualstudio"/>
+        <PackageReference Include="Avalonia.Headless.XUnit"/>
+        <PackageReference Include="coverlet.msbuild">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+
+        <ProjectReference Include="..\Blazonia\Blazonia.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="App.axaml.cs">
+        <DependentUpon>App.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Empty.png" />
+      <AvaloniaResource Include="Empty.png" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,90 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task ComboBox_With_Default_Properties_Is_Created()
+    {
+        var comboBox = await Render<AC.ComboBox>(
+            @<ComboBox />);
+
+        Assert.NotNull(comboBox);
+        Assert.IsType<AC.ComboBox>(comboBox);
+        Assert.Null(comboBox.PlaceholderText);
+        Assert.False(comboBox.IsDropDownOpen);
+    }
+
+    [AvaloniaFact]
+    public async Task ComboBox_With_PlaceholderText_Is_Set()
+    {
+        var comboBox = await Render<AC.ComboBox>(
+            @<ComboBox PlaceholderText="Select an option" />);
+
+        Assert.Equal("Select an option", comboBox.PlaceholderText);
+    }
+
+    [AvaloniaFact]
+    public async Task ComboBox_With_MaxDropDownHeight_Is_Set()
+    {
+        var comboBox = await Render<AC.ComboBox>(
+            @<ComboBox MaxDropDownHeight="200" />);
+
+        Assert.Equal(200, comboBox.MaxDropDownHeight);
+    }
+
+    [AvaloniaFact]
+    public async Task ComboBox_With_IsDropDownOpen_True_Is_Set()
+    {
+        var comboBox = await Render<AC.ComboBox>(
+            @<ComboBox IsDropDownOpen="true" />);
+
+        Assert.True(comboBox.IsDropDownOpen);
+    }
+
+    [AvaloniaFact]
+    public async Task ComboBox_With_PlaceholderForeground_Is_Set()
+    {
+        var comboBox = await Render<AC.ComboBox>(
+            @<ComboBox PlaceholderForeground="Gray" />);
+
+        Assert.NotNull(comboBox.PlaceholderForeground);
+        Assert.IsType<Avalonia.Media.Immutable.ImmutableSolidColorBrush>(comboBox.PlaceholderForeground);
+        var brush = (Avalonia.Media.Immutable.ImmutableSolidColorBrush)comboBox.PlaceholderForeground;
+        Assert.Equal(Avalonia.Media.Colors.Gray, brush.Color);
+    }
+
+    [AvaloniaFact]
+    public async Task ComboBox_With_Items_Is_Created()
+    {
+        var comboBox = await Render<AC.ComboBox>(
+            @<ComboBox>
+                <ComboBoxItem>Option 1</ComboBoxItem>
+                <ComboBoxItem>Option 2</ComboBoxItem>
+                <ComboBoxItem>Option 3</ComboBoxItem>
+            </ComboBox>);
+
+        Assert.Equal(3, comboBox.Items.Count);
+    }
+
+    [AvaloniaFact]
+    public async Task ComboBox_With_All_Properties_Is_Set()
+    {
+        var comboBox = await Render<AC.ComboBox>(
+            @<ComboBox
+                PlaceholderText="Choose..."
+                MaxDropDownHeight="150"
+                IsDropDownOpen="false"
+                PlaceholderForeground="LightGray">
+                <ComboBoxItem>Item 1</ComboBoxItem>
+                <ComboBoxItem>Item 2</ComboBoxItem>
+            </ComboBox>);
+
+        Assert.Equal("Choose...", comboBox.PlaceholderText);
+        Assert.Equal(150, comboBox.MaxDropDownHeight);
+        Assert.False(comboBox.IsDropDownOpen);
+        Assert.NotNull(comboBox.PlaceholderForeground);
+        Assert.Equal(2, comboBox.Items.Count);
+    }
+}

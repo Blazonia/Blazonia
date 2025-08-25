@@ -19,9 +19,11 @@ jobs:
     - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: |
+          8.0.x
+          9.0.x
     - name: Restore dependencies
-      run: dotnet restore Blazonia.sln
+      run: dotnet restore Blazonia.slnx
     - name: Pack Blazonia nugets
       run: dotnet pack ./src/Blazonia/Blazonia.csproj -o ./packages -c Release --no-restore
     - name: PackBlazonia nugets

@@ -6,11 +6,9 @@ using Blazonia.Core;
 namespace Blazonia.Components.Handlers;
 
 /// <summary>
-/// Fake element handler, which is used as a root for a renderer to get native Xamarin.Forms elements
+/// Fake element handler, which is used as a root for a renderer to get native Avalonia elements
 /// from a Blazor component.
 /// </summary>
-/// <remarks>Experimental API, subject to change.</remarks>
-[RequiresPreviewFeatures]
 public class RootContainerHandler : IContainerElementHandler, INonPhysicalChild
 {
     private TaskCompletionSource<object> _taskCompletionSource;

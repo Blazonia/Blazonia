@@ -1,0 +1,15 @@
+﻿@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task Separator_Smoke()
+    {
+        var sep = await Render<AC.Separator>(
+            @<Separator />);
+
+        Assert.NotNull(sep);
+    }
+}

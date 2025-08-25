@@ -1,0 +1,77 @@
+@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task Grid_With_Default_Properties_Is_Created()
+    {
+        var grid = await Render<AC.Grid>(
+            @<Grid />);
+
+        Assert.NotNull(grid);
+        Assert.IsType<AC.Grid>(grid);
+        Assert.Empty(grid.ColumnDefinitions);
+        Assert.Empty(grid.RowDefinitions);
+        Assert.False(grid.ShowGridLines);
+    }
+
+    [AvaloniaFact]
+    public async Task Grid_With_ColumnDefinitions_String_Is_Set()
+    {
+        var grid = await Render<AC.Grid>(
+            @<Grid ColumnDefinitions="*,2*,*" />);
+
+        Assert.NotNull(grid.ColumnDefinitions);
+        Assert.Equal(3, grid.ColumnDefinitions.Count);
+    }
+
+    [AvaloniaFact]
+    public async Task Grid_With_RowDefinitions_String_Is_Set()
+    {
+        var grid = await Render<AC.Grid>(
+            @<Grid RowDefinitions="Auto,*,100" />);
+
+        Assert.NotNull(grid.RowDefinitions);
+        Assert.Equal(3, grid.RowDefinitions.Count);
+    }
+
+    [AvaloniaFact]
+    public async Task Grid_With_ShowGridLines_True_Is_Set()
+    {
+        var grid = await Render<AC.Grid>(
+            @<Grid ShowGridLines="true" />);
+
+        Assert.True(grid.ShowGridLines);
+    }
+
+    [AvaloniaFact]
+    public async Task Grid_With_Children_Is_Created()
+    {
+        var grid = await Render<AC.Grid>(
+            @<Grid ColumnDefinitions="*,*">
+                <TextBlock>Left</TextBlock>
+                <TextBlock>Right</TextBlock>
+            </Grid>);
+
+        Assert.Equal(2, grid.Children.Count);
+        Assert.Equal(2, grid.ColumnDefinitions.Count);
+    }
+
+    [AvaloniaFact]
+    public async Task Grid_With_Both_Row_And_Column_Definitions_Is_Set()
+    {
+        var grid = await Render<AC.Grid>(
+            @<Grid ColumnDefinitions="*,2*" RowDefinitions="Auto,*" ShowGridLines="true">
+                <TextBlock Grid.Column="0" Grid.Row="0">Header</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="1">Content</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1">Sidebar</TextBlock>
+            </Grid>);
+
+        Assert.Equal(2, grid.ColumnDefinitions.Count);
+        Assert.Equal(2, grid.RowDefinitions.Count);
+        Assert.True(grid.ShowGridLines);
+        Assert.Equal(3, grid.Children.Count);
+    }
+}

@@ -1,0 +1,16 @@
+﻿@using Avalonia.Headless.XUnit
+@using Blazonia
+@using Blazonia.Components
+@inherits ElementTestBase;
+
+@code {
+    [AvaloniaFact]
+    public async Task Slider_With_Value_And_Orientation()
+    {
+        var slider = await Render<AC.Slider>(
+            @<Slider Value="42" Orientation="Orientation.Horizontal" />);
+
+        Assert.Equal(42, slider.Value);
+        Assert.Equal(Avalonia.Layout.Orientation.Horizontal, slider.Orientation);
+    }
+}

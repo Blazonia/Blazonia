@@ -1,0 +1,63 @@
+@using Microsoft.AspNetCore.Components.Rendering;
+@using System.Reflection;
+@using System.Runtime.ExceptionServices;
+@using Blazonia
+@using Blazonia.Components.Handlers
+@using Microsoft.Extensions.DependencyInjection
+@implements IHandleEvent
+
+@code {
+    public ElementTestBase()
+    {
+        // _application = TestApplication.Create();
+        // MC.Application.Current = _application;
+    }
+
+    // private readonly MC.Application _application;
+    private RenderFragmentComponent _renderedComponent;
+
+    protected async Task<T> Render<T>(RenderFragment renderFragment)
+    {
+        var _renderer = (A.Application.Current as App)?.ServiceProvider.GetRequiredService<AvaloniaBlazorBindingsRenderer>();        
+        var container = new RootContainerHandler();
+         
+        _renderedComponent = await _renderer.AddComponent<RenderFragmentComponent>(container, new Dictionary<string, object>
+            {
+                ["RenderFragment"] = renderFragment
+            });
+
+        return (T)container.Elements.First();
+    }
+
+    protected new void StateHasChanged()
+    {
+        _renderedComponent?.StateHasChanged();
+        ThrowOnException();
+    }
+
+    protected void ThrowOnException()
+    {
+    }
+
+    Task IHandleEvent.HandleEventAsync(EventCallbackWorkItem callback, object arg)
+    {
+        var task = (_renderedComponent as IHandleEvent)?.HandleEventAsync(callback, arg);
+        ThrowOnException();
+        return task ?? Task.CompletedTask;
+    }
+
+    private class RenderFragmentComponent : ComponentBase
+    {
+        [Parameter] public RenderFragment RenderFragment { get; set; }
+
+        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        {
+            RenderFragment(builder);
+        }
+
+        public new void StateHasChanged()
+        {
+            base.StateHasChanged();
+        }
+    }
+}
