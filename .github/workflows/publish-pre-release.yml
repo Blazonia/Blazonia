@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Generate version number
-      id: generate_version
-      run: |
-        DATE_VERSION=$(date +'%Y%m%d')
-        VERSION="0.0.0-pre-release.${DATE_VERSION}.${{github.run_number}}"
-        echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
