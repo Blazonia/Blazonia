@@ -8,7 +8,7 @@ public class BlazoniaApplication<T> : Application, IAvaloniaBlazorApplication
 {
     private IServiceProvider _serviceProvider = null;
     private AvaloniaNavigation _avaloniaNavigation = null;
-    
+
     public BlazoniaApplication()
     {
     }
@@ -38,7 +38,7 @@ public class BlazoniaApplication<T> : Application, IAvaloniaBlazorApplication
         var navigationView = new NavigationView();
         _avaloniaNavigation = new AvaloniaNavigation(navigationView);
 
-        
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             if (desktop.MainWindow != null)
@@ -56,7 +56,7 @@ public class BlazoniaApplication<T> : Application, IAvaloniaBlazorApplication
             singleViewPlatform.MainView = navigationView;
             AwaitVoid(pushTask);
         }
-        
+
         static async void AwaitVoid(Task task) => await task;
     }
 

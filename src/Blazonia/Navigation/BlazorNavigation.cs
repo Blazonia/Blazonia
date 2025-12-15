@@ -9,11 +9,12 @@ public partial class BlazorNavigation : INavigation
     private readonly AvaloniaBlazorBindingsRenderer _renderer;
     private readonly NavigationManager _navigationManager;
     private Type _wrapperComponentType;
-
+    private AvaloniaBlazorBindingsServiceProvider _serviceProvider;
     internal BlazorNavigation(AvaloniaBlazorBindingsServiceProvider serviceProvider)
     {
         _renderer = serviceProvider.GetRequiredService<AvaloniaBlazorBindingsRenderer>();
         _navigationManager = serviceProvider.GetRequiredService<NavigationManager>();
+        _serviceProvider = serviceProvider;
     }
 
     internal void SetWrapperComponentType(Type wrapperComponentType)
@@ -21,7 +22,19 @@ public partial class BlazorNavigation : INavigation
         _wrapperComponentType = wrapperComponentType;
     }
 
-    protected AvaloniaNavigation AvaloniaNavigation => Application.Current.Cast<IAvaloniaBlazorApplication>().Navigation;
+    protected AvaloniaNavigation AvaloniaNavigation
+    {
+        get
+        {
+            var control = _serviceProvider.GetService<IBlazoniaNavigationControl>();
+            if (control != null)
+            {
+                return control.Navigation;
+            }
+            return Application.Current.Cast<IAvaloniaBlazorApplication>().Navigation;
+        }
+
+    }
 
     /// <summary>
     /// Push page component <typeparamref name="T"/> to the Navigation Stack.
@@ -82,7 +95,7 @@ public partial class BlazorNavigation : INavigation
         var (bindableObject, componentTask) = await _renderer.GetElementFromRenderedComponent(componentType, arguments);
         var element = (AvaloniaControl)bindableObject;
         element.DetachedFromLogicalTree += DisposeScopeWhenParentRemoved;
-        
+
         return element as T
             ?? throw new InvalidOperationException($"The target component of a navigation must derive from the {typeof(T).Name} component.");
 

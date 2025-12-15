@@ -1,19 +1,16 @@
-<local:AppBase
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="Blazonia.HelloWorld.App"
-    xmlns:local="using:Blazonia.HelloWorld"
-	xmlns:nav="using:Blazonia.Navigation"
-	xmlns:helloWorld="clr-namespace:Blazonia.HelloWorld"
-    xmlns:semi="https://irihi.tech/semi"
-	RequestedThemeVariant="Default">
+<Application xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 x:Class="Blazonia.HelloWorld.App"
+			 xmlns:semi="https://irihi.tech/semi"
+			 RequestedThemeVariant="Default">
+
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
-	<helloWorld:AppBase.DataTemplates>
+	<Application.DataTemplates>
 
-	</helloWorld:AppBase.DataTemplates>
+	</Application.DataTemplates>
 
-	<local:AppBase.Styles>
+	<Application.Styles>
 		<semi:SemiTheme Locale="zh-CN" />
-	</local:AppBase.Styles>
-</local:AppBase>
+	</Application.Styles>
+</Application>
