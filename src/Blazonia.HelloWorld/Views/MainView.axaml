@@ -6,7 +6,7 @@
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
 			 x:Class="Blazonia.HelloWorld.Views.MainView"
 			 x:DataType="vm:MainViewModel"
-			 xmlns:local="clr-namespace:Blazonia;assembly=Blazonia"
+			 xmlns:local="clr-namespace:Blazonia.Controls;assembly=Blazonia"
 			 xmlns:pages="clr-namespace:Blazonia.HelloWorld.RazorPages">
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,

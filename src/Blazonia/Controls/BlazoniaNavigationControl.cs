@@ -1,7 +1,7 @@
 ﻿using Blazonia.Navigation;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Blazonia;
+namespace Blazonia.Controls;
 public class BlazoniaNavigationControl<T> : BlazoniaControl<T>, IBlazoniaNavigationControl where T : IComponent
 {
     public AvaloniaNavigation Navigation { get; set; }

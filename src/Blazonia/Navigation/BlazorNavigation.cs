@@ -1,4 +1,5 @@
-﻿using Blazonia.Navigation;
+﻿using Blazonia.Controls;
+using Blazonia.Navigation;
 using Microsoft.AspNetCore.Components.Rendering;
 using IComponent = Microsoft.AspNetCore.Components.IComponent;
 
@@ -27,11 +28,7 @@ public partial class BlazorNavigation : INavigation
         get
         {
             var control = _serviceProvider.GetService<IBlazoniaNavigationControl>();
-            if (control != null)
-            {
-                return control.Navigation;
-            }
-            return Application.Current.Cast<IAvaloniaBlazorApplication>().Navigation;
+            return control.Navigation;
         }
 
     }

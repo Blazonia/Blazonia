@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
-namespace Blazonia;
+namespace Blazonia.Controls;
 public class BlazoniaControl<T> : ContentControl where T : IComponent
 {
     public IServiceProvider serviceProvider = null;
