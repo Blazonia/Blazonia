@@ -4,7 +4,6 @@
 	<PropertyGroup>
 		<AvaloniaVersion>11.2.1</AvaloniaVersion>
 		<LangVersion>12.0</LangVersion>
-<!--	<Nullable>enable</Nullable>-->
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);CS1591;CA1303</NoWarn>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
