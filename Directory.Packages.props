@@ -1,6 +1,7 @@
 <Project>
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<AvaloniaVersion>11.2.1</AvaloniaVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageVersion Include="Avalonia" Version="$(AvaloniaVersion)" />

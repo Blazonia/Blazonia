@@ -2,7 +2,7 @@
 
 
 	<PropertyGroup>
-		<Authors>Microsoft, Dreamescaper, Warapppa, Epictek</Authors>
+		<Authors>Microsoft, Dreamescaper, Warapppa, Epictek, CeSun</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<DebugType>portable</DebugType>
@@ -11,7 +11,6 @@
 
 
 	<PropertyGroup>
-		<AvaloniaVersion>11.2.1</AvaloniaVersion>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);CS1591;CA1303</NoWarn>
