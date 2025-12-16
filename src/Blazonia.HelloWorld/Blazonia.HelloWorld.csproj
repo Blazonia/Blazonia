@@ -9,7 +9,7 @@
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="Avalonia" />
 		<PackageReference Include="Avalonia.Desktop" />
@@ -23,7 +23,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Blazonia\Blazonia.csproj" />
+		<ProjectReference Include="..\Blazonia\Blazonia.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="rd.xml"/>
+	</ItemGroup>
 </Project>
