@@ -1,0 +1,5 @@
+﻿<linker>
+	<assembly fullname="Blazonia.HelloWorld">
+		<namespace fullname="Blazonia.HelloWorld.RazorPages" preserve="all" />
+	</assembly>
+</linker>

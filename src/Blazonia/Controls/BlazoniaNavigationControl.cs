@@ -1,11 +1,13 @@
 ﻿using Blazonia.Navigation;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blazonia.Controls;
 public class BlazoniaNavigationControl<T> : BlazoniaControl<T>, IBlazoniaNavigationControl where T : IComponent
 {
     public AvaloniaNavigation Navigation { get; set; }
 
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Blazonia.Navigation.AvaloniaNavigation", "Blazonia")]
     public BlazoniaNavigationControl() : base()
     {
         var navigationView = new NavigationView();

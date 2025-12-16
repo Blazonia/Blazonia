@@ -1,5 +1,6 @@
 ﻿using Blazonia.Controls;
 using Microsoft.AspNetCore.Components.Routing;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
@@ -26,7 +27,6 @@ public partial class BlazorNavigation
             await RenderRouter();
             _isRouterRendered = true;
         }
-
         var routeTask = WaitForRoute();
         _navigationManager.NavigateTo(uri);
         var route = await routeTask;
@@ -104,6 +104,7 @@ public partial class BlazorNavigation
         return convertedParameters;
     }
 
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Microsoft.AspNetCore.Components.Routing.Router", "Microsoft.AspNetCore.Components")]
     private async Task<Router> RenderRouter()
     {
         RenderFragment notFound = _ => _waitForRouteSource?.TrySetResult(null);

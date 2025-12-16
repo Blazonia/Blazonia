@@ -13,8 +13,5 @@
 		to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:MainViewModel />
 	</Design.DataContext>
-	<StackPanel>
-		<local:BlazoniaNavigationControl x:TypeArguments="pages:MainPage"/>
-		<local:BlazoniaNavigationControl x:TypeArguments="pages:MainPage"/>
-	</StackPanel>
+	<local:BlazoniaNavigationControl x:TypeArguments="pages:MainPage"/>
 </UserControl>
