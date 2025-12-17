@@ -23,10 +23,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Blazonia\Blazonia.csproj" />
+		<ProjectReference Include="..\..\src\Blazonia\Blazonia.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<TrimmerRootDescriptor Include="rd.xml"/>
+		<TrimmerRootDescriptor Include="rd.xml" />
 	</ItemGroup>
 </Project>

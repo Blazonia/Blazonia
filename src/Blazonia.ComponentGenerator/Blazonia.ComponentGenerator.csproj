@@ -3,12 +3,9 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
-
-		<Description>Dotnet tool which generate BlazorBindingsAvalonia components for Avalonia elements.</Description>
+		<Description>Dotnet tool which generate Blazonia(Blazonia Avalonia Bindings) components for Avalonia Controls.</Description>
 		<PackAsTool>true</PackAsTool>
-		<ToolCommandName>dotnet-generate-avalonia-blazor-components</ToolCommandName>
-		<PackageTags>blazor;blazorbindings</PackageTags>
-		<Authors>Microsoft, Dreamescaper, Warapppa, Epictek, CeSun</Authors>
+		<ToolCommandName>dotnet-generate-blazonia-components</ToolCommandName>
 	</PropertyGroup>
 
 	<ItemGroup>

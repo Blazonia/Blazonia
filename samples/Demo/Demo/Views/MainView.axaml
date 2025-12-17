@@ -2,16 +2,17 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:vm="clr-namespace:Blazonia.HelloWorld.ViewModels"
-			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
-			 x:Class="Blazonia.HelloWorld.Views.MainView"
-			 x:DataType="vm:MainViewModel"
+			 xmlns:vm="clr-namespace:Demo.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="600"
+			 x:Class="Demo.Views.MainView"
 			 xmlns:local="clr-namespace:Blazonia.Controls;assembly=Blazonia"
-			 xmlns:pages="clr-namespace:Blazonia.HelloWorld.RazorPages">
+			 xmlns:pages="clr-namespace:Demo.RazorPages"
+			 x:DataType="vm:MainViewModel">
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
 		to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:MainViewModel />
 	</Design.DataContext>
-	<local:BlazoniaNavigationControl x:TypeArguments="pages:MainPage"/>
+
+	<local:BlazoniaControl x:TypeArguments="pages:Hello"/>
 </UserControl>
