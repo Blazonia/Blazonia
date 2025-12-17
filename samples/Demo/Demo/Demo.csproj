@@ -4,6 +4,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
 		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+		<IsAotCompatible>true</IsAotCompatible>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -25,4 +26,5 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\Blazonia\Blazonia.csproj" />
 	</ItemGroup>
+
 </Project>

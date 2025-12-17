@@ -23,6 +23,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazonia.HelloWorld", "samples\Blazonia.HelloWorld\Blazonia.HelloWorld.csproj", "{F2E6A53B-6FAC-41B6-9B49-29388D0BFD05}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		samples\Demo\rd.xml = samples\Demo\rd.xml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "samples\Demo\Demo\Demo.csproj", "{7A92CCE3-7235-4503-9E05-89BA81F5E993}"
 EndProject
@@ -101,6 +104,7 @@ Global
 		{0AF4810A-E7CD-4F8B-97BD-1D70D90C9621}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{0AF4810A-E7CD-4F8B-97BD-1D70D90C9621}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AF4810A-E7CD-4F8B-97BD-1D70D90C9621}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AF4810A-E7CD-4F8B-97BD-1D70D90C9621}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{0AF4810A-E7CD-4F8B-97BD-1D70D90C9621}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{0AF4810A-E7CD-4F8B-97BD-1D70D90C9621}.Release|iPhone.Build.0 = Release|Any CPU
 		{0AF4810A-E7CD-4F8B-97BD-1D70D90C9621}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
