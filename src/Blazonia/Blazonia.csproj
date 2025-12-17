@@ -3,10 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<Title>Avalonia binding for Blazor</Title>
-		<Description>Avalonia Blazor Bindings enables using Blazor syntax in .razor files to build native Avalonia apps.</Description>
-		<PackageTags>Avalonia;Blazor;BlazorBindings</PackageTags>
-		<Authors>Microsoft, Dreamescaper, Warapppa, Epictek, CeSun</Authors>
-
+		<Description>Blazonia enables using Blazor syntax in .razor files to build native Avalonia apps.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -2,7 +2,8 @@
 
 
 	<PropertyGroup>
-		<Authors>Microsoft, Dreamescaper, Warapppa, Epictek, CeSun</Authors>
+		<Authors>Blazonia Team</Authors>
+		<PackageTags>Blazonia;Avalonia;Blazor;BlazorBindings</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<DebugType>portable</DebugType>
