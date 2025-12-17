@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+	<PropertyGroup>
+		<TargetFramework>net8.0-browser</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Avalonia.Browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Demo\Demo.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="..\rd.xml" />
+	</ItemGroup>
+</Project>

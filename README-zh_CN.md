@@ -16,18 +16,14 @@ Blazonia可以让开发者使用 **<a href="https://dotnet.microsoft.com/en-us/a
 
 
 ```razor
-@page "/"
-
-<Window Title="Counter" Width="600" Height="400">
-    <StackPanel>
-        <Label FontSize="30">You pressed @_count times </Label>
-        <CheckBox @bind-IsChecked="_showButton">Button visible</CheckBox>
-        @if (_showButton! == true)
-        {
-            <Button OnClick="OnButtonClick">+1</Button>
-        }
-    </StackPanel>
-</Window>
+<StackPanel>
+    <Label FontSize="30">You pressed @_count times </Label>
+    <CheckBox @bind-IsChecked="_showButton">Button visible</CheckBox>
+    @if (_showButton == true)
+    {
+        <Button OnClick="OnButtonClick">+1</Button>
+    }
+</StackPanel>
 
 @code {
 
@@ -43,19 +39,113 @@ Blazonia可以让开发者使用 **<a href="https://dotnet.microsoft.com/en-us/a
 
 ## 🛫 开始
 
-1. 安装项目模板
+
+1. 安装Blazonia
 ```powershell
-dotnet new install BlazoniaTemplate
-
+dotnet add package Blazonia
 ```
-2. 新建项目
+
+2. 新建Razor组件
+```razor
+<!-- src/RazorPages/Hello.razor -->
+<StackPanel>
+    <TextBlock FontSize="30">Hello World</TextBlock>
+</StackPanel>
 ```
-dotnet new blazonia -o BlazoniaApp
+
+3. 在axaml中使用Blazonia控件
+```xaml
+<UserControl 
+            ...
+			 xmlns:local="clr-namespace:Blazonia.Controls;assembly=Blazonia"
+			 xmlns:pages="clr-namespace:YourProject.RazorPages"
+             ...
+             >
+	<local:BlazoniaControl x:TypeArguments="pages:Hello"/>
+</UserControl>
+``` 
+
+## 📃Razor页面切换?
+1. 将`BlazoniaControl`更换为`BlazoniaNavigationControl`控件
+
+```xaml
+<UserControl 
+            ...
+			 xmlns:local="clr-namespace:Blazonia.Controls;assembly=Blazonia"
+			 xmlns:pages="clr-namespace:YourProject.RazorPages"
+             ...
+             >
+	<local:BlazoniaNavigationControl x:TypeArguments="pages:Page1"/>
+</UserControl>
+``` 
+2. 注入INavigation对象，用于跳转页面
+```razor
+<!-- src/RazorPages/Page1.razor -->
+@inject INavigation Navigation
+
+<StackPanel>
+    <TextBlock FontSize="30">Page 1</TextBlock>
+    <Button OnClick="@OnButtonClick">Go to Page2</Button>
+</StackPanel>
+
+@code {
+    async Task OnButtonClick()
+    {
+        await Navigation.NavigateToAsync("/page2", null);
+    }
+}
 ```
-请使用Rider打开项目，Visual Studio 2022和VS Code razor文件代码提示可能会失效
+3. 使用page特性(attribute)标记url
+```razor
+<!-- src/RazorPages/Page2.razor -->
+@page "/page2"
+@inject INavigation Navigation
 
-## 📄 说明
+<StackPanel>
+    <TextBlock FontSize="30">Page 2</TextBlock>
+    <Button OnClick="@OnButtonClick">Back</Button>
+</StackPanel>
 
-Blazonia复刻自[https://github.com/Epictek/Avalonia-Blazor-Bindings](https://github.com/Epictek/Avalonia-Blazor-Bindings)分支，经过Micosoft、Dreamescaper、warappa和Epictek等开发者维护。
+@code {
+    async Task OnButtonClick()
+    {
+        await Navigation.PopAsync();
+    }
+}
+```
 
-Blazor的语法入门门槛极低，对新手十分友好，但是原仓库看起来并不是活跃，所以我将继续维护该仓库，由于原名称在nuget上已经占用，我将其更名Blazonia(Blazor + Avalonia)，以便于后续上传nuget库和项目模板🙂。
+
+
+
+
+## ✂ NativeAot和裁剪
+Blazonia支持NativeAot和裁剪功能，但是你需要为你的项目添加`TrimmerRootDescriptor`属性，让裁剪器保留Razor组件的所有元数据
+
+```xml
+<!--root.xml-->
+<linker>
+	<assembly fullname="YourProject">
+		<namespace fullname="Razor Component NameSpace" preserve="all" />
+	</assembly>
+</linker>
+```
+
+```xml
+<!-- your project -->
+<Project Sdk="Microsoft.NET.Sdk">
+     ...
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="..\root.xml" />
+	</ItemGroup>
+</Project>
+```
+
+## ⚠️ 注意事项
+请使用Rider或VS Code开发项目，Visual Studio 2022的razor文件代码提示可能会失效
+
+## 🗨 交流
+
+1. **Discord Server:** https://discord.gg/qtDKFgRAcg
+2. **QQ群:** 1063998889
+
+![QQ群](/images/QQGroup.png "QQ群")

@@ -1,0 +1,18 @@
+﻿<Border>
+    <StackPanel>
+        @for(var i = 0; i < _count; i++)
+        {
+            <TextBlock Text="@i.ToString()"></TextBlock>
+        }
+        <Button OnClick="@OnClick">Hello</Button>
+    </StackPanel>
+</Border>
+
+@code {
+    int _count = 0;
+
+    void OnClick()
+    {
+        _count++;
+    }
+}

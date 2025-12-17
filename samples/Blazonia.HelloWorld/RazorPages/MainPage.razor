@@ -1,0 +1,16 @@
+﻿@inject INavigation Navigation
+
+<Border Theme="@("CardBorder")">
+    <StackPanel HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+        <Button Classes="Primary" Theme="@("SolidButton")" OnClick="OnButtonClick">Go to sub page</Button>
+        <Image Width="200" Height="200" Source="@("avares://Blazonia.HelloWorld/Assets/avalonia-logo.ico")"></Image>
+    </StackPanel>
+</Border>
+
+@code {
+
+    async Task OnButtonClick()
+    {
+        await Navigation.NavigateToAsync("/sub1", null);
+    }
+}

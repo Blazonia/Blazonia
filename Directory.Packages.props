@@ -1,7 +1,10 @@
 <Project>
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<AvaloniaVersion>11.2.1</AvaloniaVersion>
+	</PropertyGroup>
 	<ItemGroup>
 		<PackageVersion Include="Avalonia" Version="$(AvaloniaVersion)" />
-		<PackageVersion Include="Avalonia.Android" Version="$(AvaloniaVersion)" />
 		<PackageVersion Include="Avalonia.Base" Version="$(AvaloniaVersion)" />
 		<PackageVersion Include="Avalonia.Controls.ColorPicker" Version="$(AvaloniaVersion)" />
 		<PackageVersion Include="Avalonia.Controls.DataGrid" Version="$(AvaloniaVersion)" />
@@ -10,6 +13,10 @@
 		<PackageVersion Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
 		<PackageVersion Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
 		<PackageVersion Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
+		<PackageVersion Include="Avalonia.iOS" Version="$(AvaloniaVersion)" />
+		<PackageVersion Include="Avalonia.Browser" Version="$(AvaloniaVersion)" />
+		<PackageVersion Include="Avalonia.Android" Version="$(AvaloniaVersion)" />
+		<PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageVersion Include="DotNet.ReproducibleBuilds" Version="1.1.1" />
 		<PackageVersion Include="Microsoft.AspNetCore.Components" Version="8.0.1" />
 		<PackageVersion Include="Microsoft.Build.Locator" Version="1.7.1" />
