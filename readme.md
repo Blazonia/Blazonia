@@ -16,18 +16,14 @@ Thanks to Avalonia's cross-platform capabilities, Blazonia enables developers to
 ## 🌰 A Simple Example
 
 ```razor
-@page "/"
-
-<Window Title="Counter" Width="600" Height="400">
-    <StackPanel>
-        <Label FontSize="30">You pressed @_count times </Label>
-        <CheckBox @bind-IsChecked="_showButton">Button visible</CheckBox>
-        @if (_showButton! == true)
-        {
-            <Button OnClick="OnButtonClick">+1</Button>
-        }
-    </StackPanel>
-</Window>
+<StackPanel>
+    <Label FontSize="30">You pressed @_count times </Label>
+    <CheckBox @bind-IsChecked="_showButton">Button visible</CheckBox>
+    @if (_showButton == true)
+    {
+        <Button OnClick="OnButtonClick">+1</Button>
+    }
+</StackPanel>
 
 @code {
 
@@ -43,23 +39,108 @@ Thanks to Avalonia's cross-platform capabilities, Blazonia enables developers to
 
 ## 🛫 Start
 
-1. Install project template
-
+1. Install Blazonia
 ```powershell
-dotnet new install BlazoniaTemplate
-
+dotnet add package Blazonia
 ```
 
-2. Create a new project
-
-```powershell
-dotnet new blazonia -o BlazoniaApp
+2. Create a new Razor component
+```razor
+<!-- src/RazorPages/Hello.razor -->
+<StackPanel>
+    <TextBlock FontSize="30">Hello World</TextBlock>
+</StackPanel>
 ```
 
-Please use Rider to edit the project, because the code hints of razor files in Visual Studio 2022 and VS Code may fail.
+3. Use Blazonia controls in axaml
+```xaml
+<UserControl 
+            ...
+			 xmlns:local="clr-namespace:Blazonia.Controls;assembly=Blazonia"
+			 xmlns:pages="clr-namespace:YourProject.RazorPages"
+             ...
+             >
+	<local:BlazoniaControl x:TypeArguments="pages:Hello"/>
+</UserControl>
+``` 
 
-## 📄 Acknowledge
+## 📃 Razor Page Navigation?
+1. Replace `BlazoniaControl` with `BlazoniaNavigationControl` control
 
-Blazonia is a fork of the [https://github.com/Epictek/Avalonia-Blazor-Bindings](https://github.com/Epictek/Avalonia-Blazor-Bindings) branch, maintained by developers including Microsoft, Dreamescaper, warappa, and Epictek.
+```xaml
+<UserControl 
+            ...
+			 xmlns:local="clr-namespace:Blazonia.Controls;assembly=Blazonia"
+			 xmlns:pages="clr-namespace:YourProject.RazorPages"
+             ...
+             >
+	<local:BlazoniaNavigationControl x:TypeArguments="pages:Page1"/>
+</UserControl>
+``` 
+2. Inject the INavigation object for page navigation
+```razor
+<!-- src/RazorPages/Page1.razor -->
+@inject INavigation Navigation
 
-Blazor's syntax is highly approachable and beginner-friendly. However, since the original repository appears to be inactive, I will continue to maintain this project. As the original name is already taken on NuGet, I have renamed it to Blazonia (Blazor + Avalonia) to facilitate publishing the NuGet package and project template.
+<StackPanel>
+    <TextBlock FontSize="30">Page 1</TextBlock>
+    <Button OnClick="@OnButtonClick">Go to Page2</Button>
+</StackPanel>
+
+@code {
+    async Task OnButtonClick()
+    {
+        await Navigation.NavigateToAsync("/page2", null);
+    }
+}
+```
+3. Use the @page attribute to mark the url
+```razor
+<!-- src/RazorPages/Page2.razor -->
+@page "/page2"
+@inject INavigation Navigation
+
+<StackPanel>
+    <TextBlock FontSize="30">Page 2</TextBlock>
+    <Button OnClick="@OnButtonClick">Back</Button>
+</StackPanel>
+
+@code {
+    async Task OnButtonClick()
+    {
+        await Navigation.PopAsync();
+    }
+}
+```
+
+## ✂ NativeAot and Trimming
+Blazonia supports NativeAot and trimming features, but you need to add the `TrimmerRootDescriptor` property to your project to let the trimmer preserve all metadata of the Razor components
+
+```xml
+<!--root.xml-->
+<linker>
+	<assembly fullname="YourProject">
+		<namespace fullname="Razor Component NameSpace" preserve="all" />
+	</assembly>
+</linker>
+```
+
+```xml
+<!-- your project -->
+<Project Sdk="Microsoft.NET.Sdk">
+     ...
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="..\root.xml" />
+	</ItemGroup>
+</Project>
+```
+
+## ⚠️ Notes
+Please use Rider or VS Code to develop the project, as the code hints for razor files in Visual Studio 2022 may fail.
+
+## 🗨 Communication
+
+1. **Discord Server:** https://discord.gg/qtDKFgRAcg
+2. **QQ Group:** 1063998889
+
+![QQ Group](/images/QQGroup.png "QQ Group")
