@@ -13,6 +13,11 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Controls.Primitives;
 
+using Avalonia.Metadata;
+
+[assembly: XmlnsPrefix("https://blazonia.github.io", "b")]
+[assembly: XmlnsDefinition("https://blazonia.github.io", "Blazonia.Controls")]
+
 [assembly: InternalsVisibleTo("BlazorBindings.UnitTests")]
 
 [assembly: GenerateComponent(typeof(Application))]
