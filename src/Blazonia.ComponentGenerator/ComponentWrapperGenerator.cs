@@ -127,10 +127,10 @@ public partial class ComponentWrapperGenerator
             var bt = compilation.GetTypeByMetadataName(componentBaseName);
             if (bt == null)
             {
-                for(int i = 1; i <= 10; i ++)
+                for (int i = 1; i <= 10; i++)
                 {
 
-                    bt = compilation.GetTypeByMetadataName(componentBaseName+"`"+i);
+                    bt = compilation.GetTypeByMetadataName(componentBaseName + "`" + i);
                     if (bt != null)
                     {
                         genericModifier = "<T>";
@@ -209,7 +209,7 @@ namespace {componentNamespace}
                 .Where(u => !u.IsGlobalUsing)
                 .OrderBy(u => u.ComparableString)
                 .Select(u => u.UsingText));
-        
+
         var handleAttachedPopertiesBuilder = new StringBuilder();
 
         if (attachedProperties.Any())
@@ -223,6 +223,7 @@ namespace {componentNamespace}
             handleAttachedPopertiesBuilder.AppendLine($$"""
             {{usingsText}}            
             using System.Runtime.Versioning;
+            using Blazonia.Components.Input;
 
             namespace Blazonia.Components
             {
@@ -370,7 +371,7 @@ namespace {componentNamespace}
                                     
                     """);
             }
-           
+
         }
 
         handleAttachedPopertiesBuilder.AppendLine($$"""
@@ -390,7 +391,7 @@ namespace {componentNamespace}
                 """);
 
 
-            
+
             foreach (var attached in attachedProperties.Where(x => !x.IsRenderFragmentProperty))
             {
                 var avaloniaAttachedPropertyName = $"global::{fullTypeName}.{attached.ComponentFieldName}Property";
