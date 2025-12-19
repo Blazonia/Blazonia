@@ -134,7 +134,7 @@ public class Program
                     .Where(type => compilation.ClassifyCommonConversion(type, elementType) is { IsReference: true, IsImplicit: true });
 
                 var result = typesInAssembly
-                    .Where(type => typesToGenerate.Any(t => !SymbolEqualityComparer.Default.Equals(t.TypeSymbol, type)))
+                    .Where(type => !typesToGenerate.Any(t => SymbolEqualityComparer.Default.Equals(t.TypeSymbol, type)))
                     .Select(type => new GenerateComponentSettings
                     {
                         FileHeader = FileHeader,
@@ -142,7 +142,8 @@ public class Program
                         TypeAlias = typeNamePrefix is null ? null : typeNamePrefix + type.Name
                     });
                 return result;
-            });
+            })
+            .ToList();
 
         typesToGenerate.AddRange(typesByAssembly);
 
