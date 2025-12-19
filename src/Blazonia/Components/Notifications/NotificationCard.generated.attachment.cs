@@ -1,51 +1,52 @@
-            
+using ACN = Avalonia.Controls.Notifications;
+using Blazonia.Components;            
 using System.Runtime.Versioning;
 using Blazonia.Components.Input;
 
 namespace Blazonia.Components
 {
     [RequiresPreviewFeatures]
-    internal static class TrayIconInitializer
+    internal static class NotificationCardInitializer
     {
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
-            AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TrayIcon.Icons",
+            AttachedPropertyRegistry.RegisterAttachedPropertyHandler("NotificationCard.CloseOnClick",
                 (element, value) =>
                 {
                     if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
                     {
-                        element.ClearValue(AC.TrayIcon.IconsProperty);
+                        element.ClearValue(ACN.NotificationCard.CloseOnClickProperty);
                     }
                     else
                     {
-                        AC.TrayIcon.SetIcons((Avalonia.Application)element, (AC.TrayIcons)value);
+                        ACN.NotificationCard.SetCloseOnClick((Avalonia.Controls.Button)element, (bool)value);
                     }
                 });
         }
     }
 
-    public static class TrayIconExtensions
+    public static class NotificationCardExtensions
     {
         /// <summary>
-        /// Defines the <see cref="T:Avalonia.Controls.TrayIcons" /> attached property.
+        /// Defines the CloseOnClick property.
         /// </summary>
-        public static Application TrayIconIcons(this Application element, AC.TrayIcons value)
+        public static Button NotificationCardCloseOnClick(this Button element, bool value)
         {
-            element.AttachedProperties["TrayIcon.Icons"] = value;
+            element.AttachedProperties["NotificationCard.CloseOnClick"] = value;
         
             return element;
         }
     }
 
-    public class TrayIcon_Attachment : NativeControlComponentBase, INonPhysicalChild, IContainerElementHandler
+    public class NotificationCard_Attachment : NativeControlComponentBase, INonPhysicalChild, IContainerElementHandler
     {
         /// <summary>
-        /// Defines the <see cref="T:Avalonia.Controls.TrayIcons" /> attached property.
+        /// Defines the CloseOnClick property.
         /// </summary>
-        [Parameter] public AC.TrayIcons Icons { get; set; }
+        [Parameter] public bool CloseOnClick { get; set; }
 
-        private Avalonia.Application _parent;
+        private Avalonia.Controls.Button _parent;
 
         public object TargetElement => _parent;
 
@@ -56,11 +57,11 @@ namespace Blazonia.Components
                 var value = parameterValue.Value;
                 switch (parameterValue.Name)
                 {
-                    case nameof(Icons):
-                    if (!Equals(Icons, value))
+                    case nameof(CloseOnClick):
+                    if (!Equals(CloseOnClick, value))
                     {
-                        Icons = (AC.TrayIcons)value;
-                        //NativeControl.IconsProperty = Icons;
+                        CloseOnClick = (bool)value;
+                        //NativeControl.CloseOnClickProperty = CloseOnClick;
                     }
                     break;
 
@@ -75,13 +76,13 @@ namespace Blazonia.Components
         {
             if (parentElement is not null)
             {
-                if (Icons == global::Avalonia.Controls.TrayIcon.IconsProperty.GetDefaultValue(parentElement.GetType()))
+                if (CloseOnClick == global::Avalonia.Controls.Notifications.NotificationCard.CloseOnClickProperty.GetDefaultValue(parentElement.GetType()))
                 {
-                    ((Avalonia.Application)parentElement).ClearValue( global::Avalonia.Controls.TrayIcon.IconsProperty);
+                    ((Avalonia.Controls.Button)parentElement).ClearValue( global::Avalonia.Controls.Notifications.NotificationCard.CloseOnClickProperty);
                 }
                 else
                 {
-                     global::Avalonia.Controls.TrayIcon.SetIcons((Avalonia.Application)parentElement, Icons);
+                     global::Avalonia.Controls.Notifications.NotificationCard.SetCloseOnClick((Avalonia.Controls.Button)parentElement, CloseOnClick);
                 }
                 
             }
@@ -92,12 +93,12 @@ namespace Blazonia.Components
             var parentType = parentElement?.GetType();
             if (parentType is not null)
             {
-                Icons = Icons != default ? Icons : global::Avalonia.Controls.TrayIcon.IconsProperty.GetDefaultValue(parentType);
+                CloseOnClick = CloseOnClick != default ? CloseOnClick : global::Avalonia.Controls.Notifications.NotificationCard.CloseOnClickProperty.GetDefaultValue(parentType);
 
                 TryUpdateParent(parentElement);
             }
 
-            _parent = (Avalonia.Application)parentElement;
+            _parent = (Avalonia.Controls.Button)parentElement;
         }
         
         
@@ -106,7 +107,7 @@ namespace Blazonia.Components
             var parentType = parentElement?.GetType();
             if (parentType is not null)
             {
-                Icons = global::Avalonia.Controls.TrayIcon.IconsProperty.GetDefaultValue(parentType);
+                CloseOnClick = global::Avalonia.Controls.Notifications.NotificationCard.CloseOnClickProperty.GetDefaultValue(parentType);
 
                 TryUpdateParent(parentElement);
             }

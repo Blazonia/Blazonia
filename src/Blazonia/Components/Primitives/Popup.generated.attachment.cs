@@ -1,51 +1,52 @@
-            
+using ACP = Avalonia.Controls.Primitives;
+using Blazonia.Components;            
 using System.Runtime.Versioning;
 using Blazonia.Components.Input;
 
 namespace Blazonia.Components
 {
     [RequiresPreviewFeatures]
-    internal static class TrayIconInitializer
+    internal static class PopupInitializer
     {
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
-            AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TrayIcon.Icons",
+            AttachedPropertyRegistry.RegisterAttachedPropertyHandler("Popup.TakesFocusFromNativeControl",
                 (element, value) =>
                 {
                     if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
                     {
-                        element.ClearValue(AC.TrayIcon.IconsProperty);
+                        element.ClearValue(ACP.Popup.TakesFocusFromNativeControlProperty);
                     }
                     else
                     {
-                        AC.TrayIcon.SetIcons((Avalonia.Application)element, (AC.TrayIcons)value);
+                        ACP.Popup.SetTakesFocusFromNativeControl((Avalonia.Controls.Control)element, (bool)value);
                     }
                 });
         }
     }
 
-    public static class TrayIconExtensions
+    public static class PopupExtensions
     {
         /// <summary>
-        /// Defines the <see cref="T:Avalonia.Controls.TrayIcons" /> attached property.
+        /// Defines the <see cref="P:Avalonia.Controls.Primitives.Popup.TakesFocusFromNativeControl" /> property.
         /// </summary>
-        public static Application TrayIconIcons(this Application element, AC.TrayIcons value)
+        public static Control PopupTakesFocusFromNativeControl(this Control element, bool value)
         {
-            element.AttachedProperties["TrayIcon.Icons"] = value;
+            element.AttachedProperties["Popup.TakesFocusFromNativeControl"] = value;
         
             return element;
         }
     }
 
-    public class TrayIcon_Attachment : NativeControlComponentBase, INonPhysicalChild, IContainerElementHandler
+    public class Popup_Attachment : NativeControlComponentBase, INonPhysicalChild, IContainerElementHandler
     {
         /// <summary>
-        /// Defines the <see cref="T:Avalonia.Controls.TrayIcons" /> attached property.
+        /// Defines the <see cref="P:Avalonia.Controls.Primitives.Popup.TakesFocusFromNativeControl" /> property.
         /// </summary>
-        [Parameter] public AC.TrayIcons Icons { get; set; }
+        [Parameter] public bool TakesFocusFromNativeControl { get; set; }
 
-        private Avalonia.Application _parent;
+        private Avalonia.Controls.Control _parent;
 
         public object TargetElement => _parent;
 
@@ -56,11 +57,11 @@ namespace Blazonia.Components
                 var value = parameterValue.Value;
                 switch (parameterValue.Name)
                 {
-                    case nameof(Icons):
-                    if (!Equals(Icons, value))
+                    case nameof(TakesFocusFromNativeControl):
+                    if (!Equals(TakesFocusFromNativeControl, value))
                     {
-                        Icons = (AC.TrayIcons)value;
-                        //NativeControl.IconsProperty = Icons;
+                        TakesFocusFromNativeControl = (bool)value;
+                        //NativeControl.TakesFocusFromNativeControlProperty = TakesFocusFromNativeControl;
                     }
                     break;
 
@@ -75,13 +76,13 @@ namespace Blazonia.Components
         {
             if (parentElement is not null)
             {
-                if (Icons == global::Avalonia.Controls.TrayIcon.IconsProperty.GetDefaultValue(parentElement.GetType()))
+                if (TakesFocusFromNativeControl == global::Avalonia.Controls.Primitives.Popup.TakesFocusFromNativeControlProperty.GetDefaultValue(parentElement.GetType()))
                 {
-                    ((Avalonia.Application)parentElement).ClearValue( global::Avalonia.Controls.TrayIcon.IconsProperty);
+                    ((Avalonia.Controls.Control)parentElement).ClearValue( global::Avalonia.Controls.Primitives.Popup.TakesFocusFromNativeControlProperty);
                 }
                 else
                 {
-                     global::Avalonia.Controls.TrayIcon.SetIcons((Avalonia.Application)parentElement, Icons);
+                     global::Avalonia.Controls.Primitives.Popup.SetTakesFocusFromNativeControl((Avalonia.Controls.Control)parentElement, TakesFocusFromNativeControl);
                 }
                 
             }
@@ -92,12 +93,12 @@ namespace Blazonia.Components
             var parentType = parentElement?.GetType();
             if (parentType is not null)
             {
-                Icons = Icons != default ? Icons : global::Avalonia.Controls.TrayIcon.IconsProperty.GetDefaultValue(parentType);
+                TakesFocusFromNativeControl = TakesFocusFromNativeControl != default ? TakesFocusFromNativeControl : global::Avalonia.Controls.Primitives.Popup.TakesFocusFromNativeControlProperty.GetDefaultValue(parentType);
 
                 TryUpdateParent(parentElement);
             }
 
-            _parent = (Avalonia.Application)parentElement;
+            _parent = (Avalonia.Controls.Control)parentElement;
         }
         
         
@@ -106,7 +107,7 @@ namespace Blazonia.Components
             var parentType = parentElement?.GetType();
             if (parentType is not null)
             {
-                Icons = global::Avalonia.Controls.TrayIcon.IconsProperty.GetDefaultValue(parentType);
+                TakesFocusFromNativeControl = global::Avalonia.Controls.Primitives.Popup.TakesFocusFromNativeControlProperty.GetDefaultValue(parentType);
 
                 TryUpdateParent(parentElement);
             }

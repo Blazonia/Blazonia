@@ -12,8 +12,12 @@ using Avalonia.Animation;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Controls.Primitives;
-
 using Avalonia.Metadata;
+using Avalonia.Controls.Chrome;
+using Avalonia.Controls.Embedding;
+using Avalonia.Controls.Notifications;
+using Avalonia.Controls.Presenters;
+using Avalonia.Controls.Remote;
 
 [assembly: XmlnsPrefix("https://blazonia.github.io", "b")]
 [assembly: XmlnsDefinition("https://blazonia.github.io", "Blazonia.Controls")]
@@ -285,3 +289,95 @@ using Avalonia.Metadata;
 [assembly: GenerateComponent(typeof(Polyline))]
 [assembly: GenerateComponent(typeof(Rectangle))]
 [assembly: GenerateComponent(typeof(Shape))]
+
+[assembly: GenerateComponent(typeof(DateTimePickerPanel))]
+[assembly: GenerateComponent(typeof(RepeatButton))]
+[assembly: GenerateComponent(typeof(CaptionButtons))]
+[assembly: GenerateComponent(typeof(TitleBar))]
+[assembly: GenerateComponent(typeof(EmbeddableControlRoot))]
+[assembly: GenerateComponent(typeof(NotificationCard))]
+[assembly: GenerateComponent(typeof(WindowNotificationManager))]
+
+
+[assembly: GenerateComponent(typeof(ContentPresenter))]
+[assembly: GenerateComponent(typeof(ItemsPresenter))]
+
+
+[assembly: GenerateComponent(typeof(ScrollContentPresenter))]
+[assembly: GenerateComponent(typeof(TextPresenter))]
+
+
+[assembly: GenerateComponent(typeof(AccessText))]
+[assembly: GenerateComponent(typeof(AdornerLayer))]
+
+[assembly: GenerateComponent(typeof(CalendarButton))]
+[assembly: GenerateComponent(typeof(CalendarDayButton))]
+[assembly: GenerateComponent(typeof(CalendarItem))]
+
+[assembly: GenerateComponent(typeof(ChromeOverlayLayer))]
+
+
+[assembly: GenerateComponent(typeof(LightDismissOverlayLayer))]
+[assembly: GenerateComponent(typeof(OverlayPopupHost))]
+
+
+[assembly: GenerateComponent(typeof(PickerPresenterBase))]
+[assembly: GenerateComponent(typeof(Popup))]
+[assembly: GenerateComponent(typeof(PopupRoot))]
+
+
+[assembly: GenerateComponent(typeof(TabStripItem))]
+[assembly: GenerateComponent(typeof(TextSelectionHandle))]
+[assembly: GenerateComponent(typeof(TextSelectorLayer))]
+
+
+[assembly: GenerateComponent(typeof(Track))]
+
+[assembly: GenerateComponent(typeof(UniformGrid))]
+[assembly: GenerateComponent(typeof(VisualLayerManager))]
+
+
+[assembly: GenerateComponent(typeof(RemoteWidget))]
+[assembly: GenerateComponent(typeof(Arc))]
+[assembly: GenerateComponent(typeof(Path))]
+[assembly: GenerateComponent(typeof(Sector))]
+[assembly: GenerateComponent(typeof(ComboBoxItem))]
+[assembly: GenerateComponent(typeof(DataValidationErrors))]
+[assembly: GenerateComponent(typeof(DatePickerPresenter))]
+
+
+[assembly: GenerateComponent(typeof(DropDownButton))]
+[assembly: GenerateComponent(typeof(ExperimentalAcrylicBorder))]
+[assembly: GenerateComponent(typeof(FlyoutPresenter))]
+
+
+[assembly: GenerateComponent(typeof(HyperlinkButton))]
+[assembly: GenerateComponent(typeof(IconElement))]
+
+[assembly: GenerateComponent(typeof(ListBoxItem))]
+[assembly: GenerateComponent(typeof(MenuFlyoutPresenter))]
+
+
+[assembly: GenerateComponent(typeof(NativeControlHost))]
+[assembly: GenerateComponent(typeof(NativeMenuBar))]
+
+
+
+[assembly: GenerateComponent(typeof(PathIcon))]
+[assembly: GenerateComponent(typeof(RefreshContainer))]
+
+[assembly: GenerateComponent(typeof(RefreshVisualizer))]
+[assembly: GenerateComponent(typeof(ReversibleStackPanel))]
+
+[assembly: GenerateComponent(typeof(ThemeVariantScope))]
+[assembly: GenerateComponent(typeof(TickBar))]
+
+[assembly: GenerateComponent(typeof(TimePicker))]
+[assembly: GenerateComponent(typeof(TimePickerPresenter))]
+[assembly: GenerateComponent(typeof(VirtualizingCarouselPanel))]
+[assembly: GenerateComponent(typeof(VirtualizingPanel))]
+
+
+[assembly: GenerateComponent(typeof(VirtualizingStackPanel))]
+
+
