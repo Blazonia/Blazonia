@@ -22,4 +22,18 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Components\Animation\" />
+	  <Folder Include="Components\Chrome\" />
+	  <Folder Include="Components\Documents\" />
+	  <Folder Include="Components\Embedding\" />
+	  <Folder Include="Components\Input.GestureRecognizers\" />
+	  <Folder Include="Components\Layout\" />
+	  <Folder Include="Components\Media\" />
+	  <Folder Include="Components\Presenters\" />
+	  <Folder Include="Components\Primitives\" />
+	  <Folder Include="Components\Remote\" />
+	  <Folder Include="Components\Styling\" />
+	</ItemGroup>
+
 </Project>

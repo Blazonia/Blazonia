@@ -60,7 +60,7 @@ public partial class GeneratedPropertyInfo
 
         }
 
-        if (AvaloniaContainingTypeName.Contains("Headered"))
+        if (_propertyInfo.Name == "HeaderTemplate")//(AvaloniaContainingTypeName.Contains("Headered") || AvaloniaContainingTypeName == "AC.DataGridColumn")
         {
             return $"\r\n            RenderTreeBuilderHelper.AddDataTemplateProperty<{AvaloniaContainingTypeName}, object>(builder, sequence++, {ComponentPropertyName},\r\n                ({parameterName}, nativeTemplate) => {parameterName}.{_propertyInfo.Name} = nativeTemplate);";
         }

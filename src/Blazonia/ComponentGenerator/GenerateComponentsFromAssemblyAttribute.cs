@@ -3,7 +3,7 @@
 [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
 public class GenerateComponentsFromAssemblyAttribute : Attribute
 {
-    public GenerateComponentsFromAssemblyAttribute(Type containingType) { }
+    public GenerateComponentsFromAssemblyAttribute(string assemblyName) { }
 
     public string TypeNamePrefix { get; set; }
 }

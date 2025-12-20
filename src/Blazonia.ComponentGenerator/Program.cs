@@ -39,7 +39,7 @@ public class Program
                 }
                 if (o.OutPath is null)
                 {
-                    o.OutPath = Path.Combine(o.ProjectPath, "..", "Components");
+                    o.OutPath = Path.Combine(o.ProjectPath, "..", "generated");
                 }
 
                 var compilation = await CreateComplitation(o);
@@ -82,8 +82,10 @@ public class Program
     {
         Console.WriteLine("Finding types to generate.");
 
-        var elementType = compilation.GetTypeByMetadataName("Avalonia.Visual");
+        var refrences = compilation.References;
 
+
+        var elementType = compilation.GetTypeByMetadataName("Avalonia.AvaloniaObject");
         var attributes = compilation.Assembly.GetAttributes();
         var typesToGenerate = attributes
             .Where(attribute => attribute.AttributeClass?.ToDisplayString() == "Blazonia.ComponentGenerator.GenerateComponentAttribute")
@@ -113,7 +115,6 @@ public class Program
                     Aliases = propertiesAliases,
                     IsGeneric = (attribute.NamedArguments.FirstOrDefault(a => a.Key == "IsGeneric").Value.Value as bool?) ?? false
                 };
-
                 return setting;
             })
             .Where(type => type.TypeSymbol != null)
@@ -123,11 +124,28 @@ public class Program
             .Where(attribute => attribute.AttributeClass?.ToDisplayString() == "Blazonia.ComponentGenerator.GenerateComponentsFromAssemblyAttribute")
             .SelectMany(attribute =>
             {
-                var containingTypeSymbol = attribute.ConstructorArguments.FirstOrDefault().Value as INamedTypeSymbol;
+
+
+                var assemblyName = attribute.ConstructorArguments.FirstOrDefault().Value as string;
+
+
 
                 var typeNamePrefix = attribute.NamedArguments.FirstOrDefault(a => a.Key == "TypeNamePrefix").Value.Value as string;
 
-                var typesInAssembly = containingTypeSymbol.ContainingAssembly
+
+                var metadataReference = compilation.References.Where(refrences =>
+                {
+                    var path = refrences.Display;
+
+                    var name = Path.GetFileNameWithoutExtension(path);
+
+                    return name == assemblyName;
+
+                }).FirstOrDefault();
+
+
+                var assembly = compilation.GetAssemblyOrModuleSymbol(metadataReference) as IAssemblySymbol;
+                var typesInAssembly = assembly
                     .GlobalNamespace.GetAllTypes()
                     .Where(type => type.DeclaredAccessibility == Accessibility.Public)
                     .Where(type => !(type.IsGenericType && type.IsDefinition))
@@ -135,16 +153,17 @@ public class Program
 
                 var result = typesInAssembly
                     .Where(type => !typesToGenerate.Any(t => SymbolEqualityComparer.Default.Equals(t.TypeSymbol, type)))
-                    .Select(type => new GenerateComponentSettings
-                    {
-                        FileHeader = FileHeader,
-                        TypeSymbol = type,
-                        TypeAlias = typeNamePrefix is null ? null : typeNamePrefix + type.Name
+                    .Select(type => {
+                        return new GenerateComponentSettings
+                        {
+                            FileHeader = FileHeader,
+                            TypeSymbol = type,
+                            TypeAlias = typeNamePrefix is null ? null : typeNamePrefix + type.Name
+                        };
                     });
                 return result;
             })
             .ToList();
-
         typesToGenerate.AddRange(typesByAssembly);
 
         foreach (var info in typesToGenerate)
