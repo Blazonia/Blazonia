@@ -85,7 +85,7 @@ public class Program
         var refrences = compilation.References;
 
 
-        var elementType = compilation.GetTypeByMetadataName("Avalonia.AvaloniaObject");
+        var elementType = compilation.GetTypeByMetadataName("Avalonia.Animation.Animatable");
         var attributes = compilation.Assembly.GetAttributes();
         var typesToGenerate = attributes
             .Where(attribute => attribute.AttributeClass?.ToDisplayString() == "Blazonia.ComponentGenerator.GenerateComponentAttribute")
@@ -149,7 +149,7 @@ public class Program
                     .GlobalNamespace.GetAllTypes()
                     .Where(type => type.DeclaredAccessibility == Accessibility.Public)
                     .Where(type => !(type.IsGenericType && type.IsDefinition))
-                    .Where(type => compilation.ClassifyCommonConversion(type, elementType) is { IsReference: true, IsImplicit: true });
+                    .Where(type => SymbolEqualityComparer.Default.Equals(type , elementType) || compilation.ClassifyCommonConversion(type, elementType) is { IsReference: true, IsImplicit: true });
 
                 var result = typesInAssembly
                     .Where(type => !typesToGenerate.Any(t => SymbolEqualityComparer.Default.Equals(t.TypeSymbol, type)))
