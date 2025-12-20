@@ -26,11 +26,11 @@ public partial class GeneratedPropertyInfo
     public bool IsPanelTemplate =>
         _propertyInfo.Type.GetFullName().StartsWith("Avalonia.Controls.ITemplate<Avalonia.Controls.Panel>");
 
-    public bool IsControlTemplate => 
+    public bool IsControlTemplate =>
         //_propertyInfo.Type.GetFullName() == "Avalonia.Markup.Xaml.ControlTemplate" ||
         _propertyInfo.Type.GetFullName() == "Avalonia.Controls.Templates.IControlTemplate" ||
         _propertyInfo.Type.GetFullName().StartsWith("Avalonia.Controls.ITemplate<");
-    public bool IsDataTemplate => 
+    public bool IsDataTemplate =>
         _propertyInfo.Type.GetFullName() == "Avalonia.Markup.Xaml.DataTemplate" ||
         _propertyInfo.Type.GetFullName() == "Avalonia.Controls.Templates.IDataTemplate";
     public bool ForceContent => ContainingType.Settings.ContentProperties.Contains(_propertyInfo.Name);
@@ -55,12 +55,12 @@ public partial class GeneratedPropertyInfo
         var type = (INamedTypeSymbol)_propertyInfo.Type;
         var parameterName = "nativeControl";//$"{type.Name[..1].ToLowerInvariant()}{type.Name[1..]}";
 
-        if(AvaloniaContainingTypeName.Contains("ItemsControl"))
+        if (AvaloniaContainingTypeName.Contains("ItemsControl"))
         {
 
         }
 
-        if (AvaloniaContainingTypeName.Contains("Headered"))
+        if (_propertyInfo.Name == "HeaderTemplate")//(AvaloniaContainingTypeName.Contains("Headered") || AvaloniaContainingTypeName == "AC.DataGridColumn")
         {
             return $"\r\n            RenderTreeBuilderHelper.AddDataTemplateProperty<{AvaloniaContainingTypeName}, object>(builder, sequence++, {ComponentPropertyName},\r\n                ({parameterName}, nativeTemplate) => {parameterName}.{_propertyInfo.Name} = nativeTemplate);";
         }
@@ -140,7 +140,7 @@ public partial class GeneratedPropertyInfo
 
         if (type.Name.Contains("DataTemplate") && type is INamedTypeSymbol namedType)
         {
-            Console.WriteLine(namedType);
+            // Console.WriteLine(namedType);
         }
 
 
@@ -210,7 +210,7 @@ public partial class GeneratedPropertyInfo
 
     private static ITypeSymbol GetObjectTypeSymbol(ITypeSymbol type)
     {
-        while(type.BaseType is not null)
+        while (type.BaseType is not null)
         {
             type = type.BaseType;
         }

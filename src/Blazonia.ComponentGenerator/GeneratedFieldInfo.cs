@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters;
@@ -99,8 +100,12 @@ public partial class GeneratedFieldInfo
 
         }
 
-        HostType = fieldInfo.ContainingType.GetMethod("Get" + fieldInfo.Name[..^8])?
-            .Parameters[0].Type;
+        var getMethod = fieldInfo.ContainingType.GetMethod("Get" + fieldInfo.Name[..^8]);
+
+        if (getMethod != null)
+        {
+            HostType = getMethod.Parameters[0].Type;
+        }
 
         ComponentName = ComponentWrapperGenerator.GetIdentifierName(_fieldInfo.ContainingType.Name);
         _componentFieldNameLazy = new Lazy<string>(GetComponentFieldName);
@@ -148,7 +153,7 @@ public partial class GeneratedFieldInfo
         var xmlDocContents = _fieldInfo is null ? "" : ComponentWrapperGenerator.GetXmlDocContents(_fieldInfo, indent);
 
         var effectiveBindingHostType = HostType.GetFullName();
-        
+
         var effectiveAvaloniaFieldName = AvaloniaFieldName.Replace("Property", "");
         var originalAttachedPropertyType = GetOriginalAttachedPropertyType();
         return originalAttachedPropertyType switch
@@ -354,6 +359,7 @@ public partial class GeneratedFieldInfo
             .Where(p => !componentInfo.Exclude.Contains(p.Name))
             .Where(p => p.DeclaredAccessibility == Accessibility.Public)
             .Where(p => p.Name.EndsWith("Property"))
+            .Where(P => P.ContainingType.GetMethod("Get" + P.Name[..^8]) != null)
             .Where(p => componentInfo.TypeSymbol.GetMethod("Set" + p.Name[..^8])?.DeclaredAccessibility == Accessibility.Public)
             .Where(prop => IsExplicitlyAllowed(prop, generatedType) || !DisallowedComponentTypes.Contains(prop.Type.GetFullName()))
             .Where(prop => prop.Type.GetFullName().StartsWith("Avalonia.AttachedProperty"))
