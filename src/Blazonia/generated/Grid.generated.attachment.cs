@@ -1,4 +1,9 @@
-            
+using AC = Avalonia.Controls;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
+using Blazonia.Core;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;            
 using System.Runtime.Versioning;
 using Blazonia.Components.Input;
 
@@ -13,7 +18,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("Grid.Column",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.Grid.ColumnProperty);
                 }
@@ -32,7 +37,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("Grid.ColumnSpan",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.Grid.ColumnSpanProperty);
                 }
@@ -51,7 +56,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("Grid.IsSharedSizeScope",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.Grid.IsSharedSizeScopeProperty);
                     }
@@ -63,7 +68,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("Grid.Row",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.Grid.RowProperty);
                 }
@@ -82,7 +87,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("Grid.RowSpan",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.Grid.RowSpanProperty);
                 }

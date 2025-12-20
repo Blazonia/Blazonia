@@ -10,6 +10,7 @@
 #pragma warning disable CA2252
 
 using Microsoft.AspNetCore.Components.Rendering;
+using AC = Avalonia.Controls;
 
 namespace Blazonia.Components
 {

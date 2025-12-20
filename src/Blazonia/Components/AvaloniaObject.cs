@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Runtime.CompilerServices;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 
 namespace Blazonia.Components;
 

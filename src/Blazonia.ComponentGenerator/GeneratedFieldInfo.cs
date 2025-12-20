@@ -162,7 +162,7 @@ public partial class GeneratedFieldInfo
                        {{indent}}AttachedPropertyRegistry.RegisterAttachedPropertyHandler("{{ComponentName}}.{{ComponentFieldName}}",
                        {{indent}}    (element, value) =>
                        {{indent}}    {
-                       {{indent}}        if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                       {{indent}}        if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                        {{indent}}        {
                        {{indent}}            element.ClearValue({{AvaloniaContainingTypeName}}.{{AvaloniaFieldName}});
                        {{indent}}        }
@@ -183,7 +183,7 @@ public partial class GeneratedFieldInfo
                           {{indent}}AttachedPropertyRegistry.RegisterAttachedPropertyHandler("{{ComponentName}}.{{ComponentFieldName}}",
                           {{indent}}    (element, value) =>
                           {{indent}}    {
-                          {{indent}}        if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                          {{indent}}        if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                           {{indent}}        {
                           {{indent}}            element.ClearValue({{AvaloniaContainingTypeName}}.{{AvaloniaFieldName}});
                           {{indent}}        }
@@ -204,7 +204,7 @@ public partial class GeneratedFieldInfo
                    {{indent}}    AttachedPropertyRegistry.RegisterAttachedPropertyHandler("{{ComponentName}}.{{ComponentFieldName}}",
                    {{indent}}        (element, value) =>
                    {{indent}}        {
-                   {{indent}}            if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                   {{indent}}            if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                    {{indent}}            {
                    {{indent}}                element.ClearValue({{AvaloniaContainingTypeName}}.{{AvaloniaFieldName}});
                    {{indent}}            }

@@ -2,6 +2,8 @@
 using Avalonia.Controls;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using AvaloniaPage = Avalonia.Controls.Control;
+
 
 namespace Blazonia.Navigation;
 

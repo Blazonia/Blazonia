@@ -6,7 +6,13 @@
 // </auto-generated>
 
 using AA = Avalonia.Animation;
+using AC = Avalonia.Controls;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 using Blazonia.Components;
+using Blazonia.Core;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;
 
 #pragma warning disable CA2252
 

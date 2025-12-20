@@ -4,6 +4,8 @@
 using Blazonia.Components.Handlers;
 using Microsoft.Extensions.Logging;
 using System.Runtime.ExceptionServices;
+using AvaloniaApplication = Avalonia.Application;
+
 
 namespace Blazonia;
 

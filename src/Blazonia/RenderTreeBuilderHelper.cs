@@ -7,6 +7,8 @@ using Blazonia.Components.DataTemplates;
 using Blazonia.Components.Internal;
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Collections;
+using AvaloniaDataTemplate = Avalonia.Controls.Templates.IDataTemplate;
+using AC = Avalonia.Controls;
 
 namespace Blazonia;
 

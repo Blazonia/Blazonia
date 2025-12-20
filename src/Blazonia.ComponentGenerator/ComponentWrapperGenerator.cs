@@ -545,11 +545,12 @@ namespace {componentNamespace}
     {
         var usings = new List<UsingStatement>
             {
-                new UsingStatement { Namespace = "System", IsGlobalUsing = true },
-                new UsingStatement { Namespace = "Microsoft.AspNetCore.Components", IsUsed = true, IsGlobalUsing = true },
-                new UsingStatement { Namespace = "Blazonia.Core", IsUsed = true, IsGlobalUsing = true },
-                new UsingStatement { Namespace = "System.Threading.Tasks", IsUsed = true, IsGlobalUsing = true },
-                new UsingStatement { Namespace = "Avalonia.Controls", Alias = "AC", IsUsed = true, IsGlobalUsing = true },
+                new UsingStatement { Namespace = "System", IsUsed = true},
+                new UsingStatement { Namespace = "Microsoft.AspNetCore.Components", IsUsed = true},
+                new UsingStatement { Namespace = "Blazonia.Core", IsUsed = true},
+                new UsingStatement { Namespace = "System.Threading.Tasks", IsUsed = true},
+                new UsingStatement { Namespace = "Avalonia.Controls", Alias = "AC", IsUsed = true},
+                new UsingStatement { Namespace = "Avalonia.AvaloniaObject", Alias = "AvaloniaBindableObject", IsUsed = true},
                 //new UsingStatement { Namespace = "Avalonia.Templ", Alias = "MMP" }
             };
 

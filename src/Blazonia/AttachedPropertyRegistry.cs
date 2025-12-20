@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 namespace Blazonia;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
+
 
 /// <remarks>Experimental API, subject to change.</remarks>
 [RequiresPreviewFeatures]

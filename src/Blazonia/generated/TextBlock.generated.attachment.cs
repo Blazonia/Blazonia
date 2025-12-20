@@ -1,4 +1,9 @@
-            
+using AC = Avalonia.Controls;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
+using Blazonia.Core;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;            
 using System.Runtime.Versioning;
 using Blazonia.Components.Input;
 
@@ -13,7 +18,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextBlock.BaselineOffset",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.TextBlock.BaselineOffsetProperty);
                 }
@@ -32,7 +37,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextBlock.LetterSpacing",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.TextBlock.LetterSpacingProperty);
                 }
@@ -51,7 +56,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextBlock.LineHeight",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.TextBlock.LineHeightProperty);
                 }
@@ -70,7 +75,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextBlock.MaxLines",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.TextBlock.MaxLinesProperty);
                 }
@@ -89,7 +94,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextBlock.TextAlignment",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.TextBlock.TextAlignmentProperty);
                     }
@@ -101,7 +106,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextBlock.TextTrimming",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.TextBlock.TextTrimmingProperty);
                     }
@@ -113,7 +118,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextBlock.TextWrapping",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.TextBlock.TextWrappingProperty);
                     }

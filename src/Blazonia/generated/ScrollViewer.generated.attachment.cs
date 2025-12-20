@@ -1,4 +1,9 @@
-            
+using AC = Avalonia.Controls;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
+using Blazonia.Core;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;            
 using System.Runtime.Versioning;
 using Blazonia.Components.Input;
 
@@ -13,7 +18,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.AllowAutoHide",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.AllowAutoHideProperty);
                     }
@@ -25,7 +30,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.BringIntoViewOnFocusChange",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.BringIntoViewOnFocusChangeProperty);
                     }
@@ -37,7 +42,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.HorizontalScrollBarVisibility",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.HorizontalScrollBarVisibilityProperty);
                     }
@@ -49,7 +54,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.HorizontalSnapPointsAlignment",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.HorizontalSnapPointsAlignmentProperty);
                     }
@@ -61,7 +66,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.HorizontalSnapPointsType",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.HorizontalSnapPointsTypeProperty);
                     }
@@ -73,7 +78,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.IsDeferredScrollingEnabled",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.IsDeferredScrollingEnabledProperty);
                     }
@@ -85,7 +90,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.IsScrollChainingEnabled",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.IsScrollChainingEnabledProperty);
                     }
@@ -97,7 +102,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.IsScrollInertiaEnabled",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.IsScrollInertiaEnabledProperty);
                     }
@@ -109,7 +114,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.VerticalScrollBarVisibility",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.VerticalScrollBarVisibilityProperty);
                     }
@@ -121,7 +126,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.VerticalSnapPointsAlignment",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.VerticalSnapPointsAlignmentProperty);
                     }
@@ -133,7 +138,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ScrollViewer.VerticalSnapPointsType",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ScrollViewer.VerticalSnapPointsTypeProperty);
                     }
