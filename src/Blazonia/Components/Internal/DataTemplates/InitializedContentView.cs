@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+using AvaloniaContentView = Avalonia.Controls.ContentControl;
+
 namespace Blazonia.Components.DataTemplates;
 
 internal class InitializedContentView : ContentControl//Control

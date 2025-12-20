@@ -1,4 +1,9 @@
-            
+using AC = Avalonia.Controls;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
+using Blazonia.Core;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;            
 using System.Runtime.Versioning;
 using Blazonia.Components.Input;
 
@@ -13,7 +18,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("Canvas.Bottom",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.Canvas.BottomProperty);
                 }
@@ -32,7 +37,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("Canvas.Left",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.Canvas.LeftProperty);
                 }
@@ -51,7 +56,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("Canvas.Right",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.Canvas.RightProperty);
                 }
@@ -70,7 +75,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("Canvas.Top",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.Canvas.TopProperty);
                 }

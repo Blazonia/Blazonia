@@ -1,7 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-namespace Blazonia.Components.DataTemplates;
+namespace Blazonia.Components.DataTemplates; 
+using AvaloniaDataTemplate = Avalonia.Controls.Templates.IDataTemplate;
+using AvaloniaContentView = Avalonia.Controls.ContentControl;
+using AC = Avalonia.Controls;
+
 
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes. Class is used as generic parameter.
 internal class DataTemplateItemsComponent<TControl, TItem> : NativeControlComponentBase, IContainerElementHandler, INonPhysicalChild

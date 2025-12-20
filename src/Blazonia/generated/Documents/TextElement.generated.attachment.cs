@@ -1,5 +1,11 @@
+using AC = Avalonia.Controls;
 using ACD = Avalonia.Controls.Documents;
-using Blazonia.Components;            
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
+using Blazonia.Components;
+using Blazonia.Core;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;            
 using System.Runtime.Versioning;
 using Blazonia.Components.Input;
 
@@ -14,7 +20,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextElement.FontFamily",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(ACD.TextElement.FontFamilyProperty);
                     }
@@ -26,7 +32,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextElement.FontFeatures",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(ACD.TextElement.FontFeaturesProperty);
                     }
@@ -38,7 +44,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextElement.FontSize",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(ACD.TextElement.FontSizeProperty);
                 }
@@ -57,7 +63,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextElement.FontStretch",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(ACD.TextElement.FontStretchProperty);
                     }
@@ -69,7 +75,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextElement.FontStyle",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(ACD.TextElement.FontStyleProperty);
                     }
@@ -81,7 +87,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextElement.FontWeight",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(ACD.TextElement.FontWeightProperty);
                     }
@@ -93,7 +99,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextElement.Foreground",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(ACD.TextElement.ForegroundProperty);
                     }

@@ -1,4 +1,9 @@
-            
+using AC = Avalonia.Controls;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
+using Blazonia.Core;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;            
 using System.Runtime.Versioning;
 using Blazonia.Components.Input;
 
@@ -13,7 +18,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.Above",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AboveProperty);
                     }
@@ -25,7 +30,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignBottomWithPanel",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignBottomWithPanelProperty);
                     }
@@ -37,7 +42,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignBottomWith",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignBottomWithProperty);
                     }
@@ -49,7 +54,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignHorizontalCenterWithPanel",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignHorizontalCenterWithPanelProperty);
                     }
@@ -61,7 +66,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignHorizontalCenterWith",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignHorizontalCenterWithProperty);
                     }
@@ -73,7 +78,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignLeftWithPanel",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignLeftWithPanelProperty);
                     }
@@ -85,7 +90,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignLeftWith",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignLeftWithProperty);
                     }
@@ -97,7 +102,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignRightWithPanel",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignRightWithPanelProperty);
                     }
@@ -109,7 +114,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignRightWith",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignRightWithProperty);
                     }
@@ -121,7 +126,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignTopWithPanel",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignTopWithPanelProperty);
                     }
@@ -133,7 +138,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignTopWith",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignTopWithProperty);
                     }
@@ -145,7 +150,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignVerticalCenterWithPanel",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignVerticalCenterWithPanelProperty);
                     }
@@ -157,7 +162,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.AlignVerticalCenterWith",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.AlignVerticalCenterWithProperty);
                     }
@@ -169,7 +174,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.Below",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.BelowProperty);
                     }
@@ -181,7 +186,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.LeftOf",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.LeftOfProperty);
                     }
@@ -193,7 +198,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("RelativePanel.RightOf",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.RelativePanel.RightOfProperty);
                     }

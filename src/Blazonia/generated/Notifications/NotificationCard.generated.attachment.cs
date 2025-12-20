@@ -1,5 +1,11 @@
+using AC = Avalonia.Controls;
 using ACN = Avalonia.Controls.Notifications;
-using Blazonia.Components;            
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
+using Blazonia.Components;
+using Blazonia.Core;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;            
 using System.Runtime.Versioning;
 using Blazonia.Components.Input;
 
@@ -14,7 +20,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("NotificationCard.CloseOnClick",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(ACN.NotificationCard.CloseOnClickProperty);
                     }

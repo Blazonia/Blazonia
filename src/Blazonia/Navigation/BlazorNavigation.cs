@@ -2,6 +2,8 @@
 using Blazonia.Navigation;
 using Microsoft.AspNetCore.Components.Rendering;
 using IComponent = Microsoft.AspNetCore.Components.IComponent;
+using AvaloniaControl = Avalonia.Controls.Control;
+
 
 namespace Blazonia;
 

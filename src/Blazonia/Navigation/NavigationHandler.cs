@@ -1,4 +1,6 @@
 ﻿using Blazonia.Navigation;
+using AvaloniaPage = Avalonia.Controls.Control;
+
 
 namespace Blazonia;
 

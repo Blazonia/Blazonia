@@ -1,4 +1,9 @@
-            
+using AC = Avalonia.Controls;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
+using Blazonia.Core;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;            
 using System.Runtime.Versioning;
 using Blazonia.Components.Input;
 
@@ -13,7 +18,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.BetweenShowDelay",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.ToolTip.BetweenShowDelayProperty);
                 }
@@ -32,7 +37,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.CustomPopupPlacementCallback",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ToolTip.CustomPopupPlacementCallbackProperty);
                     }
@@ -44,7 +49,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.HorizontalOffset",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.ToolTip.HorizontalOffsetProperty);
                 }
@@ -63,7 +68,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.IsOpen",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ToolTip.IsOpenProperty);
                     }
@@ -75,7 +80,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.Placement",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ToolTip.PlacementProperty);
                     }
@@ -87,7 +92,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.ServiceEnabled",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ToolTip.ServiceEnabledProperty);
                     }
@@ -99,7 +104,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.ShowDelay",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.ToolTip.ShowDelayProperty);
                 }
@@ -118,7 +123,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.ShowOnDisabled",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ToolTip.ShowOnDisabledProperty);
                     }
@@ -130,7 +135,7 @@ namespace Blazonia.Components
             AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.ChildContent",
                 (element, value) =>
                 {
-                    if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                     {
                         element.ClearValue(AC.ToolTip.TipProperty);
                     }
@@ -142,7 +147,7 @@ namespace Blazonia.Components
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.VerticalOffset",
             (element, value) =>
             {
-                if (value?.Equals(AvaloniaProperty.UnsetValue) == true)
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
                 {
                     element.ClearValue(AC.ToolTip.VerticalOffsetProperty);
                 }

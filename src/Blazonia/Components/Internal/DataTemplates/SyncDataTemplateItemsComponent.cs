@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 using Avalonia.Markup.Xaml.Templates;
+using AvaloniaDataTemplate = Avalonia.Controls.Templates.IDataTemplate;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
+
 
 namespace Blazonia.Components.DataTemplates;
 

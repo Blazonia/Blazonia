@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.AspNetCore.Components.Rendering;
+using AvaloniaContentView = Avalonia.Controls.ContentControl;
 
 namespace Blazonia.Components.DataTemplates;
 

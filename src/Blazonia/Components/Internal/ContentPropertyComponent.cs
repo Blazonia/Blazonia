@@ -1,5 +1,6 @@
 ﻿using Blazonia.Core;
 using Blazonia.Extensions;
+using AvaloniaContentView = Avalonia.Controls.ContentControl;
 
 namespace Blazonia.Components.Internal;
 

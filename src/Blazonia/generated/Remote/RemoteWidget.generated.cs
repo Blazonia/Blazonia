@@ -5,8 +5,14 @@
 //     the code is regenerated.
 // </auto-generated>
 
+using AC = Avalonia.Controls;
 using ACR = Avalonia.Controls.Remote;
+using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 using Blazonia.Components;
+using Blazonia.Core;
+using Microsoft.AspNetCore.Components;
+using System;
+using System.Threading.Tasks;
 
 #pragma warning disable CA2252
 
