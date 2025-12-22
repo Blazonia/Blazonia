@@ -4,12 +4,20 @@
 	<PropertyGroup>
 		<Authors>Blazonia Team</Authors>
 		<PackageTags>Blazonia;Avalonia;Blazor;BlazorBindings</PackageTags>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<DebugType>portable</DebugType>
 		<MinVerTagPrefix>v</MinVerTagPrefix>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>Readme.md</PackageReadmeFile>
+	</PropertyGroup>
+	
+		
+	<ItemGroup>
+		<None Include="..\..\Readme.md" Pack="true" PackagePath="" />
+	</ItemGroup>
 
 	<PropertyGroup>
 		<LangVersion>12.0</LangVersion>
@@ -19,7 +27,10 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-		<PackageReadmeFile>Readme.md</PackageReadmeFile>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition=" '$(IsTestProject)' == 'true' ">
+		<Exclude>[xunit.*]*</Exclude>
 	</PropertyGroup>
 
 	<ItemGroup>
