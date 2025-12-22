@@ -1,0 +1,20 @@
+Copyright and License Notices for Forked Project
+
+This project is a fork of multiple upstream repositories.  
+The following copyright notices are preserved:
+
+1. Original Root Project (dotnet/MobileBlazorBindings)
+   Copyright (c) .NET Foundation and Contributors
+   Repository: https://github.com/dotnet/MobileBlazorBindings
+
+2. Intermediate Fork Project (Dreamescaper/BlazorBindings.Maui)
+   Copyright (c) Dreamescaper Contributors
+   Repository: https://github.com/Dreamescaper/BlazorBindings.Maui
+
+3. Direct Upstream Project (warappa/BlazorBindings.AvaloniaBindings)
+   Copyright (c) warappa Contributors
+   Repository: https://github.com/warappa/BlazorBindings.AvaloniaBindings
+
+4. Modified Work (Blazonia/Blazonia)
+   Copyright (c) 2025-2026 BlazoniaTeam
+   Repository: https://github.com/Blazonia/Blazonia

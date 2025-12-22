@@ -1,6 +1,8 @@
 # 🪢 Blazonia
 [![Nuget](https://img.shields.io/nuget/v/Blazonia)](https://www.nuget.org/packages/Blazonia/)
 
+
+[English](./readme.md) | 中文
 ## 🤔 这是啥子？
 
 Blazonia可以让开发者使用 **<a href="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor">Blazor</a>的语法**来开发 **<a href="https://avaloniaui.net/">Avalonia</a>程序**。相比原版Avalonia的axmal语法， Blazonia使用的Blazor语法更加的简洁和简单，只需要**单个文件**即可完成页面的开发。适用于**中小型规模**的客户端程序。
@@ -35,17 +37,28 @@ Blazonia可以让开发者使用 **<a href="https://dotnet.microsoft.com/en-us/a
 }
 ```
 
-![Counter](/images/Blazonia.png "Counter")
+![Counter](https://raw.githubusercontent.com/Blazonia/Blazonia/refs/heads/main/images/Blazonia.png "Counter")
 
 ## 🛫 开始
+### 新项目
+1. 安装项目模板
+```powershell
+dotnet new install BlazoniaTemplate
+```
 
+2. 使用模板创建新项目
+```powershell
+dotnet new blazonia -o BlazoniaApp
+```
+
+### 在已有的项目中使用
 
 1. 安装Blazonia
 ```powershell
 dotnet add package Blazonia
 ```
 
-2. 新建Razor组件
+1. 新建Razor组件
 ```razor
 <!-- src/RazorPages/Hello.razor -->
 <StackPanel>
@@ -53,7 +66,7 @@ dotnet add package Blazonia
 </StackPanel>
 ```
 
-3. 在axaml中使用Blazonia控件
+1. 在axaml中使用Blazonia控件
 ```xaml
 <UserControl 
             ...
@@ -148,4 +161,6 @@ Blazonia支持NativeAot和裁剪功能，但是你需要为你的项目添加`Tr
 1. **Discord Server:** https://discord.gg/qtDKFgRAcg
 2. **QQ群:** 1063998889
 
-![QQ群](/images/QQGroup.png "QQ群")
+![QQ群](https://raw.githubusercontent.com/Blazonia/Blazonia/refs/heads/main/images/QQGroup.png "QQ群")
+
+> 本项目基于多个上游仓库。详情请参见 [NOTICE](NOTICE)。

@@ -5,7 +5,7 @@
 			 xmlns:vm="clr-namespace:Demo.ViewModels"
 			 mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="600"
 			 x:Class="Demo.Views.MainView"
-			 xmlns:local="clr-namespace:Blazonia.Controls;assembly=Blazonia"
+			 xmlns:b="https://blazonia.github.io"
 			 xmlns:pages="clr-namespace:Demo.RazorPages"
 			 x:DataType="vm:MainViewModel">
 	<Design.DataContext>
@@ -14,5 +14,5 @@
 		<vm:MainViewModel />
 	</Design.DataContext>
 
-	<local:BlazoniaControl x:TypeArguments="pages:Hello"/>
+	<b:BlazoniaControl x:TypeArguments="pages:Hello"/>
 </UserControl>

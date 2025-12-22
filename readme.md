@@ -2,6 +2,7 @@
 
 [![Nuget](https://img.shields.io/nuget/v/Blazonia)](https://www.nuget.org/packages/Blazonia/)
 
+English | [中文](https://github.com/Blazonia/Blazonia/blob/main/README-zh_CN.md)
 ## 🤔 What is this?
 
 Blazonia enables developers to use the **<a href="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor">Blazor</a> syntax** to build **<a href="https://avaloniaui.net/">Avalonia</a> applications**. Compared to Avalonia’s original XAML syntax, Blazonia’s Blazor-based approach is more concise and straightforward, allowing you to develop pages using a **single file**. It is particularly suitable for **small to medium-sized** client applications.
@@ -35,16 +36,27 @@ Thanks to Avalonia's cross-platform capabilities, Blazonia enables developers to
 }
 ```
 
-![Counter](/images/Blazonia.png "Counter")
+![Counter](https://raw.githubusercontent.com/Blazonia/Blazonia/refs/heads/main/images/Blazonia.png "Counter")
 
-## 🛫 Start
+## 🛫 Getting Start
+### New Project
+1. Install the project template
+```powershell
+dotnet new install BlazoniaTemplate
+```
 
+2. Create a new project with the template
+```powershell
+dotnet new blazonia -o BlazoniaApp
+```
+
+### Use in an Existing Project
 1. Install Blazonia
 ```powershell
 dotnet add package Blazonia
 ```
 
-2. Create a new Razor component
+1. Create a new Razor component
 ```razor
 <!-- src/RazorPages/Hello.razor -->
 <StackPanel>
@@ -52,15 +64,15 @@ dotnet add package Blazonia
 </StackPanel>
 ```
 
-3. Use Blazonia controls in axaml
+1. Use Blazonia controls in axaml
 ```xaml
 <UserControl 
             ...
-			 xmlns:local="clr-namespace:Blazonia.Controls;assembly=Blazonia"
+			 xmlns:b="https://blazonia.github.io"
 			 xmlns:pages="clr-namespace:YourProject.RazorPages"
              ...
              >
-	<local:BlazoniaControl x:TypeArguments="pages:Hello"/>
+	<b:BlazoniaControl x:TypeArguments="pages:Hello"/>
 </UserControl>
 ``` 
 
@@ -70,11 +82,11 @@ dotnet add package Blazonia
 ```xaml
 <UserControl 
             ...
-			 xmlns:local="clr-namespace:Blazonia.Controls;assembly=Blazonia"
+			 xmlns:b="https://blazonia.github.io"
 			 xmlns:pages="clr-namespace:YourProject.RazorPages"
              ...
              >
-	<local:BlazoniaNavigationControl x:TypeArguments="pages:Page1"/>
+	<b:BlazoniaNavigationControl x:TypeArguments="pages:Page1"/>
 </UserControl>
 ``` 
 2. Inject the INavigation object for page navigation
@@ -143,4 +155,6 @@ Please use Rider or VS Code to develop the project, as the code hints for razor 
 1. **Discord Server:** https://discord.gg/qtDKFgRAcg
 2. **QQ Group:** 1063998889
 
-![QQ Group](/images/QQGroup.png "QQ Group")
+![QQ Group](https://raw.githubusercontent.com/Blazonia/Blazonia/refs/heads/main/images/QQGroup.png "QQ Group")
+
+> This project is based on multiple upstream repositories. See [NOTICE](NOTICE) for details.
