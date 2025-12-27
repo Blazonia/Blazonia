@@ -2,6 +2,7 @@
 
 
 	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
 		<Authors>Blazonia Team</Authors>
 		<PackageTags>Blazonia;Avalonia;Blazor;BlazorBindings</PackageTags>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>

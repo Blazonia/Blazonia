@@ -7,11 +7,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{71E357C7
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		src\Directory.Build.props = src\Directory.Build.props
-		src\Directory.Build.targets = src\Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "action", "action", "{71E357C7-8DF1-447D-A0CA-084BA3F2AF83}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\publish-release.yml = .github\workflows\publish-release.yml
+	EndProjectSection
+EndProject
+
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{175AB6E2-5FB5-4C15-94C2-DCA2EE6B0703}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazonia", "src\Blazonia\Blazonia.csproj", "{CC3F59CD-EFD5-4926-B042-7EB098EC90C1}"
