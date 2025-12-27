@@ -27,6 +27,10 @@ namespace Blazonia.Components
         }
 
         /// <summary>
+        /// Gets or sets the blend mode for the image.
+        /// </summary>
+        [Parameter] public global::Avalonia.Media.Imaging.BitmapBlendingMode? BlendMode { get; set; }
+        /// <summary>
         /// Gets or sets the image that will be displayed.
         /// </summary>
         [Parameter] public OneOf.OneOf<global::Avalonia.Media.IImage, string> Source { get; set; }
@@ -47,6 +51,13 @@ namespace Blazonia.Components
         {
             switch (name)
             {
+                case nameof(BlendMode):
+                    if (!Equals(BlendMode, value))
+                    {
+                        BlendMode = (global::Avalonia.Media.Imaging.BitmapBlendingMode?)value;
+                        NativeControl.BlendMode = BlendMode ?? (global::Avalonia.Media.Imaging.BitmapBlendingMode)AC.Image.BlendModeProperty.GetDefaultValue(AC.Image.BlendModeProperty.OwnerType);
+                    }
+                    break;
                 case nameof(Source):
                     if (!Equals(Source, value))
                     {

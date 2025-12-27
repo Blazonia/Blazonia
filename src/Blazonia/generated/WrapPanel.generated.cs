@@ -31,11 +31,23 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public double? ItemHeight { get; set; }
         /// <summary>
+        /// Gets or sets the alignment of items in the WrapPanel.
+        /// </summary>
+        [Parameter] public AC.WrapPanelItemsAlignment? ItemsAlignment { get; set; }
+        /// <summary>
+        /// Gets or sets the spacing between lines.
+        /// </summary>
+        [Parameter] public double? ItemSpacing { get; set; }
+        /// <summary>
         /// Gets or sets the width of all items in the WrapPanel.
         /// </summary>
         [Parameter] public double? ItemWidth { get; set; }
         /// <summary>
-        /// Gets or sets the orientation in which child controls will be layed out.
+        /// Gets or sets the spacing between items.
+        /// </summary>
+        [Parameter] public double? LineSpacing { get; set; }
+        /// <summary>
+        /// Gets or sets the orientation in which child controls will be laid out.
         /// </summary>
         [Parameter] public global::Avalonia.Layout.Orientation? Orientation { get; set; }
 
@@ -54,11 +66,32 @@ namespace Blazonia.Components
                         NativeControl.ItemHeight = ItemHeight ?? (double)AC.WrapPanel.ItemHeightProperty.GetDefaultValue(AC.WrapPanel.ItemHeightProperty.OwnerType);
                     }
                     break;
+                case nameof(ItemsAlignment):
+                    if (!Equals(ItemsAlignment, value))
+                    {
+                        ItemsAlignment = (AC.WrapPanelItemsAlignment?)value;
+                        NativeControl.ItemsAlignment = ItemsAlignment ?? (AC.WrapPanelItemsAlignment)AC.WrapPanel.ItemsAlignmentProperty.GetDefaultValue(AC.WrapPanel.ItemsAlignmentProperty.OwnerType);
+                    }
+                    break;
+                case nameof(ItemSpacing):
+                    if (!Equals(ItemSpacing, value))
+                    {
+                        ItemSpacing = (double?)value;
+                        NativeControl.ItemSpacing = ItemSpacing ?? (double)AC.WrapPanel.ItemSpacingProperty.GetDefaultValue(AC.WrapPanel.ItemSpacingProperty.OwnerType);
+                    }
+                    break;
                 case nameof(ItemWidth):
                     if (!Equals(ItemWidth, value))
                     {
                         ItemWidth = (double?)value;
                         NativeControl.ItemWidth = ItemWidth ?? (double)AC.WrapPanel.ItemWidthProperty.GetDefaultValue(AC.WrapPanel.ItemWidthProperty.OwnerType);
+                    }
+                    break;
+                case nameof(LineSpacing):
+                    if (!Equals(LineSpacing, value))
+                    {
+                        LineSpacing = (double?)value;
+                        NativeControl.LineSpacing = LineSpacing ?? (double)AC.WrapPanel.LineSpacingProperty.GetDefaultValue(AC.WrapPanel.LineSpacingProperty.OwnerType);
                     }
                     break;
                 case nameof(Orientation):

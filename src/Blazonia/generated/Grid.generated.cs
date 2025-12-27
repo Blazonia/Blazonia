@@ -31,9 +31,17 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public OneOf.OneOf<AC.ColumnDefinitions, string> ColumnDefinitions { get; set; }
         /// <summary>
+        /// Gets or sets the size of the spacing to place between grid columns.
+        /// </summary>
+        [Parameter] public double? ColumnSpacing { get; set; }
+        /// <summary>
         /// Returns a RowDefinitions of row definitions.
         /// </summary>
         [Parameter] public OneOf.OneOf<AC.RowDefinitions, string> RowDefinitions { get; set; }
+        /// <summary>
+        /// Gets or sets the size of the spacing to place between grid rows.
+        /// </summary>
+        [Parameter] public double? RowSpacing { get; set; }
         /// <summary>
         /// ShowGridLines property.
         /// </summary>
@@ -61,6 +69,13 @@ namespace Blazonia.Components
                         }
                     }
                     break;
+                case nameof(ColumnSpacing):
+                    if (!Equals(ColumnSpacing, value))
+                    {
+                        ColumnSpacing = (double?)value;
+                        NativeControl.ColumnSpacing = ColumnSpacing ?? (double)AC.Grid.ColumnSpacingProperty.GetDefaultValue(AC.Grid.ColumnSpacingProperty.OwnerType);
+                    }
+                    break;
                 case nameof(RowDefinitions):
                     if (!Equals(RowDefinitions, value))
                     {
@@ -73,6 +88,13 @@ namespace Blazonia.Components
                         {
                             NativeControl.RowDefinitions = AC.RowDefinitions.Parse(RowDefinitions.AsT1);
                         }
+                    }
+                    break;
+                case nameof(RowSpacing):
+                    if (!Equals(RowSpacing, value))
+                    {
+                        RowSpacing = (double?)value;
+                        NativeControl.RowSpacing = RowSpacing ?? (double)AC.Grid.RowSpacingProperty.GetDefaultValue(AC.Grid.RowSpacingProperty.OwnerType);
                     }
                     break;
                 case nameof(ShowGridLines):
