@@ -27,9 +27,17 @@ namespace Blazonia.Components
         }
 
         /// <summary>
+        /// Gets or sets the horizontal distance between the child objects.
+        /// </summary>
+        [Parameter] public double? HorizontalSpacing { get; set; }
+        /// <summary>
         /// Gets or sets a value which indicates whether the last child of the <see cref="T:Avalonia.Controls.DockPanel" /> fills the remaining space in the panel.
         /// </summary>
         [Parameter] public bool? LastChildFill { get; set; }
+        /// <summary>
+        /// Gets or sets the vertical distance between the child objects.
+        /// </summary>
+        [Parameter] public double? VerticalSpacing { get; set; }
 
         public new AC.DockPanel NativeControl => (AC.DockPanel)((AvaloniaObject)this).NativeControl;
 
@@ -39,11 +47,25 @@ namespace Blazonia.Components
         {
             switch (name)
             {
+                case nameof(HorizontalSpacing):
+                    if (!Equals(HorizontalSpacing, value))
+                    {
+                        HorizontalSpacing = (double?)value;
+                        NativeControl.HorizontalSpacing = HorizontalSpacing ?? (double)AC.DockPanel.HorizontalSpacingProperty.GetDefaultValue(AC.DockPanel.HorizontalSpacingProperty.OwnerType);
+                    }
+                    break;
                 case nameof(LastChildFill):
                     if (!Equals(LastChildFill, value))
                     {
                         LastChildFill = (bool?)value;
                         NativeControl.LastChildFill = LastChildFill ?? (bool)AC.DockPanel.LastChildFillProperty.GetDefaultValue(AC.DockPanel.LastChildFillProperty.OwnerType);
+                    }
+                    break;
+                case nameof(VerticalSpacing):
+                    if (!Equals(VerticalSpacing, value))
+                    {
+                        VerticalSpacing = (double?)value;
+                        NativeControl.VerticalSpacing = VerticalSpacing ?? (double)AC.DockPanel.VerticalSpacingProperty.GetDefaultValue(AC.DockPanel.VerticalSpacingProperty.OwnerType);
                     }
                     break;
 

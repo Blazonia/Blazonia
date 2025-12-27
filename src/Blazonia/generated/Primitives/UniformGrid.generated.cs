@@ -33,6 +33,10 @@ namespace Blazonia.Components.Primitives
         /// </summary>
         [Parameter] public int? Columns { get; set; }
         /// <summary>
+        /// Specifies the spacing between columns.
+        /// </summary>
+        [Parameter] public double? ColumnSpacing { get; set; }
+        /// <summary>
         /// Specifies, for the first row, the column where the items should start.
         /// </summary>
         [Parameter] public int? FirstColumn { get; set; }
@@ -40,6 +44,10 @@ namespace Blazonia.Components.Primitives
         /// Specifies the row count. If set to 0, row count will be calculated automatically.
         /// </summary>
         [Parameter] public int? Rows { get; set; }
+        /// <summary>
+        /// Specifies the spacing between rows.
+        /// </summary>
+        [Parameter] public double? RowSpacing { get; set; }
 
         public new ACP.UniformGrid NativeControl => (ACP.UniformGrid)((AvaloniaObject)this).NativeControl;
 
@@ -56,6 +64,13 @@ namespace Blazonia.Components.Primitives
                         NativeControl.Columns = Columns ?? (int)ACP.UniformGrid.ColumnsProperty.GetDefaultValue(ACP.UniformGrid.ColumnsProperty.OwnerType);
                     }
                     break;
+                case nameof(ColumnSpacing):
+                    if (!Equals(ColumnSpacing, value))
+                    {
+                        ColumnSpacing = (double?)value;
+                        NativeControl.ColumnSpacing = ColumnSpacing ?? (double)ACP.UniformGrid.ColumnSpacingProperty.GetDefaultValue(ACP.UniformGrid.ColumnSpacingProperty.OwnerType);
+                    }
+                    break;
                 case nameof(FirstColumn):
                     if (!Equals(FirstColumn, value))
                     {
@@ -68,6 +83,13 @@ namespace Blazonia.Components.Primitives
                     {
                         Rows = (int?)value;
                         NativeControl.Rows = Rows ?? (int)ACP.UniformGrid.RowsProperty.GetDefaultValue(ACP.UniformGrid.RowsProperty.OwnerType);
+                    }
+                    break;
+                case nameof(RowSpacing):
+                    if (!Equals(RowSpacing, value))
+                    {
+                        RowSpacing = (double?)value;
+                        NativeControl.RowSpacing = RowSpacing ?? (double)ACP.UniformGrid.RowSpacingProperty.GetDefaultValue(ACP.UniformGrid.RowSpacingProperty.OwnerType);
                     }
                     break;
 

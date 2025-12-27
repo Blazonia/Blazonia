@@ -47,6 +47,7 @@ namespace Blazonia.Components
         /// Gets or sets the data template used to display the items in the control.
         /// </summary>
         [Parameter] public RenderFragment<T> ItemTemplate { get; set; }
+        [Parameter] public EventCallback<AC.ContainerPreparedEventArgs> OnPreparingContainer { get; set; }
         [Parameter] public EventCallback<AC.ContainerPreparedEventArgs> OnContainerPrepared { get; set; }
         [Parameter] public EventCallback<AC.ContainerIndexChangedEventArgs> OnContainerIndexChanged { get; set; }
         [Parameter] public EventCallback<AC.ContainerClearingEventArgs> OnContainerClearing { get; set; }
@@ -89,6 +90,16 @@ namespace Blazonia.Components
                     break;
                 case nameof(ItemTemplate):
                     ItemTemplate = (RenderFragment<T>)value;
+                    break;
+                case nameof(OnPreparingContainer):
+                    if (!Equals(OnPreparingContainer, value))
+                    {
+                        void NativeControlPreparingContainer(object sender, AC.ContainerPreparedEventArgs e) => InvokeEventCallback(OnPreparingContainer, e);
+
+                        OnPreparingContainer = (EventCallback<AC.ContainerPreparedEventArgs>)value;
+                        NativeControl.PreparingContainer -= NativeControlPreparingContainer;
+                        NativeControl.PreparingContainer += NativeControlPreparingContainer;
+                    }
                     break;
                 case nameof(OnContainerPrepared):
                     if (!Equals(OnContainerPrepared, value))

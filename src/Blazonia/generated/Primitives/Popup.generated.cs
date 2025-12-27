@@ -89,6 +89,10 @@ namespace Blazonia.Components.Primitives
         /// </summary>
         [Parameter] public AC.Control PlacementTarget { get; set; }
         /// <summary>
+        /// Gets or sets a value that indicates whether the popup should be shown in the overlay layer of the parent window.
+        /// </summary>
+        [Parameter] public bool? ShouldUseOverlayLayer { get; set; }
+        /// <summary>
         /// Gets or sets a value indicating whether the popup, on show, transfers focus from any focused native control to Avalonia. The default is <c>true</c>.
         /// </summary>
         [Parameter] public bool? TakesFocusFromNativeControl { get; set; }
@@ -218,6 +222,13 @@ namespace Blazonia.Components.Primitives
                     {
                         PlacementTarget = (AC.Control)value;
                         NativeControl.PlacementTarget = PlacementTarget;
+                    }
+                    break;
+                case nameof(ShouldUseOverlayLayer):
+                    if (!Equals(ShouldUseOverlayLayer, value))
+                    {
+                        ShouldUseOverlayLayer = (bool?)value;
+                        NativeControl.ShouldUseOverlayLayer = ShouldUseOverlayLayer ?? (bool)ACP.Popup.ShouldUseOverlayLayerProperty.GetDefaultValue(ACP.Popup.ShouldUseOverlayLayerProperty.OwnerType);
                     }
                     break;
                 case nameof(TakesFocusFromNativeControl):
