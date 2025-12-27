@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
       inputs:
           tagName:
-            description: 'build target name'
+            description: 'build tag name'
             required: false
             default: 'main'
             type: string
@@ -19,7 +19,7 @@ jobs:
     - name: checkout_branch ${{ github.event.inputs.tagName }}
       run: | 
         git checkout tags/${{ github.event.inputs.tagName }}
-        echo "checkout Tag£º${{ github.event.inputs.tagName }} success
+        echo "checkout Tag ${{ github.event.inputs.tagName }} success
         
     - name: Install .NET
       uses: actions/setup-dotnet@v4
@@ -49,3 +49,4 @@ jobs:
       - name: Push to NuGet
         run: |
           dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          dotnet nuget push **/*.snupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
