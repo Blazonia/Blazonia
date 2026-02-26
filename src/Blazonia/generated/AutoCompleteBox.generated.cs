@@ -145,7 +145,7 @@ namespace Blazonia.Components
         /// <value>
         /// The <see cref="T:Avalonia.Data.IBinding" /> object used when binding to a collection property.
         /// </value>
-        [Parameter] public global::Avalonia.Data.IBinding ValueMemberBinding { get; set; }
+        [Parameter] public global::Avalonia.Data.BindingBase ValueMemberBinding { get; set; }
         [Parameter] public string Watermark { get; set; }
         /// <summary>
         /// Gets or sets the <see cref="T:Avalonia.DataTemplate" /> used to display each item in the drop-down portion of the control.
@@ -300,7 +300,7 @@ namespace Blazonia.Components
                 case nameof(ValueMemberBinding):
                     if (!Equals(ValueMemberBinding, value))
                     {
-                        ValueMemberBinding = (global::Avalonia.Data.IBinding)value;
+                        ValueMemberBinding = (global::Avalonia.Data.BindingBase)value;
                         NativeControl.ValueMemberBinding = ValueMemberBinding;
                     }
                     break;

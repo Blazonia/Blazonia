@@ -44,7 +44,7 @@ namespace Blazonia.Components
         /// <summary>
         /// The binding that will be used to get or set cell content for the clipboard.
         /// </summary>
-        [Parameter] public global::Avalonia.Data.IBinding ClipboardContentBinding { get; set; }
+        [Parameter] public global::Avalonia.Data.BindingBase ClipboardContentBinding { get; set; }
         /// <summary>
         /// Holds a Comparer to use for sorting, if not using the default.
         /// </summary>
@@ -116,17 +116,17 @@ namespace Blazonia.Components
                         {
                             NativeControl.CellTheme = (global::Avalonia.Styling.ControlTheme)CellTheme.AsT0;
                         }
-                        else 
+                        else
                         {
 
-                            NativeControl.CellTheme =   global::Avalonia.Controls.ResourceNodeExtensions.FindResource(global::Avalonia.Application.Current, CellTheme.AsT1) as global::Avalonia.Styling.ControlTheme;
+                            NativeControl.CellTheme = global::Avalonia.Controls.ResourceNodeExtensions.FindResource(global::Avalonia.Application.Current, CellTheme.AsT1) as global::Avalonia.Styling.ControlTheme;
                         }
                     }
                     break;
                 case nameof(ClipboardContentBinding):
                     if (!Equals(ClipboardContentBinding, value))
                     {
-                        ClipboardContentBinding = (global::Avalonia.Data.IBinding)value;
+                        ClipboardContentBinding = (global::Avalonia.Data.BindingBase)value;
                         NativeControl.ClipboardContentBinding = ClipboardContentBinding;
                     }
                     break;

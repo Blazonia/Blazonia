@@ -51,7 +51,7 @@ namespace Blazonia.Components.Primitives
         /// <summary>
         /// Gets the <see cref="T:Avalonia.Data.IBinding" /> instance used to obtain the <see cref="P:Avalonia.Controls.Primitives.SelectingItemsControl.SelectedValue" /> property
         /// </summary>
-        [Parameter] public global::Avalonia.Data.IBinding SelectedValueBinding { get; set; }
+        [Parameter] public global::Avalonia.Data.BindingBase SelectedValueBinding { get; set; }
         /// <summary>
         /// Gets or sets a value which indicates whether to wrap around when the first or last item is reached.
         /// </summary>
@@ -104,7 +104,7 @@ namespace Blazonia.Components.Primitives
                 case nameof(SelectedValueBinding):
                     if (!Equals(SelectedValueBinding, value))
                     {
-                        SelectedValueBinding = (global::Avalonia.Data.IBinding)value;
+                        SelectedValueBinding = (global::Avalonia.Data.BindingBase)value;
                         NativeControl.SelectedValueBinding = SelectedValueBinding;
                     }
                     break;

@@ -1,10 +1,11 @@
-<Panel 
-	xmlns="https://github.com/avaloniaui"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	x:Class="Blazonia.Navigation.NavigationView"
-	xmlns:local="using:Blazonia.Navigation"
-	>
-	
+<Panel
+xmlns="https://github.com/avaloniaui"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+x:Class="Blazonia.Navigation.NavigationView"
+xmlns:local="using:Blazonia.Navigation"
+x:DataType="local:AvaloniaNavigation"
+>
+
 	<Panel.Styles>
 		<Style Selector="TransitioningContentControl:not(.shouldAnimate)">
 			<Setter Property="PageTransition" Value="{x:Null}" />
@@ -52,8 +53,8 @@
 
 	<Grid>
 		<TransitioningContentControl  Name="PART_ContentControl" Content="{Binding CurrentPage}"
-		                              Classes.shouldAnimate="{Binding ShouldAnimate}"
-		                              IsTransitionReversed="{Binding ReverseAnimate}">
+									  Classes.shouldAnimate="{Binding ShouldAnimate}"
+									  IsTransitionReversed="{Binding ReverseAnimate}">
 		</TransitioningContentControl>
 
 		<local:ItemsControlWithItemContainer Name="PART_ItemsControl" ItemsSource="{Binding ModalStack}">
