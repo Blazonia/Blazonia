@@ -11,7 +11,6 @@
 		<PackageReference Include="Avalonia.Controls.ColorPicker" />
 		<PackageReference Include="Avalonia.Controls.DataGrid" />
 		<PackageReference Include="Avalonia.Controls.ItemsRepeater" />
-		<PackageReference Include="Avalonia.Diagnostics" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
 		<PackageReference Include="Microsoft.Extensions.Logging" />
 		<PackageReference Include="OneOf" />
