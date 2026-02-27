@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<Title>Avalonia binding for Blazor</Title>
 		<Description>Blazonia enables using Blazor syntax in .razor files to build native Avalonia apps.</Description>
+		<TargetFramework>net10.0</TargetFramework>
 	</PropertyGroup>
 
 	<ItemGroup>

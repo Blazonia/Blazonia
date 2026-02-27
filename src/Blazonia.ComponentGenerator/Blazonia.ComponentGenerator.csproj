@@ -5,6 +5,7 @@
 		<Description>Dotnet tool which generate Blazonia(Blazonia Avalonia Bindings) components for Avalonia Controls.</Description>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>dotnet-generate-blazonia-components</ToolCommandName>
+		<TargetFramework>net10.0</TargetFramework>
 	</PropertyGroup>
 
 	<ItemGroup>

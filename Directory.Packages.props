@@ -13,9 +13,9 @@
     <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.12" />
     <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.0.0-preview1" />
     <PackageVersion Include="Avalonia.Themes.Fluent" Version="12.0.0-preview1" />
-    <PackageVersion Include="Avalonia.iOS" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.iOS" Version="12.0.0-preview1" />
     <PackageVersion Include="Avalonia.Browser" Version="$(AvaloniaVersion)" />
-    <PackageVersion Include="Avalonia.Android" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.Android" Version="12.0.0-preview1" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageVersion Include="DotNet.ReproducibleBuilds" Version="1.1.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Components" Version="8.0.1" />
@@ -31,7 +31,7 @@
     <PackageVersion Include="MinVer" Version="6.0.0" />
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
     <PackageVersion Include="OneOf" Version="3.0.271" />
-    <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1" />
+    <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.2.0.1" />
     <PackageVersion Include="Semi.Avalonia" Version="12.0.0-preview1" />
   </ItemGroup>
 </Project>
