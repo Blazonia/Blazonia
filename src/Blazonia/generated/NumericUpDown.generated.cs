@@ -80,6 +80,14 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public NumberStyles? ParsingNumberStyle { get; set; }
         /// <summary>
+        /// Gets or sets the brush used for the foreground color of the placeholder text.
+        /// </summary>
+        [Parameter] public OneOf.OneOf<global::Avalonia.Media.IBrush, global::Avalonia.Media.Color, string> PlaceholderForeground { get; set; }
+        /// <summary>
+        /// Gets or sets the object to use as a placeholder if the <see cref="P:Avalonia.Controls.NumericUpDown.Value" /> is null.
+        /// </summary>
+        [Parameter] public string PlaceholderText { get; set; }
+        /// <summary>
         /// Gets or sets a value indicating whether the spin buttons should be shown.
         /// </summary>
         [Parameter] public bool? ShowButtonSpinner { get; set; }
@@ -103,10 +111,6 @@ namespace Blazonia.Components
         /// Gets or sets the vertical alignment of the content within the control.
         /// </summary>
         [Parameter] public global::Avalonia.Layout.VerticalAlignment? VerticalContentAlignment { get; set; }
-        /// <summary>
-        /// Gets or sets the object to use as a watermark if the <see cref="P:Avalonia.Controls.NumericUpDown.Value" /> is null.
-        /// </summary>
-        [Parameter] public string Watermark { get; set; }
         [Parameter] public EventCallback<AC.SpinEventArgs> OnSpinned { get; set; }
         [Parameter] public EventCallback<Nullable<decimal>> ValueChanged { get; set; }
 
@@ -209,6 +213,31 @@ namespace Blazonia.Components
                         NativeControl.ParsingNumberStyle = ParsingNumberStyle ?? (NumberStyles)AC.NumericUpDown.ParsingNumberStyleProperty.GetDefaultValue(AC.NumericUpDown.ParsingNumberStyleProperty.OwnerType);
                     }
                     break;
+                case nameof(PlaceholderForeground):
+                    if (!Equals(PlaceholderForeground, value))
+                    {
+                        PlaceholderForeground = (OneOf.OneOf<global::Avalonia.Media.IBrush, Avalonia.Media.Color, string>)value;
+                        if (PlaceholderForeground.IsT0)
+                        {
+                            NativeControl.PlaceholderForeground = (global::Avalonia.Media.IBrush)PlaceholderForeground.AsT0;
+                        }
+                        else if (PlaceholderForeground.IsT1)
+                        {
+                            NativeControl.PlaceholderForeground = new global::Avalonia.Media.Immutable.ImmutableSolidColorBrush(PlaceholderForeground.AsT1);
+                        }
+                        else 
+                        {
+                            NativeControl.PlaceholderForeground = Avalonia.Media.Brush.Parse(PlaceholderForeground.AsT2);
+                        }
+                    }
+                    break;
+                case nameof(PlaceholderText):
+                    if (!Equals(PlaceholderText, value))
+                    {
+                        PlaceholderText = (string)value;
+                        NativeControl.PlaceholderText = PlaceholderText;
+                    }
+                    break;
                 case nameof(ShowButtonSpinner):
                     if (!Equals(ShowButtonSpinner, value))
                     {
@@ -249,13 +278,6 @@ namespace Blazonia.Components
                     {
                         VerticalContentAlignment = (global::Avalonia.Layout.VerticalAlignment?)value;
                         NativeControl.VerticalContentAlignment = VerticalContentAlignment ?? (global::Avalonia.Layout.VerticalAlignment)AC.NumericUpDown.VerticalContentAlignmentProperty.GetDefaultValue(AC.NumericUpDown.VerticalContentAlignmentProperty.OwnerType);
-                    }
-                    break;
-                case nameof(Watermark):
-                    if (!Equals(Watermark, value))
-                    {
-                        Watermark = (string)value;
-                        NativeControl.Watermark = Watermark;
                     }
                     break;
                 case nameof(OnSpinned):

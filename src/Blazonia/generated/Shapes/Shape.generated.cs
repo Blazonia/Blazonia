@@ -57,6 +57,10 @@ namespace Blazonia.Components.Shapes
         /// </summary>
         [Parameter] public global::Avalonia.Media.PenLineCap? StrokeLineCap { get; set; }
         /// <summary>
+        /// Gets or sets the limit on the ratio of the miter length to half the <see cref="P:Avalonia.Controls.Shapes.Shape.StrokeThickness" /> of the pen.
+        /// </summary>
+        [Parameter] public double? StrokeMiterLimit { get; set; }
+        /// <summary>
         /// Gets or sets the width of the shape outline.
         /// </summary>
         [Parameter] public double? StrokeThickness { get; set; }
@@ -137,6 +141,13 @@ namespace Blazonia.Components.Shapes
                     {
                         StrokeLineCap = (global::Avalonia.Media.PenLineCap?)value;
                         NativeControl.StrokeLineCap = StrokeLineCap ?? (global::Avalonia.Media.PenLineCap)ACS.Shape.StrokeLineCapProperty.GetDefaultValue(ACS.Shape.StrokeLineCapProperty.OwnerType);
+                    }
+                    break;
+                case nameof(StrokeMiterLimit):
+                    if (!Equals(StrokeMiterLimit, value))
+                    {
+                        StrokeMiterLimit = (double?)value;
+                        NativeControl.StrokeMiterLimit = StrokeMiterLimit ?? (double)ACS.Shape.StrokeMiterLimitProperty.GetDefaultValue(ACS.Shape.StrokeMiterLimitProperty.OwnerType);
                     }
                     break;
                 case nameof(StrokeThickness):

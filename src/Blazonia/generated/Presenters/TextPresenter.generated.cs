@@ -42,7 +42,7 @@ namespace Blazonia.Components.Presenters
         /// <summary>
         /// Gets or sets the font family.
         /// </summary>
-        [Parameter] public global::Avalonia.Media.FontFeatureCollection FontFeatures { get; set; }
+        [Parameter] public OneOf.OneOf<global::Avalonia.Media.FontFeatureCollection, string> FontFeatures { get; set; }
         /// <summary>
         /// Gets or sets the font size.
         /// </summary>
@@ -172,8 +172,15 @@ namespace Blazonia.Components.Presenters
                 case nameof(FontFeatures):
                     if (!Equals(FontFeatures, value))
                     {
-                        FontFeatures = (global::Avalonia.Media.FontFeatureCollection)value;
-                        NativeControl.FontFeatures = FontFeatures;
+                        FontFeatures = (OneOf.OneOf<global::Avalonia.Media.FontFeatureCollection,string>)value;
+                        if (FontFeatures.IsT0)
+                        {
+                            NativeControl.FontFeatures = (global::Avalonia.Media.FontFeatureCollection)FontFeatures.AsT0;
+                        }
+                        else 
+                        {
+                            NativeControl.FontFeatures = global::Avalonia.Media.FontFeatureCollection.Parse(FontFeatures.AsT1);
+                        }
                     }
                     break;
                 case nameof(FontSize):

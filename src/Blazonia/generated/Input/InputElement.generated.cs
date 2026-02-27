@@ -53,7 +53,9 @@ namespace Blazonia.Components.Input
         /// </summary>
         [Parameter] public int? TabIndex { get; set; }
         [Parameter] public EventCallback<AI.GotFocusEventArgs> OnGotFocus { get; set; }
+        [Parameter] public EventCallback<AI.FocusChangingEventArgs> OnGettingFocus { get; set; }
         [Parameter] public EventCallback<global::Avalonia.Interactivity.RoutedEventArgs> OnLostFocus { get; set; }
+        [Parameter] public EventCallback<AI.FocusChangingEventArgs> OnLosingFocus { get; set; }
         [Parameter] public EventCallback<AI.KeyEventArgs> OnKeyDown { get; set; }
         [Parameter] public EventCallback<AI.KeyEventArgs> OnKeyUp { get; set; }
         [Parameter] public EventCallback<AI.TextInputEventArgs> OnTextInput { get; set; }
@@ -66,6 +68,7 @@ namespace Blazonia.Components.Input
         [Parameter] public EventCallback<AI.PointerCaptureLostEventArgs> OnPointerCaptureLost { get; set; }
         [Parameter] public EventCallback<AI.PointerWheelEventArgs> OnPointerWheelChanged { get; set; }
         [Parameter] public EventCallback<AI.TappedEventArgs> OnTapped { get; set; }
+        [Parameter] public EventCallback<AI.TappedEventArgs> OnRightTapped { get; set; }
         [Parameter] public EventCallback<AI.HoldingRoutedEventArgs> OnHolding { get; set; }
         [Parameter] public EventCallback<AI.TappedEventArgs> OnDoubleTapped { get; set; }
 
@@ -136,6 +139,16 @@ namespace Blazonia.Components.Input
                         NativeControl.GotFocus += NativeControlGotFocus;
                     }
                     break;
+                case nameof(OnGettingFocus):
+                    if (!Equals(OnGettingFocus, value))
+                    {
+                        void NativeControlGettingFocus(object sender, AI.FocusChangingEventArgs e) => InvokeEventCallback(OnGettingFocus, e);
+
+                        OnGettingFocus = (EventCallback<AI.FocusChangingEventArgs>)value;
+                        NativeControl.GettingFocus -= NativeControlGettingFocus;
+                        NativeControl.GettingFocus += NativeControlGettingFocus;
+                    }
+                    break;
                 case nameof(OnLostFocus):
                     if (!Equals(OnLostFocus, value))
                     {
@@ -144,6 +157,16 @@ namespace Blazonia.Components.Input
                         OnLostFocus = (EventCallback<global::Avalonia.Interactivity.RoutedEventArgs>)value;
                         NativeControl.LostFocus -= NativeControlLostFocus;
                         NativeControl.LostFocus += NativeControlLostFocus;
+                    }
+                    break;
+                case nameof(OnLosingFocus):
+                    if (!Equals(OnLosingFocus, value))
+                    {
+                        void NativeControlLosingFocus(object sender, AI.FocusChangingEventArgs e) => InvokeEventCallback(OnLosingFocus, e);
+
+                        OnLosingFocus = (EventCallback<AI.FocusChangingEventArgs>)value;
+                        NativeControl.LosingFocus -= NativeControlLosingFocus;
+                        NativeControl.LosingFocus += NativeControlLosingFocus;
                     }
                     break;
                 case nameof(OnKeyDown):
@@ -264,6 +287,16 @@ namespace Blazonia.Components.Input
                         OnTapped = (EventCallback<AI.TappedEventArgs>)value;
                         NativeControl.Tapped -= NativeControlTapped;
                         NativeControl.Tapped += NativeControlTapped;
+                    }
+                    break;
+                case nameof(OnRightTapped):
+                    if (!Equals(OnRightTapped, value))
+                    {
+                        void NativeControlRightTapped(object sender, AI.TappedEventArgs e) => InvokeEventCallback(OnRightTapped, e);
+
+                        OnRightTapped = (EventCallback<AI.TappedEventArgs>)value;
+                        NativeControl.RightTapped -= NativeControlRightTapped;
+                        NativeControl.RightTapped += NativeControlRightTapped;
                     }
                     break;
                 case nameof(OnHolding):

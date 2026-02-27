@@ -28,6 +28,10 @@ namespace Blazonia.Components
         }
 
         /// <summary>
+        /// Gets or sets the cache mode of the visual.
+        /// </summary>
+        [Parameter] public OneOf.OneOf<A.Media.CacheMode, string> CacheMode { get; set; }
+        /// <summary>
         /// Gets or sets the geometry clip for this visual.
         /// </summary>
         [Parameter] public OneOf.OneOf<A.Media.Geometry, string> Clip { get; set; }
@@ -76,6 +80,20 @@ namespace Blazonia.Components
         {
             switch (name)
             {
+                case nameof(CacheMode):
+                    if (!Equals(CacheMode, value))
+                    {
+                        CacheMode = (OneOf.OneOf<A.Media.CacheMode,string>)value;
+                        if (CacheMode.IsT0)
+                        {
+                            NativeControl.CacheMode = (A.Media.CacheMode)CacheMode.AsT0;
+                        }
+                        else 
+                        {
+                            NativeControl.CacheMode = A.Media.CacheMode.Parse(CacheMode.AsT1);
+                        }
+                    }
+                    break;
                 case nameof(Clip):
                     if (!Equals(Clip, value))
                     {

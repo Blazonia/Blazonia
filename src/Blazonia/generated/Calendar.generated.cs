@@ -27,6 +27,13 @@ namespace Blazonia.Components
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether tap-to-select range mode is enabled. When enabled, users can tap a start date and then tap an end date to select a range.
+        /// </summary>
+        /// <value>
+        /// True to enable tap range selection; otherwise, false. The default is false.
+        /// </value>
+        [Parameter] public bool? AllowTapRangeSelection { get; set; }
+        /// <summary>
         /// Gets or sets the date to display.
         /// </summary>
         /// <value>
@@ -95,6 +102,13 @@ namespace Blazonia.Components
         {
             switch (name)
             {
+                case nameof(AllowTapRangeSelection):
+                    if (!Equals(AllowTapRangeSelection, value))
+                    {
+                        AllowTapRangeSelection = (bool?)value;
+                        NativeControl.AllowTapRangeSelection = AllowTapRangeSelection ?? (bool)AC.Calendar.AllowTapRangeSelectionProperty.GetDefaultValue(AC.Calendar.AllowTapRangeSelectionProperty.OwnerType);
+                    }
+                    break;
                 case nameof(DisplayDate):
                     if (!Equals(DisplayDate, value))
                     {

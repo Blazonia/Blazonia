@@ -49,7 +49,7 @@ namespace Blazonia.Components.Primitives
         /// </summary>
         [Parameter] public object SelectedValue { get; set; }
         /// <summary>
-        /// Gets the <see cref="T:Avalonia.Data.IBinding" /> instance used to obtain the <see cref="P:Avalonia.Controls.Primitives.SelectingItemsControl.SelectedValue" /> property
+        /// Gets the <see cref="T:Avalonia.Data.BindingBase" /> instance used to obtain the <see cref="P:Avalonia.Controls.Primitives.SelectingItemsControl.SelectedValue" /> property
         /// </summary>
         [Parameter] public global::Avalonia.Data.BindingBase SelectedValueBinding { get; set; }
         /// <summary>

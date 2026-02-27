@@ -35,6 +35,9 @@ namespace Blazonia.Components
         /// Gets or sets the parameter to pass to the <see cref="P:Avalonia.Controls.MenuItem.Command" /> property of a <see cref="T:Avalonia.Controls.MenuItem" />.
         /// </summary>
         [Parameter] public object CommandParameter { get; set; }
+        /// <summary>
+        /// Gets menu item group name when <see cref="P:Avalonia.Controls.MenuItem.ToggleType" /> is <see cref="F:Avalonia.Controls.MenuItemToggleType.Radio" />.
+        /// </summary>
         [Parameter] public string GroupName { get; set; }
         /// <summary>
         /// Gets or sets an <see cref="T:Avalonia.Input.KeyGesture" /> associated with this control
@@ -48,6 +51,9 @@ namespace Blazonia.Components
         /// Gets or sets the input gesture that will be displayed in the menu item.
         /// </summary>
         [Parameter] public OneOf.OneOf<global::Avalonia.Input.KeyGesture, string> InputGesture { get; set; }
+        /// <summary>
+        /// Gets or sets if menu item is checked when <see cref="P:Avalonia.Controls.MenuItem.ToggleType" /> is <see cref="F:Avalonia.Controls.MenuItemToggleType.CheckBox" /> or <see cref="F:Avalonia.Controls.MenuItemToggleType.Radio" />.
+        /// </summary>
         [Parameter] public bool? IsChecked { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="T:Avalonia.Controls.MenuItem" /> is currently selected.
@@ -61,6 +67,9 @@ namespace Blazonia.Components
         /// Gets or sets a value that indicates the submenu that this <see cref="T:Avalonia.Controls.MenuItem" /> is within should not close when this item is clicked.
         /// </summary>
         [Parameter] public bool? StaysOpenOnClick { get; set; }
+        /// <summary>
+        /// Gets toggle type of the menu item.
+        /// </summary>
         [Parameter] public AC.MenuItemToggleType? ToggleType { get; set; }
         [Parameter] public EventCallback<global::Avalonia.Interactivity.RoutedEventArgs> OnClick { get; set; }
         [Parameter] public EventCallback<global::Avalonia.Interactivity.RoutedEventArgs> OnPointerEnteredItem { get; set; }

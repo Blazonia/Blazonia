@@ -27,6 +27,14 @@ namespace Blazonia.Components
         }
 
         /// <summary>
+        /// Enables or disables maximizing the window.
+        /// </summary>
+        [Parameter] public bool? CanMaximize { get; set; }
+        /// <summary>
+        /// Enables or disables minimizing the window.
+        /// </summary>
+        [Parameter] public bool? CanMinimize { get; set; }
+        /// <summary>
         /// Enables or disables resizing of the window.
         /// </summary>
         [Parameter] public bool? CanResize { get; set; }
@@ -92,6 +100,20 @@ namespace Blazonia.Components
         {
             switch (name)
             {
+                case nameof(CanMaximize):
+                    if (!Equals(CanMaximize, value))
+                    {
+                        CanMaximize = (bool?)value;
+                        NativeControl.CanMaximize = CanMaximize ?? (bool)AC.Window.CanMaximizeProperty.GetDefaultValue(AC.Window.CanMaximizeProperty.OwnerType);
+                    }
+                    break;
+                case nameof(CanMinimize):
+                    if (!Equals(CanMinimize, value))
+                    {
+                        CanMinimize = (bool?)value;
+                        NativeControl.CanMinimize = CanMinimize ?? (bool)AC.Window.CanMinimizeProperty.GetDefaultValue(AC.Window.CanMinimizeProperty.OwnerType);
+                    }
+                    break;
                 case nameof(CanResize):
                     if (!Equals(CanResize, value))
                     {

@@ -28,7 +28,7 @@ namespace Blazonia.Components
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="T:Avalonia.Data.IBinding" /> to use for binding to the display member of each item.
+        /// Gets or sets the <see cref="T:Avalonia.Data.BindingBase" /> to use for binding to the display member of each item.
         /// </summary>
         [Parameter] public global::Avalonia.Data.BindingBase DisplayMemberBinding { get; set; }
         /// <summary>
@@ -75,10 +75,10 @@ namespace Blazonia.Components
                         {
                             NativeControl.ItemContainerTheme = (global::Avalonia.Styling.ControlTheme)ItemContainerTheme.AsT0;
                         }
-                        else
+                        else 
                         {
 
-                            NativeControl.ItemContainerTheme = global::Avalonia.Controls.ResourceNodeExtensions.FindResource(global::Avalonia.Application.Current, ItemContainerTheme.AsT1) as global::Avalonia.Styling.ControlTheme;
+                            NativeControl.ItemContainerTheme =   global::Avalonia.Controls.ResourceNodeExtensions.FindResource(global::Avalonia.Application.Current, ItemContainerTheme.AsT1) as global::Avalonia.Styling.ControlTheme;
                         }
                     }
                     break;

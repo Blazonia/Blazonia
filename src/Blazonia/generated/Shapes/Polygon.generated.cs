@@ -26,6 +26,10 @@ namespace Blazonia.Components.Shapes
             RegisterAdditionalHandlers();
         }
 
+        /// <summary>
+        /// Gets or sets how the interior of the polygon is determined when a <see cref="P:Avalonia.Controls.Shapes.Shape.Fill" /> is applied.
+        /// </summary>
+        [Parameter] public global::Avalonia.Media.FillRule? FillRule { get; set; }
         [Parameter] public IList<global::Avalonia.Point> Points { get; set; }
 
         public new ACS.Polygon NativeControl => (ACS.Polygon)((AvaloniaObject)this).NativeControl;
@@ -36,6 +40,13 @@ namespace Blazonia.Components.Shapes
         {
             switch (name)
             {
+                case nameof(FillRule):
+                    if (!Equals(FillRule, value))
+                    {
+                        FillRule = (global::Avalonia.Media.FillRule?)value;
+                        NativeControl.FillRule = FillRule ?? (global::Avalonia.Media.FillRule)ACS.Polygon.FillRuleProperty.GetDefaultValue(ACS.Polygon.FillRuleProperty.OwnerType);
+                    }
+                    break;
                 case nameof(Points):
                     if (!Equals(Points, value))
                     {

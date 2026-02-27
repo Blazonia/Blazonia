@@ -56,7 +56,7 @@ namespace Blazonia.Components.Primitives
         /// <summary>
         /// Gets or sets the font features turned on/off.
         /// </summary>
-        [Parameter] public global::Avalonia.Media.FontFeatureCollection FontFeatures { get; set; }
+        [Parameter] public OneOf.OneOf<global::Avalonia.Media.FontFeatureCollection, string> FontFeatures { get; set; }
         /// <summary>
         /// Gets or sets the size of the control's text in points.
         /// </summary>
@@ -77,6 +77,10 @@ namespace Blazonia.Components.Primitives
         /// Gets or sets the brush used to draw the control's text and other foreground elements.
         /// </summary>
         [Parameter] public OneOf.OneOf<global::Avalonia.Media.IBrush, global::Avalonia.Media.Color, string> Foreground { get; set; }
+        /// <summary>
+        /// Gets or sets the letter spacing for the control's text content.
+        /// </summary>
+        [Parameter] public double? LetterSpacing { get; set; }
         /// <summary>
         /// Gets or sets the padding placed between the border of the control and its content.
         /// </summary>
@@ -207,8 +211,15 @@ namespace Blazonia.Components.Primitives
                 case nameof(FontFeatures):
                     if (!Equals(FontFeatures, value))
                     {
-                        FontFeatures = (global::Avalonia.Media.FontFeatureCollection)value;
-                        NativeControl.FontFeatures = FontFeatures;
+                        FontFeatures = (OneOf.OneOf<global::Avalonia.Media.FontFeatureCollection,string>)value;
+                        if (FontFeatures.IsT0)
+                        {
+                            NativeControl.FontFeatures = (global::Avalonia.Media.FontFeatureCollection)FontFeatures.AsT0;
+                        }
+                        else 
+                        {
+                            NativeControl.FontFeatures = global::Avalonia.Media.FontFeatureCollection.Parse(FontFeatures.AsT1);
+                        }
                     }
                     break;
                 case nameof(FontSize):
@@ -255,6 +266,13 @@ namespace Blazonia.Components.Primitives
                         {
                             NativeControl.Foreground = Avalonia.Media.Brush.Parse(Foreground.AsT2);
                         }
+                    }
+                    break;
+                case nameof(LetterSpacing):
+                    if (!Equals(LetterSpacing, value))
+                    {
+                        LetterSpacing = (double?)value;
+                        NativeControl.LetterSpacing = LetterSpacing ?? (double)ACP.TemplatedControl.LetterSpacingProperty.GetDefaultValue(ACP.TemplatedControl.LetterSpacingProperty.OwnerType);
                     }
                     break;
                 case nameof(Padding):

@@ -35,6 +35,10 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public bool? AreVerticalSnapPointsRegular { get; set; }
         /// <summary>
+        /// Gets or sets the CacheLength.
+        /// </summary>
+        [Parameter] public double? CacheLength { get; set; }
+        /// <summary>
         /// Gets or sets the axis along which items are laid out.
         /// </summary>
         /// <value>
@@ -64,6 +68,13 @@ namespace Blazonia.Components
                     {
                         AreVerticalSnapPointsRegular = (bool?)value;
                         NativeControl.AreVerticalSnapPointsRegular = AreVerticalSnapPointsRegular ?? (bool)AC.VirtualizingStackPanel.AreVerticalSnapPointsRegularProperty.GetDefaultValue(AC.VirtualizingStackPanel.AreVerticalSnapPointsRegularProperty.OwnerType);
+                    }
+                    break;
+                case nameof(CacheLength):
+                    if (!Equals(CacheLength, value))
+                    {
+                        CacheLength = (double?)value;
+                        NativeControl.CacheLength = CacheLength ?? (double)AC.VirtualizingStackPanel.CacheLengthProperty.GetDefaultValue(AC.VirtualizingStackPanel.CacheLengthProperty.OwnerType);
                     }
                     break;
                 case nameof(Orientation):

@@ -108,6 +108,25 @@ namespace Blazonia.Components
                         ACD.TextElement.SetForeground((Avalonia.Controls.Control)element, (global::Avalonia.Media.IBrush)value);
                     }
                 });
+        AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextElement.LetterSpacing",
+            (element, value) =>
+            {
+                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
+                {
+                    element.ClearValue(ACD.TextElement.LetterSpacingProperty);
+                }
+                else
+                {
+                    if (value is string s)
+                    {
+                        ACD.TextElement.SetLetterSpacing((Avalonia.Controls.Control)element, double.Parse(s));
+                    }
+                    else
+                    {
+                        ACD.TextElement.SetLetterSpacing((Avalonia.Controls.Control)element, (double)value);
+                    }
+                }
+            });
         }
     }
 
@@ -176,6 +195,15 @@ namespace Blazonia.Components
         
             return element;
         }
+        /// <summary>
+        /// Defines the <see cref="P:Avalonia.Controls.Documents.TextElement.LetterSpacing" /> property.
+        /// </summary>
+        public static Control TextElementLetterSpacing(this Control element, double value)
+        {
+            element.AttachedProperties["TextElement.LetterSpacing"] = value;
+        
+            return element;
+        }
     }
 
     public class TextElement_Attachment : NativeControlComponentBase, INonPhysicalChild, IContainerElementHandler
@@ -188,7 +216,7 @@ namespace Blazonia.Components
         /// <summary>
         /// Defines the <see cref="P:Avalonia.Controls.Documents.TextElement.FontFeatures" /> property.
         /// </summary>
-        [Parameter] public global::Avalonia.Media.FontFeatureCollection FontFeatures { get; set; }
+        [Parameter] public OneOf.OneOf<global::Avalonia.Media.FontFeatureCollection, string> FontFeatures { get; set; }
 
         /// <summary>
         /// Defines the <see cref="P:Avalonia.Controls.Documents.TextElement.FontSize" /> property.
@@ -214,6 +242,11 @@ namespace Blazonia.Components
         /// Defines the <see cref="P:Avalonia.Controls.Documents.TextElement.Foreground" /> property.
         /// </summary>
         [Parameter] public global::Avalonia.Media.IBrush Foreground { get; set; }
+
+        /// <summary>
+        /// Defines the <see cref="P:Avalonia.Controls.Documents.TextElement.LetterSpacing" /> property.
+        /// </summary>
+        [Parameter] public double LetterSpacing { get; set; }
 
         private Avalonia.Controls.Control _parent;
 
@@ -282,6 +315,14 @@ namespace Blazonia.Components
                     }
                     break;
 
+                    case nameof(LetterSpacing):
+                    if (!Equals(LetterSpacing, value))
+                    {
+                        LetterSpacing = (double)value;
+                        //NativeControl.LetterSpacingProperty = LetterSpacing;
+                    }
+                    break;
+
                 }
             }
         
@@ -313,13 +354,24 @@ namespace Blazonia.Components
                     }
                 }
                 
-                if (FontFeatures == global::Avalonia.Controls.Documents.TextElement.FontFeaturesProperty.GetDefaultValue(parentElement.GetType()))
                 {
-                    ((Avalonia.Controls.Control)parentElement).ClearValue( global::Avalonia.Controls.Documents.TextElement.FontFeaturesProperty);
-                }
-                else
-                {
-                     global::Avalonia.Controls.Documents.TextElement.SetFontFeatures((Avalonia.Controls.Control)parentElement, FontFeatures);
+                    global::Avalonia.Media.FontFeatureCollection value = default;
+                    if (FontFeatures.IsT0)
+                    {
+                        value = FontFeatures.AsT0;
+                    }
+                    else
+                    {
+                        value = global::Avalonia.Media.FontFeatureCollection.Parse(FontFeatures.AsT1);
+                    }
+                    if (value == global::Avalonia.Controls.Documents.TextElement.FontFeaturesProperty.GetDefaultValue(parentElement.GetType()))
+                    {
+                        ((Avalonia.Controls.Control)parentElement).ClearValue( global::Avalonia.Controls.Documents.TextElement.FontFeaturesProperty);
+                    }
+                    else
+                    {
+                        global::Avalonia.Controls.Documents.TextElement.SetFontFeatures((Avalonia.Controls.Control)parentElement, value);
+                    }
                 }
                 
                 if (FontSize == global::Avalonia.Controls.Documents.TextElement.FontSizeProperty.GetDefaultValue(parentElement.GetType()))
@@ -367,6 +419,15 @@ namespace Blazonia.Components
                      global::Avalonia.Controls.Documents.TextElement.SetForeground((Avalonia.Controls.Control)parentElement, Foreground);
                 }
                 
+                if (LetterSpacing == global::Avalonia.Controls.Documents.TextElement.LetterSpacingProperty.GetDefaultValue(parentElement.GetType()))
+                {
+                    ((Avalonia.Controls.Control)parentElement).ClearValue( global::Avalonia.Controls.Documents.TextElement.LetterSpacingProperty);
+                }
+                else
+                {
+                     global::Avalonia.Controls.Documents.TextElement.SetLetterSpacing((Avalonia.Controls.Control)parentElement, LetterSpacing);
+                }
+                
             }
         }
     
@@ -379,12 +440,16 @@ namespace Blazonia.Components
                 {
                     FontFamily = global::Avalonia.Controls.Documents.TextElement.FontFamilyProperty.GetDefaultValue(parentType);
                 }
-                FontFeatures = FontFeatures != default ? FontFeatures : global::Avalonia.Controls.Documents.TextElement.FontFeaturesProperty.GetDefaultValue(parentType);
+                if (FontFeatures.IsT1 == false && FontFeatures.AsT0 == default)
+                {
+                    FontFeatures = global::Avalonia.Controls.Documents.TextElement.FontFeaturesProperty.GetDefaultValue(parentType);
+                }
                 FontSize = FontSize != default ? FontSize : global::Avalonia.Controls.Documents.TextElement.FontSizeProperty.GetDefaultValue(parentType);
                 FontStretch = FontStretch != default ? FontStretch : global::Avalonia.Controls.Documents.TextElement.FontStretchProperty.GetDefaultValue(parentType);
                 FontStyle = FontStyle != default ? FontStyle : global::Avalonia.Controls.Documents.TextElement.FontStyleProperty.GetDefaultValue(parentType);
                 FontWeight = FontWeight != default ? FontWeight : global::Avalonia.Controls.Documents.TextElement.FontWeightProperty.GetDefaultValue(parentType);
                 Foreground = Foreground != default ? Foreground : global::Avalonia.Controls.Documents.TextElement.ForegroundProperty.GetDefaultValue(parentType);
+                LetterSpacing = LetterSpacing != default ? LetterSpacing : global::Avalonia.Controls.Documents.TextElement.LetterSpacingProperty.GetDefaultValue(parentType);
 
                 TryUpdateParent(parentElement);
             }
@@ -405,6 +470,7 @@ namespace Blazonia.Components
                 FontStyle = global::Avalonia.Controls.Documents.TextElement.FontStyleProperty.GetDefaultValue(parentType);
                 FontWeight = global::Avalonia.Controls.Documents.TextElement.FontWeightProperty.GetDefaultValue(parentType);
                 Foreground = global::Avalonia.Controls.Documents.TextElement.ForegroundProperty.GetDefaultValue(parentType);
+                LetterSpacing = global::Avalonia.Controls.Documents.TextElement.LetterSpacingProperty.GetDefaultValue(parentType);
 
                 TryUpdateParent(parentElement);
             }

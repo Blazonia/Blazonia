@@ -35,7 +35,7 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public AC.WrapPanelItemsAlignment? ItemsAlignment { get; set; }
         /// <summary>
-        /// Gets or sets the spacing between lines.
+        /// Gets or sets the spacing between items.
         /// </summary>
         [Parameter] public double? ItemSpacing { get; set; }
         /// <summary>
@@ -43,7 +43,7 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public double? ItemWidth { get; set; }
         /// <summary>
-        /// Gets or sets the spacing between items.
+        /// Gets or sets the spacing between lines.
         /// </summary>
         [Parameter] public double? LineSpacing { get; set; }
         /// <summary>

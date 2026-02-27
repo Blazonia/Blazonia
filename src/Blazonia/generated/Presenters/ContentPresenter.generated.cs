@@ -71,6 +71,10 @@ namespace Blazonia.Components.Presenters
         /// </summary>
         [Parameter] public global::Avalonia.Layout.HorizontalAlignment? HorizontalContentAlignment { get; set; }
         /// <summary>
+        /// Gets or sets the letter spacing
+        /// </summary>
+        [Parameter] public double? LetterSpacing { get; set; }
+        /// <summary>
         /// Gets or sets the line height
         /// </summary>
         [Parameter] public double? LineHeight { get; set; }
@@ -299,6 +303,13 @@ namespace Blazonia.Components.Presenters
                     {
                         HorizontalContentAlignment = (global::Avalonia.Layout.HorizontalAlignment?)value;
                         NativeControl.HorizontalContentAlignment = HorizontalContentAlignment ?? (global::Avalonia.Layout.HorizontalAlignment)ACP.ContentPresenter.HorizontalContentAlignmentProperty.GetDefaultValue(ACP.ContentPresenter.HorizontalContentAlignmentProperty.OwnerType);
+                    }
+                    break;
+                case nameof(LetterSpacing):
+                    if (!Equals(LetterSpacing, value))
+                    {
+                        LetterSpacing = (double?)value;
+                        NativeControl.LetterSpacing = LetterSpacing ?? (double)ACP.ContentPresenter.LetterSpacingProperty.GetDefaultValue(ACP.ContentPresenter.LetterSpacingProperty.OwnerType);
                     }
                     break;
                 case nameof(LineHeight):

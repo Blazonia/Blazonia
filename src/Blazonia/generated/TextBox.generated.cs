@@ -31,7 +31,7 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public bool? AcceptsReturn { get; set; }
         /// <summary>
-        /// Gets or sets a value that determins whether the TextBox allows and displays tabs
+        /// Gets or sets a value that determines whether the TextBox allows and displays tabs
         /// </summary>
         [Parameter] public bool? AcceptsTab { get; set; }
         [Parameter] public TimeSpan? CaretBlinkInterval { get; set; }
@@ -72,10 +72,6 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public bool? IsUndoEnabled { get; set; }
         /// <summary>
-        /// Gets or sets the spacing between characters
-        /// </summary>
-        [Parameter] public double? LetterSpacing { get; set; }
-        /// <summary>
         /// Gets or sets the line height.
         /// </summary>
         [Parameter] public double? LineHeight { get; set; }
@@ -99,6 +95,14 @@ namespace Blazonia.Components
         /// Gets or sets the <see cref="T:System.Char" /> that should be used for password masking
         /// </summary>
         [Parameter] public char? PasswordChar { get; set; }
+        /// <summary>
+        /// Gets or sets the brush used for the foreground color of the placeholder text.
+        /// </summary>
+        [Parameter] public OneOf.OneOf<global::Avalonia.Media.IBrush, global::Avalonia.Media.Color, string> PlaceholderForeground { get; set; }
+        /// <summary>
+        /// Gets or sets the placeholder or descriptive text that is displayed even if the <see cref="P:Avalonia.Controls.TextBox.Text" /> property is not yet set.
+        /// </summary>
+        [Parameter] public string PlaceholderText { get; set; }
         /// <summary>
         /// Gets or sets whether text masked by <see cref="P:Avalonia.Controls.TextBox.PasswordChar" /> should be revealed
         /// </summary>
@@ -140,17 +144,13 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public int? UndoLimit { get; set; }
         /// <summary>
-        /// Gets or sets a value indicating whether the <see cref="P:Avalonia.Controls.TextBox.Watermark" /> will still be shown above the <see cref="P:Avalonia.Controls.TextBox.Text" /> even after a text value is set.
+        /// Gets or sets a value indicating whether the <see cref="P:Avalonia.Controls.TextBox.PlaceholderText" /> will still be shown above the <see cref="P:Avalonia.Controls.TextBox.Text" /> even after a text value is set.
         /// </summary>
-        [Parameter] public bool? UseFloatingWatermark { get; set; }
+        [Parameter] public bool? UseFloatingPlaceholder { get; set; }
         /// <summary>
         /// Gets or sets the vertical alignment of the content within the control.
         /// </summary>
         [Parameter] public global::Avalonia.Layout.VerticalAlignment? VerticalContentAlignment { get; set; }
-        /// <summary>
-        /// Gets or sets the placeholder or descriptive text that is displayed even if the <see cref="P:Avalonia.Controls.TextBox.Text" /> property is not yet set.
-        /// </summary>
-        [Parameter] public string Watermark { get; set; }
         [Parameter] public EventCallback<global::Avalonia.Interactivity.RoutedEventArgs> OnCopyingToClipboard { get; set; }
         [Parameter] public EventCallback<global::Avalonia.Interactivity.RoutedEventArgs> OnCuttingToClipboard { get; set; }
         [Parameter] public EventCallback<global::Avalonia.Interactivity.RoutedEventArgs> OnPastingFromClipboard { get; set; }
@@ -260,13 +260,6 @@ namespace Blazonia.Components
                         NativeControl.IsUndoEnabled = IsUndoEnabled ?? (bool)AC.TextBox.IsUndoEnabledProperty.GetDefaultValue(AC.TextBox.IsUndoEnabledProperty.OwnerType);
                     }
                     break;
-                case nameof(LetterSpacing):
-                    if (!Equals(LetterSpacing, value))
-                    {
-                        LetterSpacing = (double?)value;
-                        NativeControl.LetterSpacing = LetterSpacing ?? (double)AC.TextBox.LetterSpacingProperty.GetDefaultValue(AC.TextBox.LetterSpacingProperty.OwnerType);
-                    }
-                    break;
                 case nameof(LineHeight):
                     if (!Equals(LineHeight, value))
                     {
@@ -307,6 +300,31 @@ namespace Blazonia.Components
                     {
                         PasswordChar = (char?)value;
                         NativeControl.PasswordChar = PasswordChar ?? (char)AC.TextBox.PasswordCharProperty.GetDefaultValue(AC.TextBox.PasswordCharProperty.OwnerType);
+                    }
+                    break;
+                case nameof(PlaceholderForeground):
+                    if (!Equals(PlaceholderForeground, value))
+                    {
+                        PlaceholderForeground = (OneOf.OneOf<global::Avalonia.Media.IBrush, Avalonia.Media.Color, string>)value;
+                        if (PlaceholderForeground.IsT0)
+                        {
+                            NativeControl.PlaceholderForeground = (global::Avalonia.Media.IBrush)PlaceholderForeground.AsT0;
+                        }
+                        else if (PlaceholderForeground.IsT1)
+                        {
+                            NativeControl.PlaceholderForeground = new global::Avalonia.Media.Immutable.ImmutableSolidColorBrush(PlaceholderForeground.AsT1);
+                        }
+                        else 
+                        {
+                            NativeControl.PlaceholderForeground = Avalonia.Media.Brush.Parse(PlaceholderForeground.AsT2);
+                        }
+                    }
+                    break;
+                case nameof(PlaceholderText):
+                    if (!Equals(PlaceholderText, value))
+                    {
+                        PlaceholderText = (string)value;
+                        NativeControl.PlaceholderText = PlaceholderText;
                     }
                     break;
                 case nameof(RevealPassword):
@@ -401,11 +419,11 @@ namespace Blazonia.Components
                         NativeControl.UndoLimit = UndoLimit ?? (int)AC.TextBox.UndoLimitProperty.GetDefaultValue(AC.TextBox.UndoLimitProperty.OwnerType);
                     }
                     break;
-                case nameof(UseFloatingWatermark):
-                    if (!Equals(UseFloatingWatermark, value))
+                case nameof(UseFloatingPlaceholder):
+                    if (!Equals(UseFloatingPlaceholder, value))
                     {
-                        UseFloatingWatermark = (bool?)value;
-                        NativeControl.UseFloatingWatermark = UseFloatingWatermark ?? (bool)AC.TextBox.UseFloatingWatermarkProperty.GetDefaultValue(AC.TextBox.UseFloatingWatermarkProperty.OwnerType);
+                        UseFloatingPlaceholder = (bool?)value;
+                        NativeControl.UseFloatingPlaceholder = UseFloatingPlaceholder ?? (bool)AC.TextBox.UseFloatingPlaceholderProperty.GetDefaultValue(AC.TextBox.UseFloatingPlaceholderProperty.OwnerType);
                     }
                     break;
                 case nameof(VerticalContentAlignment):
@@ -413,13 +431,6 @@ namespace Blazonia.Components
                     {
                         VerticalContentAlignment = (global::Avalonia.Layout.VerticalAlignment?)value;
                         NativeControl.VerticalContentAlignment = VerticalContentAlignment ?? (global::Avalonia.Layout.VerticalAlignment)AC.TextBox.VerticalContentAlignmentProperty.GetDefaultValue(AC.TextBox.VerticalContentAlignmentProperty.OwnerType);
-                    }
-                    break;
-                case nameof(Watermark):
-                    if (!Equals(Watermark, value))
-                    {
-                        Watermark = (string)value;
-                        NativeControl.Watermark = Watermark;
                     }
                     break;
                 case nameof(OnCopyingToClipboard):

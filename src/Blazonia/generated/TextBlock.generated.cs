@@ -41,7 +41,7 @@ namespace Blazonia.Components
         /// <summary>
         /// Gets or sets the font features.
         /// </summary>
-        [Parameter] public global::Avalonia.Media.FontFeatureCollection FontFeatures { get; set; }
+        [Parameter] public OneOf.OneOf<global::Avalonia.Media.FontFeatureCollection, string> FontFeatures { get; set; }
         /// <summary>
         /// Gets or sets the size of the control's text in points.
         /// </summary>
@@ -157,8 +157,15 @@ namespace Blazonia.Components
                 case nameof(FontFeatures):
                     if (!Equals(FontFeatures, value))
                     {
-                        FontFeatures = (global::Avalonia.Media.FontFeatureCollection)value;
-                        NativeControl.FontFeatures = FontFeatures;
+                        FontFeatures = (OneOf.OneOf<global::Avalonia.Media.FontFeatureCollection,string>)value;
+                        if (FontFeatures.IsT0)
+                        {
+                            NativeControl.FontFeatures = (global::Avalonia.Media.FontFeatureCollection)FontFeatures.AsT0;
+                        }
+                        else 
+                        {
+                            NativeControl.FontFeatures = global::Avalonia.Media.FontFeatureCollection.Parse(FontFeatures.AsT1);
+                        }
                     }
                     break;
                 case nameof(FontSize):

@@ -39,7 +39,7 @@ namespace Blazonia.Components.Documents
         /// <summary>
         /// Gets or sets the font features.
         /// </summary>
-        [Parameter] public global::Avalonia.Media.FontFeatureCollection FontFeatures { get; set; }
+        [Parameter] public OneOf.OneOf<global::Avalonia.Media.FontFeatureCollection, string> FontFeatures { get; set; }
         /// <summary>
         /// Gets or sets the font size.
         /// </summary>
@@ -60,6 +60,10 @@ namespace Blazonia.Components.Documents
         /// Gets or sets a brush used to paint the text.
         /// </summary>
         [Parameter] public OneOf.OneOf<global::Avalonia.Media.IBrush, global::Avalonia.Media.Color, string> Foreground { get; set; }
+        /// <summary>
+        /// Gets or sets the letter spacing.
+        /// </summary>
+        [Parameter] public double? LetterSpacing { get; set; }
 
         public new ACD.TextElement NativeControl => (ACD.TextElement)((AvaloniaObject)this).NativeControl;
 
@@ -103,8 +107,15 @@ namespace Blazonia.Components.Documents
                 case nameof(FontFeatures):
                     if (!Equals(FontFeatures, value))
                     {
-                        FontFeatures = (global::Avalonia.Media.FontFeatureCollection)value;
-                        NativeControl.FontFeatures = FontFeatures;
+                        FontFeatures = (OneOf.OneOf<global::Avalonia.Media.FontFeatureCollection,string>)value;
+                        if (FontFeatures.IsT0)
+                        {
+                            NativeControl.FontFeatures = (global::Avalonia.Media.FontFeatureCollection)FontFeatures.AsT0;
+                        }
+                        else 
+                        {
+                            NativeControl.FontFeatures = global::Avalonia.Media.FontFeatureCollection.Parse(FontFeatures.AsT1);
+                        }
                     }
                     break;
                 case nameof(FontSize):
@@ -151,6 +162,13 @@ namespace Blazonia.Components.Documents
                         {
                             NativeControl.Foreground = Avalonia.Media.Brush.Parse(Foreground.AsT2);
                         }
+                    }
+                    break;
+                case nameof(LetterSpacing):
+                    if (!Equals(LetterSpacing, value))
+                    {
+                        LetterSpacing = (double?)value;
+                        NativeControl.LetterSpacing = LetterSpacing ?? (double)ACD.TextElement.LetterSpacingProperty.GetDefaultValue(ACD.TextElement.LetterSpacingProperty.OwnerType);
                     }
                     break;
 

@@ -73,6 +73,8 @@ namespace Blazonia.Components
         /// True if the current date is highlighted; otherwise, false. The default is true.
         /// </value>
         [Parameter] public bool? IsTodayHighlighted { get; set; }
+        [Parameter] public OneOf.OneOf<global::Avalonia.Media.IBrush, global::Avalonia.Media.Color, string> PlaceholderForeground { get; set; }
+        [Parameter] public string PlaceholderText { get; set; }
         /// <summary>
         /// Gets or sets the currently selected date.
         /// </summary>
@@ -94,12 +96,11 @@ namespace Blazonia.Components
         /// The text displayed by the <see cref="T:Avalonia.Controls.CalendarDatePicker" />.
         /// </value>
         [Parameter] public string Text { get; set; }
-        [Parameter] public bool? UseFloatingWatermark { get; set; }
+        [Parameter] public bool? UseFloatingPlaceholder { get; set; }
         /// <summary>
         /// Gets or sets the vertical alignment of the content within the control.
         /// </summary>
         [Parameter] public global::Avalonia.Layout.VerticalAlignment? VerticalContentAlignment { get; set; }
-        [Parameter] public string Watermark { get; set; }
         [Parameter] public EventCallback OnCalendarClosed { get; set; }
         [Parameter] public EventCallback OnCalendarOpened { get; set; }
         [Parameter] public EventCallback<AC.CalendarDatePickerDateValidationErrorEventArgs> OnDateValidationError { get; set; }
@@ -169,6 +170,31 @@ namespace Blazonia.Components
                         NativeControl.IsTodayHighlighted = IsTodayHighlighted ?? (bool)AC.CalendarDatePicker.IsTodayHighlightedProperty.GetDefaultValue(AC.CalendarDatePicker.IsTodayHighlightedProperty.OwnerType);
                     }
                     break;
+                case nameof(PlaceholderForeground):
+                    if (!Equals(PlaceholderForeground, value))
+                    {
+                        PlaceholderForeground = (OneOf.OneOf<global::Avalonia.Media.IBrush, Avalonia.Media.Color, string>)value;
+                        if (PlaceholderForeground.IsT0)
+                        {
+                            NativeControl.PlaceholderForeground = (global::Avalonia.Media.IBrush)PlaceholderForeground.AsT0;
+                        }
+                        else if (PlaceholderForeground.IsT1)
+                        {
+                            NativeControl.PlaceholderForeground = new global::Avalonia.Media.Immutable.ImmutableSolidColorBrush(PlaceholderForeground.AsT1);
+                        }
+                        else 
+                        {
+                            NativeControl.PlaceholderForeground = Avalonia.Media.Brush.Parse(PlaceholderForeground.AsT2);
+                        }
+                    }
+                    break;
+                case nameof(PlaceholderText):
+                    if (!Equals(PlaceholderText, value))
+                    {
+                        PlaceholderText = (string)value;
+                        NativeControl.PlaceholderText = PlaceholderText;
+                    }
+                    break;
                 case nameof(SelectedDate):
                     if (!Equals(SelectedDate, value))
                     {
@@ -190,11 +216,11 @@ namespace Blazonia.Components
                         NativeControl.Text = Text;
                     }
                     break;
-                case nameof(UseFloatingWatermark):
-                    if (!Equals(UseFloatingWatermark, value))
+                case nameof(UseFloatingPlaceholder):
+                    if (!Equals(UseFloatingPlaceholder, value))
                     {
-                        UseFloatingWatermark = (bool?)value;
-                        NativeControl.UseFloatingWatermark = UseFloatingWatermark ?? (bool)AC.CalendarDatePicker.UseFloatingWatermarkProperty.GetDefaultValue(AC.CalendarDatePicker.UseFloatingWatermarkProperty.OwnerType);
+                        UseFloatingPlaceholder = (bool?)value;
+                        NativeControl.UseFloatingPlaceholder = UseFloatingPlaceholder ?? (bool)AC.CalendarDatePicker.UseFloatingPlaceholderProperty.GetDefaultValue(AC.CalendarDatePicker.UseFloatingPlaceholderProperty.OwnerType);
                     }
                     break;
                 case nameof(VerticalContentAlignment):
@@ -202,13 +228,6 @@ namespace Blazonia.Components
                     {
                         VerticalContentAlignment = (global::Avalonia.Layout.VerticalAlignment?)value;
                         NativeControl.VerticalContentAlignment = VerticalContentAlignment ?? (global::Avalonia.Layout.VerticalAlignment)AC.CalendarDatePicker.VerticalContentAlignmentProperty.GetDefaultValue(AC.CalendarDatePicker.VerticalContentAlignmentProperty.OwnerType);
-                    }
-                    break;
-                case nameof(Watermark):
-                    if (!Equals(Watermark, value))
-                    {
-                        Watermark = (string)value;
-                        NativeControl.Watermark = Watermark;
                     }
                     break;
                 case nameof(OnCalendarClosed):

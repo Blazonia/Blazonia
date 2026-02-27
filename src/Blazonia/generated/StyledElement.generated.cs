@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace Blazonia.Components
 {
     /// <summary>
-    /// Extends an <see cref="T:Avalonia.Animation.Animatable" /> with the following features: - An inherited <see cref="P:Avalonia.StyledElement.DataContext" />. - Implements <see cref="T:Avalonia.Styling.IStyleable" /> to allow styling to work on the styled element. - Implements <see cref="T:Avalonia.LogicalTree.ILogical" /> to form part of a logical tree. - A collection of class strings for custom styling.
+    /// Extends an <see cref="T:Avalonia.Animation.Animatable" /> with the following features: - An inherited <see cref="P:Avalonia.StyledElement.DataContext" />. - Implements <see cref="T:Avalonia.LogicalTree.ILogical" /> to form part of a logical tree. - A collection of class strings for custom styling.
     /// </summary>
     public partial class StyledElement : Blazonia.Components.Animation.Animatable
     {

@@ -37,6 +37,10 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public int? CaretIndex { get; set; }
         /// <summary>
+        /// Gets or sets a value that determines whether the <see cref="T:Avalonia.Controls.AutoCompleteBox" /> clears its selection after it loses focus.
+        /// </summary>
+        [Parameter] public bool? ClearSelectionOnLostFocus { get; set; }
+        /// <summary>
         /// Gets or sets how the text in the text box is used to filter items specified by the <see cref="P:Avalonia.Controls.AutoCompleteBox.ItemsSource" /> property for display in the drop-down.
         /// </summary>
         /// <value>
@@ -112,6 +116,14 @@ namespace Blazonia.Components
         /// </value>
         [Parameter] public int? MinimumPrefixLength { get; set; }
         /// <summary>
+        /// Gets or sets the brush used for the foreground color of the placeholder text.
+        /// </summary>
+        [Parameter] public OneOf.OneOf<global::Avalonia.Media.IBrush, global::Avalonia.Media.Color, string> PlaceholderForeground { get; set; }
+        /// <summary>
+        /// Gets or sets the placeholder or descriptive text that is displayed even if the text is not yet set.
+        /// </summary>
+        [Parameter] public string PlaceholderText { get; set; }
+        /// <summary>
         /// Gets or sets the selected item in the drop-down.
         /// </summary>
         /// <value>
@@ -140,13 +152,12 @@ namespace Blazonia.Components
         /// </value>
         [Parameter] public AC.AutoCompleteSelector<string> TextSelector { get; set; }
         /// <summary>
-        /// Gets or sets the <see cref="T:Avalonia.Data.Binding" /> that is used to get the values for display in the text portion of the <see cref="T:Avalonia.Controls.AutoCompleteBox" /> control.
+        /// Gets or sets the <see cref="T:Avalonia.Data.BindingBase" /> that is used to get the values for display in the text portion of the <see cref="T:Avalonia.Controls.AutoCompleteBox" /> control.
         /// </summary>
         /// <value>
-        /// The <see cref="T:Avalonia.Data.IBinding" /> object used when binding to a collection property.
+        /// The <see cref="T:Avalonia.Data.BindingBase" /> object used when binding to a collection property.
         /// </value>
         [Parameter] public global::Avalonia.Data.BindingBase ValueMemberBinding { get; set; }
-        [Parameter] public string Watermark { get; set; }
         /// <summary>
         /// Gets or sets the <see cref="T:Avalonia.DataTemplate" /> used to display each item in the drop-down portion of the control.
         /// </summary>
@@ -183,6 +194,13 @@ namespace Blazonia.Components
                     {
                         CaretIndex = (int?)value;
                         NativeControl.CaretIndex = CaretIndex ?? (int)AC.AutoCompleteBox.CaretIndexProperty.GetDefaultValue(AC.AutoCompleteBox.CaretIndexProperty.OwnerType);
+                    }
+                    break;
+                case nameof(ClearSelectionOnLostFocus):
+                    if (!Equals(ClearSelectionOnLostFocus, value))
+                    {
+                        ClearSelectionOnLostFocus = (bool?)value;
+                        NativeControl.ClearSelectionOnLostFocus = ClearSelectionOnLostFocus ?? (bool)AC.AutoCompleteBox.ClearSelectionOnLostFocusProperty.GetDefaultValue(AC.AutoCompleteBox.ClearSelectionOnLostFocusProperty.OwnerType);
                     }
                     break;
                 case nameof(FilterMode):
@@ -269,6 +287,31 @@ namespace Blazonia.Components
                         NativeControl.MinimumPrefixLength = MinimumPrefixLength ?? (int)AC.AutoCompleteBox.MinimumPrefixLengthProperty.GetDefaultValue(AC.AutoCompleteBox.MinimumPrefixLengthProperty.OwnerType);
                     }
                     break;
+                case nameof(PlaceholderForeground):
+                    if (!Equals(PlaceholderForeground, value))
+                    {
+                        PlaceholderForeground = (OneOf.OneOf<global::Avalonia.Media.IBrush, Avalonia.Media.Color, string>)value;
+                        if (PlaceholderForeground.IsT0)
+                        {
+                            NativeControl.PlaceholderForeground = (global::Avalonia.Media.IBrush)PlaceholderForeground.AsT0;
+                        }
+                        else if (PlaceholderForeground.IsT1)
+                        {
+                            NativeControl.PlaceholderForeground = new global::Avalonia.Media.Immutable.ImmutableSolidColorBrush(PlaceholderForeground.AsT1);
+                        }
+                        else 
+                        {
+                            NativeControl.PlaceholderForeground = Avalonia.Media.Brush.Parse(PlaceholderForeground.AsT2);
+                        }
+                    }
+                    break;
+                case nameof(PlaceholderText):
+                    if (!Equals(PlaceholderText, value))
+                    {
+                        PlaceholderText = (string)value;
+                        NativeControl.PlaceholderText = PlaceholderText;
+                    }
+                    break;
                 case nameof(SelectedItem):
                     if (!Equals(SelectedItem, value))
                     {
@@ -302,13 +345,6 @@ namespace Blazonia.Components
                     {
                         ValueMemberBinding = (global::Avalonia.Data.BindingBase)value;
                         NativeControl.ValueMemberBinding = ValueMemberBinding;
-                    }
-                    break;
-                case nameof(Watermark):
-                    if (!Equals(Watermark, value))
-                    {
-                        Watermark = (string)value;
-                        NativeControl.Watermark = Watermark;
                     }
                     break;
                 case nameof(ItemTemplate):

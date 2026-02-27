@@ -35,6 +35,10 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public bool? IsDropDownOpen { get; set; }
         /// <summary>
+        /// Gets or sets a value indicating whether the control is editable
+        /// </summary>
+        [Parameter] public bool? IsEditable { get; set; }
+        /// <summary>
         /// Gets or sets the maximum height for the dropdown list.
         /// </summary>
         [Parameter] public double? MaxDropDownHeight { get; set; }
@@ -50,6 +54,10 @@ namespace Blazonia.Components
         /// Gets or sets the DataTemplate used to display the selected item. This has a higher priority than <see cref="P:Avalonia.Controls.ItemsControl.ItemTemplate" /> if set.
         /// </summary>
         [Parameter] public AC.Templates.IDataTemplate SelectionBoxItemTemplate { get; set; }
+        /// <summary>
+        /// Gets or sets the text used when <see cref="P:Avalonia.Controls.ComboBox.IsEditable" /> is true. Does nothing if not <see cref="P:Avalonia.Controls.ComboBox.IsEditable" />.
+        /// </summary>
+        [Parameter] public string Text { get; set; }
         /// <summary>
         /// Gets or sets the vertical alignment of the content within the control.
         /// </summary>
@@ -77,6 +85,13 @@ namespace Blazonia.Components
                     {
                         IsDropDownOpen = (bool?)value;
                         NativeControl.IsDropDownOpen = IsDropDownOpen ?? (bool)AC.ComboBox.IsDropDownOpenProperty.GetDefaultValue(AC.ComboBox.IsDropDownOpenProperty.OwnerType);
+                    }
+                    break;
+                case nameof(IsEditable):
+                    if (!Equals(IsEditable, value))
+                    {
+                        IsEditable = (bool?)value;
+                        NativeControl.IsEditable = IsEditable ?? (bool)AC.ComboBox.IsEditableProperty.GetDefaultValue(AC.ComboBox.IsEditableProperty.OwnerType);
                     }
                     break;
                 case nameof(MaxDropDownHeight):
@@ -116,6 +131,13 @@ namespace Blazonia.Components
                     {
                         SelectionBoxItemTemplate = (AC.Templates.IDataTemplate)value;
                         NativeControl.SelectionBoxItemTemplate = SelectionBoxItemTemplate;
+                    }
+                    break;
+                case nameof(Text):
+                    if (!Equals(Text, value))
+                    {
+                        Text = (string)value;
+                        NativeControl.Text = Text;
                     }
                     break;
                 case nameof(VerticalContentAlignment):

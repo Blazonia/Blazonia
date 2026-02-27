@@ -34,25 +34,6 @@ namespace Blazonia.Components
                     }
                 }
             });
-        AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextBlock.LetterSpacing",
-            (element, value) =>
-            {
-                if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
-                {
-                    element.ClearValue(AC.TextBlock.LetterSpacingProperty);
-                }
-                else
-                {
-                    if (value is string s)
-                    {
-                        AC.TextBlock.SetLetterSpacing((Avalonia.Controls.Control)element, double.Parse(s));
-                    }
-                    else
-                    {
-                        AC.TextBlock.SetLetterSpacing((Avalonia.Controls.Control)element, (double)value);
-                    }
-                }
-            });
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("TextBlock.LineHeight",
             (element, value) =>
             {
@@ -142,15 +123,6 @@ namespace Blazonia.Components
             return element;
         }
         /// <summary>
-        /// Defines the <see cref="P:Avalonia.Controls.TextBlock.LetterSpacing" /> property.
-        /// </summary>
-        public static Control TextBlockLetterSpacing(this Control element, double value)
-        {
-            element.AttachedProperties["TextBlock.LetterSpacing"] = value;
-        
-            return element;
-        }
-        /// <summary>
         /// Defines the <see cref="P:Avalonia.Controls.TextBlock.LineHeight" /> property.
         /// </summary>
         public static Control TextBlockLineHeight(this Control element, double value)
@@ -205,11 +177,6 @@ namespace Blazonia.Components
         [Parameter] public double BaselineOffset { get; set; }
 
         /// <summary>
-        /// Defines the <see cref="P:Avalonia.Controls.TextBlock.LetterSpacing" /> property.
-        /// </summary>
-        [Parameter] public double LetterSpacing { get; set; }
-
-        /// <summary>
         /// Defines the <see cref="P:Avalonia.Controls.TextBlock.LineHeight" /> property.
         /// </summary>
         [Parameter] public double LineHeight { get; set; }
@@ -250,14 +217,6 @@ namespace Blazonia.Components
                     {
                         BaselineOffset = (double)value;
                         //NativeControl.BaselineOffsetProperty = BaselineOffset;
-                    }
-                    break;
-
-                    case nameof(LetterSpacing):
-                    if (!Equals(LetterSpacing, value))
-                    {
-                        LetterSpacing = (double)value;
-                        //NativeControl.LetterSpacingProperty = LetterSpacing;
                     }
                     break;
 
@@ -319,15 +278,6 @@ namespace Blazonia.Components
                 else
                 {
                      global::Avalonia.Controls.TextBlock.SetBaselineOffset((Avalonia.Controls.Control)parentElement, BaselineOffset);
-                }
-                
-                if (LetterSpacing == global::Avalonia.Controls.TextBlock.LetterSpacingProperty.GetDefaultValue(parentElement.GetType()))
-                {
-                    ((Avalonia.Controls.Control)parentElement).ClearValue( global::Avalonia.Controls.TextBlock.LetterSpacingProperty);
-                }
-                else
-                {
-                     global::Avalonia.Controls.TextBlock.SetLetterSpacing((Avalonia.Controls.Control)parentElement, LetterSpacing);
                 }
                 
                 if (LineHeight == global::Avalonia.Controls.TextBlock.LineHeightProperty.GetDefaultValue(parentElement.GetType()))
@@ -395,7 +345,6 @@ namespace Blazonia.Components
             if (parentType is not null)
             {
                 BaselineOffset = BaselineOffset != default ? BaselineOffset : global::Avalonia.Controls.TextBlock.BaselineOffsetProperty.GetDefaultValue(parentType);
-                LetterSpacing = LetterSpacing != default ? LetterSpacing : global::Avalonia.Controls.TextBlock.LetterSpacingProperty.GetDefaultValue(parentType);
                 LineHeight = LineHeight != default ? LineHeight : global::Avalonia.Controls.TextBlock.LineHeightProperty.GetDefaultValue(parentType);
                 MaxLines = MaxLines != default ? MaxLines : global::Avalonia.Controls.TextBlock.MaxLinesProperty.GetDefaultValue(parentType);
                 TextAlignment = TextAlignment != default ? TextAlignment : global::Avalonia.Controls.TextBlock.TextAlignmentProperty.GetDefaultValue(parentType);
@@ -418,7 +367,6 @@ namespace Blazonia.Components
             if (parentType is not null)
             {
                 BaselineOffset = global::Avalonia.Controls.TextBlock.BaselineOffsetProperty.GetDefaultValue(parentType);
-                LetterSpacing = global::Avalonia.Controls.TextBlock.LetterSpacingProperty.GetDefaultValue(parentType);
                 LineHeight = global::Avalonia.Controls.TextBlock.LineHeightProperty.GetDefaultValue(parentType);
                 MaxLines = global::Avalonia.Controls.TextBlock.MaxLinesProperty.GetDefaultValue(parentType);
                 TextAlignment = global::Avalonia.Controls.TextBlock.TextAlignmentProperty.GetDefaultValue(parentType);

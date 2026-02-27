@@ -116,10 +116,10 @@ namespace Blazonia.Components
                         {
                             NativeControl.CellTheme = (global::Avalonia.Styling.ControlTheme)CellTheme.AsT0;
                         }
-                        else
+                        else 
                         {
 
-                            NativeControl.CellTheme = global::Avalonia.Controls.ResourceNodeExtensions.FindResource(global::Avalonia.Application.Current, CellTheme.AsT1) as global::Avalonia.Styling.ControlTheme;
+                            NativeControl.CellTheme =   global::Avalonia.Controls.ResourceNodeExtensions.FindResource(global::Avalonia.Application.Current, CellTheme.AsT1) as global::Avalonia.Styling.ControlTheme;
                         }
                     }
                     break;

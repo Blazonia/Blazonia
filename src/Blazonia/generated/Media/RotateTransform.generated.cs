@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 namespace Blazonia.Components.Media
 {
     /// <summary>
-    /// Rotates an <see cref="T:Avalonia.Visual" />.
+    /// Rotates a <see cref="T:Avalonia.Visual" />.
     /// </summary>
     public partial class RotateTransform : Transform
     {
@@ -33,11 +33,11 @@ namespace Blazonia.Components.Media
         /// </summary>
         [Parameter] public double? Angle { get; set; }
         /// <summary>
-        /// Gets or sets the x-coordinate of the rotation center point. The default is 0.
+        /// Gets or sets the x-coordinate of the rotation center point. The default is 0 which is the <see cref="P:Avalonia.Visual.RenderTransformOrigin" /> point (center by default).
         /// </summary>
         [Parameter] public double? CenterX { get; set; }
         /// <summary>
-        /// Gets or sets the y-coordinate of the rotation center point. The default is 0.
+        /// Gets or sets the y-coordinate of the rotation center point. The default is 0 which is the <see cref="P:Avalonia.Visual.RenderTransformOrigin" /> point (center by default).
         /// </summary>
         [Parameter] public double? CenterY { get; set; }
 
