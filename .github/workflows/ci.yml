@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build, verify generated code, pack
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # MinVer needs tags and history to compute package versions
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      # Demo.Android and Demo.iOS are intentionally not built here: the Android workload
+      # is heavy to install on CI and iOS workloads do not exist on Linux runners.
+      - name: Build
+        run: |
+          dotnet build src/Blazonia/Blazonia.csproj -c Release
+          dotnet build src/Blazonia.ComponentGenerator/Blazonia.ComponentGenerator.csproj -c Release
+          dotnet build samples/Blazonia.HelloWorld/Blazonia.HelloWorld.csproj -c Release
+          dotnet build samples/Demo/Demo.Desktop/Demo.Desktop.csproj -c Release
+          dotnet build samples/Demo/Demo.Browser/Demo.Browser.csproj -c Release
+
+      # The generated component bindings are committed to the repo; they must match what
+      # the current generator produces against the current Avalonia version. This must run
+      # after Build so that Blazonia's restore assets exist for MSBuildWorkspace.
+      - name: Verify generated components are up to date
+        run: |
+          dotnet run --project src/Blazonia.ComponentGenerator --no-launch-profile -- src/Blazonia/Blazonia.csproj
+          if [ -n "$(git status --porcelain -- src/Blazonia/generated)" ]; then
+            echo "::error::src/Blazonia/generated is out of date. Regenerate and commit with:"
+            echo "::error::dotnet run --project src/Blazonia.ComponentGenerator -- src/Blazonia/Blazonia.csproj"
+            git status --short -- src/Blazonia/generated
+            git diff --stat -- src/Blazonia/generated
+            exit 1
+          fi
+
+      # Pack runs on Linux so file-casing problems in package content (e.g. readme paths)
+      # fail here instead of at publish time.
+      - name: Pack
+        run: |
+          dotnet pack src/Blazonia/Blazonia.csproj -c Release --no-build -o packages
+          dotnet pack src/Blazonia.ComponentGenerator/Blazonia.ComponentGenerator.csproj -c Release --no-build -o packages

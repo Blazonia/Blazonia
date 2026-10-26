@@ -25,7 +25,17 @@ public class Program
 
     public static async Task Main(string[] args)
     {
-        MSBuildLocator.RegisterInstance(MSBuildLocator.QueryVisualStudioInstances().MaxBy(instance => instance.Version));
+        var instances = MSBuildLocator.QueryVisualStudioInstances().ToArray();
+        if (instances.Length > 0)
+        {
+            MSBuildLocator.RegisterInstance(instances.MaxBy(instance => instance.Version));
+        }
+        else
+        {
+            // No Visual Studio or dotnet SDK instance discovered (e.g. some CI images);
+            // locate MSBuild from the dotnet CLI running this process instead.
+            MSBuildLocator.RegisterDefaults();
+        }
 
         await Parser.Default
             .ParseArguments<Options>(args)
