@@ -3,6 +3,9 @@ name: Build Nuget Packages
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +17,7 @@ jobs:
     - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
     - name: Pack Blazonia nugets
       run: dotnet pack ./src/Blazonia/Blazonia.csproj -o ./packages -c Release
     - name: PackBlazonia nugets
@@ -28,12 +31,20 @@ jobs:
   publish-to-nuget:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required by NuGet Trusted Publishing (OIDC)
+      contents: read
     steps:
       - uses: actions/download-artifact@v4
         with:
           name: packages
           path: packages
+      - name: NuGet login (OIDC -> temporary API key)
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user-or-organization: ${{ secrets.NUGET_USER }}
       - name: Push to NuGet
         run: |
-          dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-          dotnet nuget push **/*.snupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          dotnet nuget push **/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          dotnet nuget push **/*.snupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
