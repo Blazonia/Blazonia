@@ -51,6 +51,7 @@ public class Program
                 Console.WriteLine($"Generating {typesToGenerate.Length} files.");
 
                 var componentWrapperGenerator = new ComponentWrapperGenerator();
+                var writtenFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
                 foreach (var generatedType in typesToGenerate)
                 {
@@ -74,9 +75,11 @@ public class Program
                         Directory.GetParent(path).Create();
 
                         File.WriteAllText(path, source);
+                        writtenFiles.Add(Path.GetFullPath(path));
                         if (attachmentSource != "")
                         {
                             File.WriteAllText(pathAttachment, attachmentSource);
+                            writtenFiles.Add(Path.GetFullPath(pathAttachment));
                         }
                     }
                     catch (Exception ex)
@@ -84,6 +87,13 @@ public class Program
                         errors.Add($"{displayTypeName}: {ex.Message}");
                         Console.Error.WriteLine($"ERROR generating {displayTypeName}: {ex}");
                     }
+                }
+
+                // Only prune when every type generated successfully - a failed type keeps its
+                // previous output and must not be mistaken for an orphan.
+                if (errors.Count == 0)
+                {
+                    RemoveOrphanedFiles(o.OutPath, writtenFiles);
                 }
 
                 foreach (var note in GeneratorLog.Notes)
@@ -115,6 +125,36 @@ public class Program
             // No Visual Studio or dotnet SDK instance discovered (e.g. some CI images);
             // locate MSBuild from the dotnet CLI running this process instead.
             MSBuildLocator.RegisterDefaults();
+        }
+    }
+
+    /// <summary>
+    /// Deletes generated files whose types are no longer produced, so stale output cannot
+    /// outlive the API it was generated from (the CI consistency gate relies on this).
+    /// </summary>
+    private static void RemoveOrphanedFiles(string outPath, HashSet<string> expectedFiles)
+    {
+        if (!Directory.Exists(outPath))
+            return;
+
+        foreach (var pattern in new[] { "*.generated.cs", "*.generated.attachment.cs" })
+        {
+            foreach (var file in Directory.GetFiles(outPath, pattern, SearchOption.AllDirectories))
+            {
+                if (expectedFiles.Contains(Path.GetFullPath(file)))
+                    continue;
+
+                File.Delete(file);
+                Console.WriteLine($"Removed orphaned generated file: {Path.GetRelativePath(outPath, file)}");
+            }
+        }
+
+        // Prune directories left empty by the removals, deepest first.
+        foreach (var dir in Directory.GetDirectories(outPath, "*", SearchOption.AllDirectories)
+            .OrderByDescending(d => d.Length))
+        {
+            if (Directory.GetFileSystemEntries(dir).Length == 0)
+                Directory.Delete(dir);
         }
     }
 

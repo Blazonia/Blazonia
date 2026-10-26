@@ -29,9 +29,6 @@ using Avalonia.Controls.Remote;
 [assembly: GenerateComponentsFromAssembly("Avalonia.Controls.DataGrid")]
 [assembly: GenerateComponentsFromAssembly("Avalonia.Controls.ItemsRepeater")]
 
-[assembly: GenerateComponent(typeof(AutoCompleteBox))]
-[assembly: GenerateComponent(typeof(ContentControl))]
-[assembly: GenerateComponent(typeof(ContextMenu))]
 // ContextMenu is neither [Content]-marked nor a template type in Avalonia, so content
 // rendering and the ContextMenuSlot name cannot be inferred - both stay explicit here.
 [assembly: GenerateComponent(typeof(Control),
@@ -43,8 +40,6 @@ using Avalonia.Controls.Remote;
     {
         $"{nameof(Control.ContextMenu)}:ContextMenuSlot",
     })]
-[assembly: GenerateComponent(typeof(DatePicker))]
-[assembly: GenerateComponent(typeof(Decorator))]
 // ITemplate<Control> cannot be rendered as content (ControlTemplateItemsComponent only
 // supports ITemplate<Panel>), so this stays a registered content property as-is.
 [assembly: GenerateComponent(typeof(DataGrid),
@@ -59,9 +54,8 @@ using Avalonia.Controls.Remote;
     {
         nameof(GridSplitter.PreviewContent)
     })]
-[assembly: GenerateComponent(typeof(HeaderedContentControl))]
-[assembly: GenerateComponent(typeof(HeaderedItemsControl))]
-[assembly: GenerateComponent(typeof(HeaderedSelectingItemsControl))]
+// DataGridColumn derives from AvaloniaObject (not Animatable), so the assembly scan's
+// Animatable filter cannot reach it - this explicit registration keeps it generated.
 [assembly: GenerateComponent(typeof(DataGridColumn))]
 [assembly: GenerateComponent(typeof(ItemsControl),
     Exclude = new string[]
@@ -69,7 +63,6 @@ using Avalonia.Controls.Remote;
         nameof(ItemsControl.ItemsSource),
     },
     IsGeneric = true)]
-[assembly: GenerateComponent(typeof(ItemsRepeater))]
 [assembly: GenerateComponent(typeof(ListBox),
     Include = new[]
     {
@@ -77,12 +70,7 @@ using Avalonia.Controls.Remote;
         nameof(ListBox.SelectedItems),
         nameof(ListBox.Selection)
     })]
-[assembly: GenerateComponent(typeof(Panel))]
-[assembly: GenerateComponent(typeof(SelectingItemsControl))]
 
-[assembly: GenerateComponent(typeof(SplitView))]
-[assembly: GenerateComponent(typeof(StyledElement))]
-[assembly: GenerateComponent(typeof(TabControl))]
 // Template is a concrete ControlTemplate (not [Content]-marked, not IControlTemplate),
 // so content rendering cannot be inferred.
 [assembly: GenerateComponent(typeof(TemplatedControl),
@@ -91,7 +79,6 @@ using Avalonia.Controls.Remote;
         nameof(TemplatedControl.Template)
     })]
 
-[assembly: GenerateComponent(typeof(ToggleSwitch))]
 // Tip is object-typed but not [Content]-marked in Avalonia.
 [assembly: GenerateComponent(typeof(ToolTip),
     ContentProperties = new[]
