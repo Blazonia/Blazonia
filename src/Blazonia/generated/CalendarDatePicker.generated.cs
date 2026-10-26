@@ -26,6 +26,12 @@ namespace Blazonia.Components
             RegisterAdditionalHandlers();
         }
 
+        /// <summary>
+        /// Gets or sets the custom date format used for display (and/or parsing) the date displayed to the user. Not used unless <see cref="P:Avalonia.Controls.CalendarDatePicker.SelectedDateFormat" /> is <see cref="F:Avalonia.Controls.CalendarDatePickerFormat.Custom" />.
+        /// </summary>
+        /// <value>
+        /// The default is "d".
+        /// </value>
         [Parameter] public string CustomDateFormatString { get; set; }
         /// <summary>
         /// Gets or sets the date to display.
@@ -96,6 +102,10 @@ namespace Blazonia.Components
         /// The text displayed by the <see cref="T:Avalonia.Controls.CalendarDatePicker" />.
         /// </value>
         [Parameter] public string Text { get; set; }
+        /// <summary>
+        /// Gets or sets the custom bidirectional Text-Value converter for custom date string formatting (e.g. for converting user input formats to DateTime or displaying a DateTime in a custom string format). If set, has priority for formatting over <see cref="P:Avalonia.Controls.CalendarDatePicker.CustomDateFormatString" />. Convert: DateTime -&gt; string ConvertBack: string -&gt; DateTIme
+        /// </summary>
+        [Parameter] public global::Avalonia.Data.Converters.IValueConverter TextConverter { get; set; }
         [Parameter] public bool? UseFloatingPlaceholder { get; set; }
         /// <summary>
         /// Gets or sets the vertical alignment of the content within the control.
@@ -214,6 +224,13 @@ namespace Blazonia.Components
                     {
                         Text = (string)value;
                         NativeControl.Text = Text;
+                    }
+                    break;
+                case nameof(TextConverter):
+                    if (!Equals(TextConverter, value))
+                    {
+                        TextConverter = (global::Avalonia.Data.Converters.IValueConverter)value;
+                        NativeControl.TextConverter = TextConverter;
                     }
                     break;
                 case nameof(UseFloatingPlaceholder):

@@ -6,9 +6,7 @@
 // </auto-generated>
 
 using AC = Avalonia.Controls;
-using ACP = Avalonia.Controls.Primitives;
 using AvaloniaBindableObject = Avalonia.AvaloniaObject;
-using Blazonia.Components;
 using Blazonia.Core;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -16,18 +14,21 @@ using System.Threading.Tasks;
 
 #pragma warning disable CA2252
 
-namespace Blazonia.Components.Primitives
+namespace Blazonia.Components
 {
-    public partial class ChromeOverlayLayer : Blazonia.Components.Panel
+    /// <summary>
+    /// Represents a single cell in a <see cref="T:Avalonia.Controls.TableViewRow" />.
+    /// </summary>
+    public partial class TableViewCell : ContentControl
     {
-        static ChromeOverlayLayer()
+        static TableViewCell()
         {
             RegisterAdditionalHandlers();
         }
 
-        public new ACP.ChromeOverlayLayer NativeControl => (ACP.ChromeOverlayLayer)((AvaloniaObject)this).NativeControl;
+        public new AC.TableViewCell NativeControl => (AC.TableViewCell)((AvaloniaObject)this).NativeControl;
 
-        protected override AvaloniaBindableObject CreateNativeElement() => new ACP.ChromeOverlayLayer();
+        protected override AvaloniaBindableObject CreateNativeElement() => new AC.TableViewCell();
 
 
         static partial void RegisterAdditionalHandlers();

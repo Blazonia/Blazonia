@@ -52,9 +52,9 @@ namespace Blazonia.Components.Input
         /// Gets or sets a value that determines the order in which elements receive focus when the user navigates through controls by pressing the Tab key.
         /// </summary>
         [Parameter] public int? TabIndex { get; set; }
-        [Parameter] public EventCallback<AI.GotFocusEventArgs> OnGotFocus { get; set; }
+        [Parameter] public EventCallback<AI.FocusChangedEventArgs> OnGotFocus { get; set; }
         [Parameter] public EventCallback<AI.FocusChangingEventArgs> OnGettingFocus { get; set; }
-        [Parameter] public EventCallback<global::Avalonia.Interactivity.RoutedEventArgs> OnLostFocus { get; set; }
+        [Parameter] public EventCallback<AI.FocusChangedEventArgs> OnLostFocus { get; set; }
         [Parameter] public EventCallback<AI.FocusChangingEventArgs> OnLosingFocus { get; set; }
         [Parameter] public EventCallback<AI.KeyEventArgs> OnKeyDown { get; set; }
         [Parameter] public EventCallback<AI.KeyEventArgs> OnKeyUp { get; set; }
@@ -67,6 +67,20 @@ namespace Blazonia.Components.Input
         [Parameter] public EventCallback<AI.PointerReleasedEventArgs> OnPointerReleased { get; set; }
         [Parameter] public EventCallback<AI.PointerCaptureLostEventArgs> OnPointerCaptureLost { get; set; }
         [Parameter] public EventCallback<AI.PointerWheelEventArgs> OnPointerWheelChanged { get; set; }
+        [Parameter] public EventCallback<AI.ContextRequestedEventArgs> OnContextRequested { get; set; }
+        [Parameter] public EventCallback<global::Avalonia.Interactivity.RoutedEventArgs> OnContextCanceled { get; set; }
+        [Parameter] public EventCallback<AI.PinchEventArgs> OnPinch { get; set; }
+        [Parameter] public EventCallback<AI.PinchEndedEventArgs> OnPinchEnded { get; set; }
+        [Parameter] public EventCallback<AI.PullGestureEventArgs> OnPullGesture { get; set; }
+        [Parameter] public EventCallback<AI.PullGestureEndedEventArgs> OnPullGestureEnded { get; set; }
+        [Parameter] public EventCallback<AI.ScrollGestureEventArgs> OnScrollGesture { get; set; }
+        [Parameter] public EventCallback<AI.ScrollGestureInertiaStartingEventArgs> OnScrollGestureInertiaStarting { get; set; }
+        [Parameter] public EventCallback<AI.ScrollGestureEndedEventArgs> OnScrollGestureEnded { get; set; }
+        [Parameter] public EventCallback<AI.PointerDeltaEventArgs> OnPointerTouchPadGestureMagnify { get; set; }
+        [Parameter] public EventCallback<AI.PointerDeltaEventArgs> OnPointerTouchPadGestureRotate { get; set; }
+        [Parameter] public EventCallback<AI.SwipeGestureEventArgs> OnSwipeGesture { get; set; }
+        [Parameter] public EventCallback<AI.SwipeGestureEndedEventArgs> OnSwipeGestureEnded { get; set; }
+        [Parameter] public EventCallback<AI.PointerDeltaEventArgs> OnPointerTouchPadGestureSwipe { get; set; }
         [Parameter] public EventCallback<AI.TappedEventArgs> OnTapped { get; set; }
         [Parameter] public EventCallback<AI.TappedEventArgs> OnRightTapped { get; set; }
         [Parameter] public EventCallback<AI.HoldingRoutedEventArgs> OnHolding { get; set; }
@@ -132,9 +146,9 @@ namespace Blazonia.Components.Input
                 case nameof(OnGotFocus):
                     if (!Equals(OnGotFocus, value))
                     {
-                        void NativeControlGotFocus(object sender, AI.GotFocusEventArgs e) => InvokeEventCallback(OnGotFocus, e);
+                        void NativeControlGotFocus(object sender, AI.FocusChangedEventArgs e) => InvokeEventCallback(OnGotFocus, e);
 
-                        OnGotFocus = (EventCallback<AI.GotFocusEventArgs>)value;
+                        OnGotFocus = (EventCallback<AI.FocusChangedEventArgs>)value;
                         NativeControl.GotFocus -= NativeControlGotFocus;
                         NativeControl.GotFocus += NativeControlGotFocus;
                     }
@@ -152,9 +166,9 @@ namespace Blazonia.Components.Input
                 case nameof(OnLostFocus):
                     if (!Equals(OnLostFocus, value))
                     {
-                        void NativeControlLostFocus(object sender, global::Avalonia.Interactivity.RoutedEventArgs e) => InvokeEventCallback(OnLostFocus, e);
+                        void NativeControlLostFocus(object sender, AI.FocusChangedEventArgs e) => InvokeEventCallback(OnLostFocus, e);
 
-                        OnLostFocus = (EventCallback<global::Avalonia.Interactivity.RoutedEventArgs>)value;
+                        OnLostFocus = (EventCallback<AI.FocusChangedEventArgs>)value;
                         NativeControl.LostFocus -= NativeControlLostFocus;
                         NativeControl.LostFocus += NativeControlLostFocus;
                     }
@@ -277,6 +291,146 @@ namespace Blazonia.Components.Input
                         OnPointerWheelChanged = (EventCallback<AI.PointerWheelEventArgs>)value;
                         NativeControl.PointerWheelChanged -= NativeControlPointerWheelChanged;
                         NativeControl.PointerWheelChanged += NativeControlPointerWheelChanged;
+                    }
+                    break;
+                case nameof(OnContextRequested):
+                    if (!Equals(OnContextRequested, value))
+                    {
+                        void NativeControlContextRequested(object sender, AI.ContextRequestedEventArgs e) => InvokeEventCallback(OnContextRequested, e);
+
+                        OnContextRequested = (EventCallback<AI.ContextRequestedEventArgs>)value;
+                        NativeControl.ContextRequested -= NativeControlContextRequested;
+                        NativeControl.ContextRequested += NativeControlContextRequested;
+                    }
+                    break;
+                case nameof(OnContextCanceled):
+                    if (!Equals(OnContextCanceled, value))
+                    {
+                        void NativeControlContextCanceled(object sender, global::Avalonia.Interactivity.RoutedEventArgs e) => InvokeEventCallback(OnContextCanceled, e);
+
+                        OnContextCanceled = (EventCallback<global::Avalonia.Interactivity.RoutedEventArgs>)value;
+                        NativeControl.ContextCanceled -= NativeControlContextCanceled;
+                        NativeControl.ContextCanceled += NativeControlContextCanceled;
+                    }
+                    break;
+                case nameof(OnPinch):
+                    if (!Equals(OnPinch, value))
+                    {
+                        void NativeControlPinch(object sender, AI.PinchEventArgs e) => InvokeEventCallback(OnPinch, e);
+
+                        OnPinch = (EventCallback<AI.PinchEventArgs>)value;
+                        NativeControl.Pinch -= NativeControlPinch;
+                        NativeControl.Pinch += NativeControlPinch;
+                    }
+                    break;
+                case nameof(OnPinchEnded):
+                    if (!Equals(OnPinchEnded, value))
+                    {
+                        void NativeControlPinchEnded(object sender, AI.PinchEndedEventArgs e) => InvokeEventCallback(OnPinchEnded, e);
+
+                        OnPinchEnded = (EventCallback<AI.PinchEndedEventArgs>)value;
+                        NativeControl.PinchEnded -= NativeControlPinchEnded;
+                        NativeControl.PinchEnded += NativeControlPinchEnded;
+                    }
+                    break;
+                case nameof(OnPullGesture):
+                    if (!Equals(OnPullGesture, value))
+                    {
+                        void NativeControlPullGesture(object sender, AI.PullGestureEventArgs e) => InvokeEventCallback(OnPullGesture, e);
+
+                        OnPullGesture = (EventCallback<AI.PullGestureEventArgs>)value;
+                        NativeControl.PullGesture -= NativeControlPullGesture;
+                        NativeControl.PullGesture += NativeControlPullGesture;
+                    }
+                    break;
+                case nameof(OnPullGestureEnded):
+                    if (!Equals(OnPullGestureEnded, value))
+                    {
+                        void NativeControlPullGestureEnded(object sender, AI.PullGestureEndedEventArgs e) => InvokeEventCallback(OnPullGestureEnded, e);
+
+                        OnPullGestureEnded = (EventCallback<AI.PullGestureEndedEventArgs>)value;
+                        NativeControl.PullGestureEnded -= NativeControlPullGestureEnded;
+                        NativeControl.PullGestureEnded += NativeControlPullGestureEnded;
+                    }
+                    break;
+                case nameof(OnScrollGesture):
+                    if (!Equals(OnScrollGesture, value))
+                    {
+                        void NativeControlScrollGesture(object sender, AI.ScrollGestureEventArgs e) => InvokeEventCallback(OnScrollGesture, e);
+
+                        OnScrollGesture = (EventCallback<AI.ScrollGestureEventArgs>)value;
+                        NativeControl.ScrollGesture -= NativeControlScrollGesture;
+                        NativeControl.ScrollGesture += NativeControlScrollGesture;
+                    }
+                    break;
+                case nameof(OnScrollGestureInertiaStarting):
+                    if (!Equals(OnScrollGestureInertiaStarting, value))
+                    {
+                        void NativeControlScrollGestureInertiaStarting(object sender, AI.ScrollGestureInertiaStartingEventArgs e) => InvokeEventCallback(OnScrollGestureInertiaStarting, e);
+
+                        OnScrollGestureInertiaStarting = (EventCallback<AI.ScrollGestureInertiaStartingEventArgs>)value;
+                        NativeControl.ScrollGestureInertiaStarting -= NativeControlScrollGestureInertiaStarting;
+                        NativeControl.ScrollGestureInertiaStarting += NativeControlScrollGestureInertiaStarting;
+                    }
+                    break;
+                case nameof(OnScrollGestureEnded):
+                    if (!Equals(OnScrollGestureEnded, value))
+                    {
+                        void NativeControlScrollGestureEnded(object sender, AI.ScrollGestureEndedEventArgs e) => InvokeEventCallback(OnScrollGestureEnded, e);
+
+                        OnScrollGestureEnded = (EventCallback<AI.ScrollGestureEndedEventArgs>)value;
+                        NativeControl.ScrollGestureEnded -= NativeControlScrollGestureEnded;
+                        NativeControl.ScrollGestureEnded += NativeControlScrollGestureEnded;
+                    }
+                    break;
+                case nameof(OnPointerTouchPadGestureMagnify):
+                    if (!Equals(OnPointerTouchPadGestureMagnify, value))
+                    {
+                        void NativeControlPointerTouchPadGestureMagnify(object sender, AI.PointerDeltaEventArgs e) => InvokeEventCallback(OnPointerTouchPadGestureMagnify, e);
+
+                        OnPointerTouchPadGestureMagnify = (EventCallback<AI.PointerDeltaEventArgs>)value;
+                        NativeControl.PointerTouchPadGestureMagnify -= NativeControlPointerTouchPadGestureMagnify;
+                        NativeControl.PointerTouchPadGestureMagnify += NativeControlPointerTouchPadGestureMagnify;
+                    }
+                    break;
+                case nameof(OnPointerTouchPadGestureRotate):
+                    if (!Equals(OnPointerTouchPadGestureRotate, value))
+                    {
+                        void NativeControlPointerTouchPadGestureRotate(object sender, AI.PointerDeltaEventArgs e) => InvokeEventCallback(OnPointerTouchPadGestureRotate, e);
+
+                        OnPointerTouchPadGestureRotate = (EventCallback<AI.PointerDeltaEventArgs>)value;
+                        NativeControl.PointerTouchPadGestureRotate -= NativeControlPointerTouchPadGestureRotate;
+                        NativeControl.PointerTouchPadGestureRotate += NativeControlPointerTouchPadGestureRotate;
+                    }
+                    break;
+                case nameof(OnSwipeGesture):
+                    if (!Equals(OnSwipeGesture, value))
+                    {
+                        void NativeControlSwipeGesture(object sender, AI.SwipeGestureEventArgs e) => InvokeEventCallback(OnSwipeGesture, e);
+
+                        OnSwipeGesture = (EventCallback<AI.SwipeGestureEventArgs>)value;
+                        NativeControl.SwipeGesture -= NativeControlSwipeGesture;
+                        NativeControl.SwipeGesture += NativeControlSwipeGesture;
+                    }
+                    break;
+                case nameof(OnSwipeGestureEnded):
+                    if (!Equals(OnSwipeGestureEnded, value))
+                    {
+                        void NativeControlSwipeGestureEnded(object sender, AI.SwipeGestureEndedEventArgs e) => InvokeEventCallback(OnSwipeGestureEnded, e);
+
+                        OnSwipeGestureEnded = (EventCallback<AI.SwipeGestureEndedEventArgs>)value;
+                        NativeControl.SwipeGestureEnded -= NativeControlSwipeGestureEnded;
+                        NativeControl.SwipeGestureEnded += NativeControlSwipeGestureEnded;
+                    }
+                    break;
+                case nameof(OnPointerTouchPadGestureSwipe):
+                    if (!Equals(OnPointerTouchPadGestureSwipe, value))
+                    {
+                        void NativeControlPointerTouchPadGestureSwipe(object sender, AI.PointerDeltaEventArgs e) => InvokeEventCallback(OnPointerTouchPadGestureSwipe, e);
+
+                        OnPointerTouchPadGestureSwipe = (EventCallback<AI.PointerDeltaEventArgs>)value;
+                        NativeControl.PointerTouchPadGestureSwipe -= NativeControlPointerTouchPadGestureSwipe;
+                        NativeControl.PointerTouchPadGestureSwipe += NativeControlPointerTouchPadGestureSwipe;
                     }
                     break;
                 case nameof(OnTapped):

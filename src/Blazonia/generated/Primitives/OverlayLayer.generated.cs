@@ -18,7 +18,10 @@ using System.Threading.Tasks;
 
 namespace Blazonia.Components.Primitives
 {
-    public partial class OverlayLayer : Blazonia.Components.Canvas
+    /// <summary>
+    /// Represents a surface for showing overlays. Overlays are displayed on top of other elements, but behind popups.
+    /// </summary>
+    public abstract partial class OverlayLayer : Blazonia.Components.Canvas
     {
         static OverlayLayer()
         {
@@ -27,7 +30,6 @@ namespace Blazonia.Components.Primitives
 
         public new ACP.OverlayLayer NativeControl => (ACP.OverlayLayer)((AvaloniaObject)this).NativeControl;
 
-        protected override AvaloniaBindableObject CreateNativeElement() => new ACP.OverlayLayer();
 
 
         static partial void RegisterAdditionalHandlers();

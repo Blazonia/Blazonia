@@ -115,7 +115,9 @@ public partial class GeneratedPropertyInfo
 
         var xmlDocContents = _propertyInfo is null ? "" : ComponentWrapperGenerator.GetXmlDocContents(_propertyInfo, indent);
 
-        if (ComponentPropertyName == "HeaderTemplate")
+        // RenderFragment-based HeaderTemplate is exposed as RenderFragment<object>;
+        // plain value properties (e.g. Page.HeaderTemplate of type IDataTemplate) must keep their original type.
+        if (ComponentPropertyName == "HeaderTemplate" && IsRenderFragmentProperty)
         {
             return $@"{xmlDocContents}{indent}[Parameter] public {ComponentType}<object> {ComponentPropertyName} {{ get; set; }}
 ";

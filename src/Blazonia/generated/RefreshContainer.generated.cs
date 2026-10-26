@@ -27,6 +27,10 @@ namespace Blazonia.Components
         }
 
         /// <summary>
+        /// Gets or sets a value that indicates whether the pull-to-refresh gesture is enabled for desktop devices. Allows to enable the pull 2 refresh gesture for devices using a mouse. Disabled by default
+        /// </summary>
+        [Parameter] public bool? IsMouseEnabled { get; set; }
+        /// <summary>
         /// Gets or sets a value that specifies the direction to pull to initiate a refresh.
         /// </summary>
         [Parameter] public global::Avalonia.Input.PullDirection? PullDirection { get; set; }
@@ -44,6 +48,13 @@ namespace Blazonia.Components
         {
             switch (name)
             {
+                case nameof(IsMouseEnabled):
+                    if (!Equals(IsMouseEnabled, value))
+                    {
+                        IsMouseEnabled = (bool?)value;
+                        NativeControl.IsMouseEnabled = IsMouseEnabled ?? (bool)AC.RefreshContainer.IsMouseEnabledProperty.GetDefaultValue(AC.RefreshContainer.IsMouseEnabledProperty.OwnerType);
+                    }
+                    break;
                 case nameof(PullDirection):
                     if (!Equals(PullDirection, value))
                     {

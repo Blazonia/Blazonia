@@ -58,7 +58,7 @@ namespace Blazonia.Components
         /// Gets or sets a value indicating whether the calendar is displayed in months, years, or decades.
         /// </summary>
         /// <value>
-        /// A value indicating what length of time the <see cref="T:System.Windows.Controls.Calendar" /> should display.
+        /// A value indicating what length of time the <see cref="T:Avalonia.Controls.Calendar" /> should display.
         /// </value>
         [Parameter] public AC.CalendarMode? DisplayMode { get; set; }
         /// <summary>
@@ -87,7 +87,7 @@ namespace Blazonia.Components
         /// Gets or sets a value that indicates what kind of selections are allowed.
         /// </summary>
         /// <value>
-        /// A value that indicates the current selection mode. The default is <see cref="F:System.Windows.Controls.CalendarSelectionMode.SingleDate" />.
+        /// A value that indicates the current selection mode. The default is <see cref="F:Avalonia.Controls.CalendarSelectionMode.SingleDate" />.
         /// </value>
         [Parameter] public AC.CalendarSelectionMode? SelectionMode { get; set; }
         [Parameter] public EventCallback<AC.SelectionChangedEventArgs> OnSelectedDatesChanged { get; set; }

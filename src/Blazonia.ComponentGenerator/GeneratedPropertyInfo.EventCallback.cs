@@ -128,6 +128,9 @@ public partial class GeneratedPropertyInfo
             .Where(e => e.DeclaredAccessibility == Accessibility.Public && IsBrowsable(e))
             .Select(eventInfo =>
             {
+                if (!IsStandardEventHandler(eventInfo.Type))
+                    return null;
+
                 var isBindEvent = IsBindEvent(eventInfo, out var bindedProperty);
 
                 if (isBindEvent && IsRenderFragmentPropertySymbol(containingType, bindedProperty))
@@ -200,5 +203,13 @@ public partial class GeneratedPropertyInfo
     private static ITypeSymbol GetEventArgType(ITypeSymbol eventHandlerType)
     {
         return eventHandlerType.GetMethod("Invoke").Parameters[1].Type;
+    }
+
+    // Avalonia 12 introduced events with non-standard delegate shapes (e.g. Action<TArgs>);
+    // generated wrappers can only wire the classic (object sender, TEventArgs e) signature.
+    private static bool IsStandardEventHandler(ITypeSymbol eventHandlerType)
+    {
+        var invokeParameters = eventHandlerType.GetMethod("Invoke")?.Parameters;
+        return invokeParameters is { Length: 2 };
     }
 }

@@ -21,7 +21,7 @@ namespace Blazonia.Components.Primitives
     /// <summary>
     /// Represents a surface for showing adorners. Adorners are always on top of the adorned element and are positioned to stay relative to the adorned element.
     /// </summary>
-    public partial class AdornerLayer : Blazonia.Components.Canvas
+    public abstract partial class AdornerLayer : Blazonia.Components.Canvas
     {
         static AdornerLayer()
         {
@@ -35,7 +35,6 @@ namespace Blazonia.Components.Primitives
 
         public new ACP.AdornerLayer NativeControl => (ACP.AdornerLayer)((AvaloniaObject)this).NativeControl;
 
-        protected override AvaloniaBindableObject CreateNativeElement() => new ACP.AdornerLayer();
 
         protected override void HandleParameter(string name, object value)
         {

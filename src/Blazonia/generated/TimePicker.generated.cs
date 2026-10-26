@@ -46,6 +46,10 @@ namespace Blazonia.Components
         /// Gets or sets the use seconds switch, either true or false
         /// </summary>
         [Parameter] public bool? UseSeconds { get; set; }
+        /// <summary>
+        /// Gets or sets the vertical alignment of the content within the control.
+        /// </summary>
+        [Parameter] public global::Avalonia.Layout.VerticalAlignment? VerticalContentAlignment { get; set; }
         [Parameter] public EventCallback<Nullable<TimeSpan>> SelectedTimeChanged { get; set; }
 
         public new AC.TimePicker NativeControl => (AC.TimePicker)((AvaloniaObject)this).NativeControl;
@@ -89,6 +93,13 @@ namespace Blazonia.Components
                     {
                         UseSeconds = (bool?)value;
                         NativeControl.UseSeconds = UseSeconds ?? (bool)AC.TimePicker.UseSecondsProperty.GetDefaultValue(AC.TimePicker.UseSecondsProperty.OwnerType);
+                    }
+                    break;
+                case nameof(VerticalContentAlignment):
+                    if (!Equals(VerticalContentAlignment, value))
+                    {
+                        VerticalContentAlignment = (global::Avalonia.Layout.VerticalAlignment?)value;
+                        NativeControl.VerticalContentAlignment = VerticalContentAlignment ?? (global::Avalonia.Layout.VerticalAlignment)AC.TimePicker.VerticalContentAlignmentProperty.GetDefaultValue(AC.TimePicker.VerticalContentAlignmentProperty.OwnerType);
                     }
                     break;
                 case nameof(SelectedTimeChanged):

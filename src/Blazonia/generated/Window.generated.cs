@@ -43,10 +43,6 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public AC.WindowClosingBehavior? ClosingBehavior { get; set; }
         /// <summary>
-        /// Gets or Sets the <see cref="T:Avalonia.Platform.ExtendClientAreaChromeHints" /> that control how the chrome looks when the client area is extended.
-        /// </summary>
-        [Parameter] public global::Avalonia.Platform.ExtendClientAreaChromeHints? ExtendClientAreaChromeHints { get; set; }
-        /// <summary>
         /// Gets or Sets the TitlebarHeightHint for when the client area is extended. A value of -1 will cause the titlebar to be auto sized to the OS default. Any other positive value will cause the titlebar to assume that height.
         /// </summary>
         [Parameter] public double? ExtendClientAreaTitleBarHeightHint { get; set; }
@@ -75,19 +71,23 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public AC.SizeToContent? SizeToContent { get; set; }
         /// <summary>
-        /// Sets the system decorations (title bar, border, etc)
-        /// </summary>
-        [Parameter] public AC.SystemDecorations? SystemDecorations { get; set; }
-        /// <summary>
         /// Gets or sets the title of the window.
         /// </summary>
         [Parameter] public string Title { get; set; }
+        /// <summary>
+        /// Gets or sets the window decorations (title bar, border, etc).
+        /// </summary>
+        [Parameter] public AC.WindowDecorations? WindowDecorations { get; set; }
+        /// <summary>
+        /// Gets or sets the theme used to render the window decorations when they are not drawn by the system.
+        /// </summary>
+        [Parameter] public OneOf.OneOf<global::Avalonia.Styling.ControlTheme, string> WindowDecorationsTheme { get; set; }
         /// <summary>
         /// Gets or sets the startup location of the window.
         /// </summary>
         [Parameter] public AC.WindowStartupLocation? WindowStartupLocation { get; set; }
         /// <summary>
-        /// Gets or sets the minimized/maximized state of the window.
+        /// Represents the currently effective window state (normal, minimized, maximized)
         /// </summary>
         [Parameter] public AC.WindowState? WindowState { get; set; }
         [Parameter] public EventCallback<AC.WindowClosingEventArgs> OnClosing { get; set; }
@@ -126,13 +126,6 @@ namespace Blazonia.Components
                     {
                         ClosingBehavior = (AC.WindowClosingBehavior?)value;
                         NativeControl.ClosingBehavior = ClosingBehavior ?? (AC.WindowClosingBehavior)AC.Window.ClosingBehaviorProperty.GetDefaultValue(AC.Window.ClosingBehaviorProperty.OwnerType);
-                    }
-                    break;
-                case nameof(ExtendClientAreaChromeHints):
-                    if (!Equals(ExtendClientAreaChromeHints, value))
-                    {
-                        ExtendClientAreaChromeHints = (global::Avalonia.Platform.ExtendClientAreaChromeHints?)value;
-                        NativeControl.ExtendClientAreaChromeHints = ExtendClientAreaChromeHints ?? (global::Avalonia.Platform.ExtendClientAreaChromeHints)AC.Window.ExtendClientAreaChromeHintsProperty.GetDefaultValue(AC.Window.ExtendClientAreaChromeHintsProperty.OwnerType);
                     }
                     break;
                 case nameof(ExtendClientAreaTitleBarHeightHint):
@@ -198,18 +191,33 @@ namespace Blazonia.Components
                         NativeControl.SizeToContent = SizeToContent ?? (AC.SizeToContent)AC.Window.SizeToContentProperty.GetDefaultValue(AC.Window.SizeToContentProperty.OwnerType);
                     }
                     break;
-                case nameof(SystemDecorations):
-                    if (!Equals(SystemDecorations, value))
-                    {
-                        SystemDecorations = (AC.SystemDecorations?)value;
-                        NativeControl.SystemDecorations = SystemDecorations ?? (AC.SystemDecorations)AC.Window.SystemDecorationsProperty.GetDefaultValue(AC.Window.SystemDecorationsProperty.OwnerType);
-                    }
-                    break;
                 case nameof(Title):
                     if (!Equals(Title, value))
                     {
                         Title = (string)value;
                         NativeControl.Title = Title;
+                    }
+                    break;
+                case nameof(WindowDecorations):
+                    if (!Equals(WindowDecorations, value))
+                    {
+                        WindowDecorations = (AC.WindowDecorations?)value;
+                        NativeControl.WindowDecorations = WindowDecorations ?? (AC.WindowDecorations)AC.Window.WindowDecorationsProperty.GetDefaultValue(AC.Window.WindowDecorationsProperty.OwnerType);
+                    }
+                    break;
+                case nameof(WindowDecorationsTheme):
+                    if (!Equals(WindowDecorationsTheme, value))
+                    {
+                        WindowDecorationsTheme = (OneOf.OneOf<global::Avalonia.Styling.ControlTheme, string>)value;
+                        if (WindowDecorationsTheme.IsT0)
+                        {
+                            NativeControl.WindowDecorationsTheme = (global::Avalonia.Styling.ControlTheme)WindowDecorationsTheme.AsT0;
+                        }
+                        else 
+                        {
+
+                            NativeControl.WindowDecorationsTheme =   global::Avalonia.Controls.ResourceNodeExtensions.FindResource(global::Avalonia.Application.Current, WindowDecorationsTheme.AsT1) as global::Avalonia.Styling.ControlTheme;
+                        }
                     }
                     break;
                 case nameof(WindowStartupLocation):

@@ -43,7 +43,6 @@ namespace Blazonia.Components
         /// Gets or sets a context menu to the control.
         /// </summary>
         [Parameter] public RenderFragment ContextMenuSlot { get; set; }
-        [Parameter] public EventCallback<AC.ContextRequestedEventArgs> OnContextRequested { get; set; }
         [Parameter] public EventCallback<global::Avalonia.Interactivity.RoutedEventArgs> OnLoaded { get; set; }
         [Parameter] public EventCallback<global::Avalonia.Interactivity.RoutedEventArgs> OnUnloaded { get; set; }
         [Parameter] public EventCallback<AC.SizeChangedEventArgs> OnSizeChanged { get; set; }
@@ -79,16 +78,6 @@ namespace Blazonia.Components
                     break;
                 case nameof(ContextMenuSlot):
                     ContextMenuSlot = (RenderFragment)value;
-                    break;
-                case nameof(OnContextRequested):
-                    if (!Equals(OnContextRequested, value))
-                    {
-                        void NativeControlContextRequested(object sender, AC.ContextRequestedEventArgs e) => InvokeEventCallback(OnContextRequested, e);
-
-                        OnContextRequested = (EventCallback<AC.ContextRequestedEventArgs>)value;
-                        NativeControl.ContextRequested -= NativeControlContextRequested;
-                        NativeControl.ContextRequested += NativeControlContextRequested;
-                    }
                     break;
                 case nameof(OnLoaded):
                     if (!Equals(OnLoaded, value))

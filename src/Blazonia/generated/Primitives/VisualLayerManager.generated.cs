@@ -18,6 +18,9 @@ using System.Threading.Tasks;
 
 namespace Blazonia.Components.Primitives
 {
+    /// <summary>
+    /// A control that manages multiple layers such as adorners, overlays, text selectors, and popups.
+    /// </summary>
     public partial class VisualLayerManager : Blazonia.Components.Decorator
     {
         static VisualLayerManager()
@@ -25,7 +28,18 @@ namespace Blazonia.Components.Primitives
             RegisterAdditionalHandlers();
         }
 
-        [Parameter] public bool? IsPopup { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether an <see cref="T:Avalonia.Controls.Primitives.AdornerLayer" /> is created for this <see cref="T:Avalonia.Controls.Primitives.VisualLayerManager" />. When enabled, the adorner layer is added to the visual tree, providing a dedicated layer for rendering adorners.
+        /// </summary>
+        [Parameter] public bool? EnableAdornerLayer { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether an <see cref="T:Avalonia.Controls.Primitives.OverlayLayer" /> is created for this <see cref="T:Avalonia.Controls.Primitives.VisualLayerManager" />. When enabled, the overlay layer is added to the visual tree, providing a dedicated layer for rendering overlay visuals.
+        /// </summary>
+        [Parameter] public bool? EnableOverlayLayer { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether a <see cref="T:Avalonia.Controls.Primitives.TextSelectorLayer" /> is created for this <see cref="T:Avalonia.Controls.Primitives.VisualLayerManager" />. When enabled, the overlay layer is added to the visual tree, providing a dedicated layer for rendering text selection handles.
+        /// </summary>
+        [Parameter] public bool? EnableTextSelectorLayer { get; set; }
 
         public new ACP.VisualLayerManager NativeControl => (ACP.VisualLayerManager)((AvaloniaObject)this).NativeControl;
 
@@ -35,11 +49,25 @@ namespace Blazonia.Components.Primitives
         {
             switch (name)
             {
-                case nameof(IsPopup):
-                    if (!Equals(IsPopup, value))
+                case nameof(EnableAdornerLayer):
+                    if (!Equals(EnableAdornerLayer, value))
                     {
-                        IsPopup = (bool?)value;
-                        NativeControl.IsPopup = IsPopup ?? default;
+                        EnableAdornerLayer = (bool?)value;
+                        NativeControl.EnableAdornerLayer = EnableAdornerLayer ?? default;
+                    }
+                    break;
+                case nameof(EnableOverlayLayer):
+                    if (!Equals(EnableOverlayLayer, value))
+                    {
+                        EnableOverlayLayer = (bool?)value;
+                        NativeControl.EnableOverlayLayer = EnableOverlayLayer ?? default;
+                    }
+                    break;
+                case nameof(EnableTextSelectorLayer):
+                    if (!Equals(EnableTextSelectorLayer, value))
+                    {
+                        EnableTextSelectorLayer = (bool?)value;
+                        NativeControl.EnableTextSelectorLayer = EnableTextSelectorLayer ?? default;
                     }
                     break;
 

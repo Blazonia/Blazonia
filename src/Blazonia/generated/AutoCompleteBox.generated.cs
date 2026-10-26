@@ -159,10 +159,10 @@ namespace Blazonia.Components
         /// </value>
         [Parameter] public global::Avalonia.Data.BindingBase ValueMemberBinding { get; set; }
         /// <summary>
-        /// Gets or sets the <see cref="T:Avalonia.DataTemplate" /> used to display each item in the drop-down portion of the control.
+        /// Gets or sets the <see cref="T:Avalonia.Controls.Templates.IDataTemplate" /> used to display each item in the drop-down portion of the control.
         /// </summary>
         /// <value>
-        /// The <see cref="T:Avalonia.DataTemplate" /> used to display each item in the drop-down. The default is null.
+        /// The <see cref="T:Avalonia.Controls.Templates.IDataTemplate" /> used to display each item in the drop-down. The default is null.
         /// </value>
         [Parameter] public RenderFragment ItemTemplate { get; set; }
         [Parameter] public EventCallback<string> TextChanged { get; set; }

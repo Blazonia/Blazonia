@@ -52,6 +52,10 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public Nullable<DateTimeOffset> SelectedDate { get; set; }
         /// <summary>
+        /// Gets or sets the vertical alignment of the content within the control.
+        /// </summary>
+        [Parameter] public global::Avalonia.Layout.VerticalAlignment? VerticalContentAlignment { get; set; }
+        /// <summary>
         /// Gets or sets the year format
         /// </summary>
         [Parameter] public string YearFormat { get; set; }
@@ -116,6 +120,13 @@ namespace Blazonia.Components
                     {
                         SelectedDate = (Nullable<DateTimeOffset>)value;
                         NativeControl.SelectedDate = SelectedDate;
+                    }
+                    break;
+                case nameof(VerticalContentAlignment):
+                    if (!Equals(VerticalContentAlignment, value))
+                    {
+                        VerticalContentAlignment = (global::Avalonia.Layout.VerticalAlignment?)value;
+                        NativeControl.VerticalContentAlignment = VerticalContentAlignment ?? (global::Avalonia.Layout.VerticalAlignment)AC.DatePicker.VerticalContentAlignmentProperty.GetDefaultValue(AC.DatePicker.VerticalContentAlignmentProperty.OwnerType);
                     }
                     break;
                 case nameof(YearFormat):

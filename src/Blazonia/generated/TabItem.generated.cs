@@ -27,6 +27,18 @@ namespace Blazonia.Components
         }
 
         /// <summary>
+        /// Gets or sets the icon displayed alongside the tab header.
+        /// </summary>
+        [Parameter] public object Icon { get; set; }
+        /// <summary>
+        /// Gets or sets the data template used to display the icon of the control.
+        /// </summary>
+        [Parameter] public AC.Templates.IDataTemplate IconTemplate { get; set; }
+        /// <summary>
+        /// Gets or sets the data template used to render the selection indicator.
+        /// </summary>
+        [Parameter] public AC.Templates.IDataTemplate IndicatorTemplate { get; set; }
+        /// <summary>
         /// Gets or sets the selection state of the item.
         /// </summary>
         [Parameter] public bool? IsSelected { get; set; }
@@ -39,6 +51,27 @@ namespace Blazonia.Components
         {
             switch (name)
             {
+                case nameof(Icon):
+                    if (!Equals(Icon, value))
+                    {
+                        Icon = (object)value;
+                        NativeControl.Icon = Icon;
+                    }
+                    break;
+                case nameof(IconTemplate):
+                    if (!Equals(IconTemplate, value))
+                    {
+                        IconTemplate = (AC.Templates.IDataTemplate)value;
+                        NativeControl.IconTemplate = IconTemplate;
+                    }
+                    break;
+                case nameof(IndicatorTemplate):
+                    if (!Equals(IndicatorTemplate, value))
+                    {
+                        IndicatorTemplate = (AC.Templates.IDataTemplate)value;
+                        NativeControl.IndicatorTemplate = IndicatorTemplate;
+                    }
+                    break;
                 case nameof(IsSelected):
                     if (!Equals(IsSelected, value))
                     {

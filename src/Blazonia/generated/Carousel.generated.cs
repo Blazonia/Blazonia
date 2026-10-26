@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace Blazonia.Components
 {
     /// <summary>
-    /// An items control that displays its items as pages that fill the control.
+    /// An items control that displays its items as pages and can reveal adjacent pages using <see cref="P:Avalonia.Controls.Carousel.ViewportFraction" />.
     /// </summary>
     public partial class Carousel<T> : Blazonia.Components.Primitives.SelectingItemsControl<T>
     {
@@ -27,9 +27,17 @@ namespace Blazonia.Components
         }
 
         /// <summary>
+        /// Gets or sets whether swipe gestures are enabled for navigating between pages. When enabled, mouse pointer events are also accepted in addition to touch and pen.
+        /// </summary>
+        [Parameter] public bool? IsSwipeEnabled { get; set; }
+        /// <summary>
         /// Gets or sets the transition to use when moving between pages.
         /// </summary>
         [Parameter] public global::Avalonia.Animation.IPageTransition PageTransition { get; set; }
+        /// <summary>
+        /// Gets or sets the fraction of the viewport occupied by each page. A value of 1 shows a single full page; values below 1 reveal adjacent pages.
+        /// </summary>
+        [Parameter] public double? ViewportFraction { get; set; }
 
         public new AC.Carousel NativeControl => (AC.Carousel)((AvaloniaObject)this).NativeControl;
 
@@ -39,11 +47,25 @@ namespace Blazonia.Components
         {
             switch (name)
             {
+                case nameof(IsSwipeEnabled):
+                    if (!Equals(IsSwipeEnabled, value))
+                    {
+                        IsSwipeEnabled = (bool?)value;
+                        NativeControl.IsSwipeEnabled = IsSwipeEnabled ?? (bool)AC.Carousel.IsSwipeEnabledProperty.GetDefaultValue(AC.Carousel.IsSwipeEnabledProperty.OwnerType);
+                    }
+                    break;
                 case nameof(PageTransition):
                     if (!Equals(PageTransition, value))
                     {
                         PageTransition = (global::Avalonia.Animation.IPageTransition)value;
                         NativeControl.PageTransition = PageTransition;
+                    }
+                    break;
+                case nameof(ViewportFraction):
+                    if (!Equals(ViewportFraction, value))
+                    {
+                        ViewportFraction = (double?)value;
+                        NativeControl.ViewportFraction = ViewportFraction ?? (double)AC.Carousel.ViewportFractionProperty.GetDefaultValue(AC.Carousel.ViewportFractionProperty.OwnerType);
                     }
                     break;
 

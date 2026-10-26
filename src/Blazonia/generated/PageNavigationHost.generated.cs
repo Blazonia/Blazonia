@@ -6,9 +6,7 @@
 // </auto-generated>
 
 using AC = Avalonia.Controls;
-using ACR = Avalonia.Controls.Remote;
 using AvaloniaBindableObject = Avalonia.AvaloniaObject;
-using Blazonia.Components;
 using Blazonia.Core;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -16,29 +14,36 @@ using System.Threading.Tasks;
 
 #pragma warning disable CA2252
 
-namespace Blazonia.Components.Remote
+namespace Blazonia.Components
 {
-    public abstract partial class RemoteWidget : Blazonia.Components.Control
+    /// <summary>
+    /// A content control that hosts a root <see cref="P:Avalonia.Controls.PageNavigationHost.Page" />, wires up safe-area insets, and forwards the system back-button event into the page tree.
+    /// </summary>
+    public partial class PageNavigationHost : ContentControl
     {
-        static RemoteWidget()
+        static PageNavigationHost()
         {
             RegisterAdditionalHandlers();
         }
 
-        [Parameter] public ACR.RemoteWidget.SizingMode? Mode { get; set; }
+        /// <summary>
+        /// Gets or sets the root page displayed by this host.
+        /// </summary>
+        [Parameter] public AC.Page Page { get; set; }
 
-        public new ACR.RemoteWidget NativeControl => (ACR.RemoteWidget)((AvaloniaObject)this).NativeControl;
+        public new AC.PageNavigationHost NativeControl => (AC.PageNavigationHost)((AvaloniaObject)this).NativeControl;
 
+        protected override AvaloniaBindableObject CreateNativeElement() => new AC.PageNavigationHost();
 
         protected override void HandleParameter(string name, object value)
         {
             switch (name)
             {
-                case nameof(Mode):
-                    if (!Equals(Mode, value))
+                case nameof(Page):
+                    if (!Equals(Page, value))
                     {
-                        Mode = (ACR.RemoteWidget.SizingMode?)value;
-                        NativeControl.Mode = Mode ?? default;
+                        Page = (AC.Page)value;
+                        NativeControl.Page = Page;
                     }
                     break;
 

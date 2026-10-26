@@ -6,9 +6,7 @@
 // </auto-generated>
 
 using AC = Avalonia.Controls;
-using ACC = Avalonia.Controls.Chrome;
 using AvaloniaBindableObject = Avalonia.AvaloniaObject;
-using Blazonia.Components;
 using Blazonia.Core;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -16,21 +14,21 @@ using System.Threading.Tasks;
 
 #pragma warning disable CA2252
 
-namespace Blazonia.Components.Chrome
+namespace Blazonia.Components
 {
     /// <summary>
-    /// Draws a titlebar when managed client decorations are enabled.
+    /// Represents the header of a <see cref="T:Avalonia.Controls.TableViewColumn" />.
     /// </summary>
-    public partial class TitleBar : Blazonia.Components.Primitives.TemplatedControl
+    public partial class TableViewColumnHeader : ContentControl
     {
-        static TitleBar()
+        static TableViewColumnHeader()
         {
             RegisterAdditionalHandlers();
         }
 
-        public new ACC.TitleBar NativeControl => (ACC.TitleBar)((AvaloniaObject)this).NativeControl;
+        public new AC.TableViewColumnHeader NativeControl => (AC.TableViewColumnHeader)((AvaloniaObject)this).NativeControl;
 
-        protected override AvaloniaBindableObject CreateNativeElement() => new ACC.TitleBar();
+        protected override AvaloniaBindableObject CreateNativeElement() => new AC.TableViewColumnHeader();
 
 
         static partial void RegisterAdditionalHandlers();

@@ -101,6 +101,18 @@ namespace Blazonia.Components
                         AC.ToolTip.SetServiceEnabled((Avalonia.Controls.Control)element, (bool)value);
                     }
                 });
+            AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.ShouldUseOverlayLayer",
+                (element, value) =>
+                {
+                    if (value?.Equals(Avalonia.AvaloniaProperty.UnsetValue) == true)
+                    {
+                        element.ClearValue(AC.ToolTip.ShouldUseOverlayLayerProperty);
+                    }
+                    else
+                    {
+                        AC.ToolTip.SetShouldUseOverlayLayer((Avalonia.Controls.Control)element, (bool)value);
+                    }
+                });
         AttachedPropertyRegistry.RegisterAttachedPropertyHandler("ToolTip.ShowDelay",
             (element, value) =>
             {
@@ -219,6 +231,12 @@ namespace Blazonia.Components
         
             return element;
         }
+        public static Control ToolTipShouldUseOverlayLayer(this Control element, bool value)
+        {
+            element.AttachedProperties["ToolTip.ShouldUseOverlayLayer"] = value;
+        
+            return element;
+        }
         /// <summary>
         /// Defines the ToolTip.ShowDelay property.
         /// </summary>
@@ -285,6 +303,8 @@ namespace Blazonia.Components
         /// Defines the ToolTip.ServiceEnabled property.
         /// </summary>
         [Parameter] public bool ServiceEnabled { get; set; }
+
+        [Parameter] public bool ShouldUseOverlayLayer { get; set; }
 
         /// <summary>
         /// Defines the ToolTip.ShowDelay property.
@@ -365,6 +385,14 @@ namespace Blazonia.Components
                     {
                         ServiceEnabled = (bool)value;
                         //NativeControl.ServiceEnabledProperty = ServiceEnabled;
+                    }
+                    break;
+
+                    case nameof(ShouldUseOverlayLayer):
+                    if (!Equals(ShouldUseOverlayLayer, value))
+                    {
+                        ShouldUseOverlayLayer = (bool)value;
+                        //NativeControl.ShouldUseOverlayLayerProperty = ShouldUseOverlayLayer;
                     }
                     break;
 
@@ -465,6 +493,15 @@ namespace Blazonia.Components
                      global::Avalonia.Controls.ToolTip.SetServiceEnabled((Avalonia.Controls.Control)parentElement, ServiceEnabled);
                 }
                 
+                if (ShouldUseOverlayLayer == global::Avalonia.Controls.ToolTip.ShouldUseOverlayLayerProperty.GetDefaultValue(parentElement.GetType()))
+                {
+                    ((Avalonia.Controls.Control)parentElement).ClearValue( global::Avalonia.Controls.ToolTip.ShouldUseOverlayLayerProperty);
+                }
+                else
+                {
+                     global::Avalonia.Controls.ToolTip.SetShouldUseOverlayLayer((Avalonia.Controls.Control)parentElement, ShouldUseOverlayLayer);
+                }
+                
                 if (ShowDelay == global::Avalonia.Controls.ToolTip.ShowDelayProperty.GetDefaultValue(parentElement.GetType()))
                 {
                     ((Avalonia.Controls.Control)parentElement).ClearValue( global::Avalonia.Controls.ToolTip.ShowDelayProperty);
@@ -506,6 +543,7 @@ namespace Blazonia.Components
                 IsOpen = IsOpen != default ? IsOpen : global::Avalonia.Controls.ToolTip.IsOpenProperty.GetDefaultValue(parentType);
                 Placement = Placement != default ? Placement : global::Avalonia.Controls.ToolTip.PlacementProperty.GetDefaultValue(parentType);
                 ServiceEnabled = ServiceEnabled != default ? ServiceEnabled : global::Avalonia.Controls.ToolTip.ServiceEnabledProperty.GetDefaultValue(parentType);
+                ShouldUseOverlayLayer = ShouldUseOverlayLayer != default ? ShouldUseOverlayLayer : global::Avalonia.Controls.ToolTip.ShouldUseOverlayLayerProperty.GetDefaultValue(parentType);
                 ShowDelay = ShowDelay != default ? ShowDelay : global::Avalonia.Controls.ToolTip.ShowDelayProperty.GetDefaultValue(parentType);
                 ShowOnDisabled = ShowOnDisabled != default ? ShowOnDisabled : global::Avalonia.Controls.ToolTip.ShowOnDisabledProperty.GetDefaultValue(parentType);
                 VerticalOffset = VerticalOffset != default ? VerticalOffset : global::Avalonia.Controls.ToolTip.VerticalOffsetProperty.GetDefaultValue(parentType);
@@ -533,6 +571,7 @@ namespace Blazonia.Components
                 IsOpen = global::Avalonia.Controls.ToolTip.IsOpenProperty.GetDefaultValue(parentType);
                 Placement = global::Avalonia.Controls.ToolTip.PlacementProperty.GetDefaultValue(parentType);
                 ServiceEnabled = global::Avalonia.Controls.ToolTip.ServiceEnabledProperty.GetDefaultValue(parentType);
+                ShouldUseOverlayLayer = global::Avalonia.Controls.ToolTip.ShouldUseOverlayLayerProperty.GetDefaultValue(parentType);
                 ShowDelay = global::Avalonia.Controls.ToolTip.ShowDelayProperty.GetDefaultValue(parentType);
                 ShowOnDisabled = global::Avalonia.Controls.ToolTip.ShowOnDisabledProperty.GetDefaultValue(parentType);
                 VerticalOffset = global::Avalonia.Controls.ToolTip.VerticalOffsetProperty.GetDefaultValue(parentType);

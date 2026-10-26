@@ -18,9 +18,6 @@ using System.Threading.Tasks;
 
 namespace Blazonia.Components
 {
-    /// <summary>
-    /// Represents a data-driven collection control that incorporates a flexible layout system, custom views, and virtualization.
-    /// </summary>
     public partial class ItemsRepeater : Panel
     {
         static ItemsRepeater()
@@ -28,28 +25,10 @@ namespace Blazonia.Components
             RegisterAdditionalHandlers();
         }
 
-        /// <summary>
-        /// Gets or sets a value that indicates the size of the buffer used to realize items when panning or scrolling horizontally.
-        /// </summary>
         [Parameter] public double? HorizontalCacheLength { get; set; }
-        /// <summary>
-        /// Gets or sets an object source used to generate the content of the ItemsRepeater.
-        /// </summary>
         [Parameter] public IEnumerable ItemsSource { get; set; }
-        /// <summary>
-        /// Gets or sets the layout used to size and position elements in the ItemsRepeater.
-        /// </summary>
-        /// <value>
-        /// The layout used to size and position elements. The default is a StackLayout with vertical orientation.
-        /// </value>
         [Parameter] public global::Avalonia.Layout.AttachedLayout Layout { get; set; }
-        /// <summary>
-        /// Gets or sets a value that indicates the size of the buffer used to realize items when panning or scrolling vertically.
-        /// </summary>
         [Parameter] public double? VerticalCacheLength { get; set; }
-        /// <summary>
-        /// Gets or sets the template used to display each item.
-        /// </summary>
         [Parameter] public RenderFragment ItemTemplate { get; set; }
         [Parameter] public EventCallback<AC.ItemsRepeaterElementClearingEventArgs> OnElementClearing { get; set; }
         [Parameter] public EventCallback<AC.ItemsRepeaterElementIndexChangedEventArgs> OnElementIndexChanged { get; set; }

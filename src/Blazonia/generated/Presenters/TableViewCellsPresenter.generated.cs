@@ -6,7 +6,7 @@
 // </auto-generated>
 
 using AC = Avalonia.Controls;
-using ACC = Avalonia.Controls.Chrome;
+using ACP = Avalonia.Controls.Presenters;
 using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 using Blazonia.Components;
 using Blazonia.Core;
@@ -16,21 +16,21 @@ using System.Threading.Tasks;
 
 #pragma warning disable CA2252
 
-namespace Blazonia.Components.Chrome
+namespace Blazonia.Components.Presenters
 {
     /// <summary>
-    /// Draws window minimize / maximize / close buttons in a <see cref="T:Avalonia.Controls.Chrome.TitleBar" /> when managed client decorations are enabled.
+    /// Lays out the cells of a <see cref="T:Avalonia.Controls.TableViewRow" /> according to the column definitions of the parent <see cref="T:Avalonia.Controls.TableView" />.
     /// </summary>
-    public partial class CaptionButtons : Blazonia.Components.Primitives.TemplatedControl
+    public partial class TableViewCellsPresenter : Blazonia.Components.Panel
     {
-        static CaptionButtons()
+        static TableViewCellsPresenter()
         {
             RegisterAdditionalHandlers();
         }
 
-        public new ACC.CaptionButtons NativeControl => (ACC.CaptionButtons)((AvaloniaObject)this).NativeControl;
+        public new ACP.TableViewCellsPresenter NativeControl => (ACP.TableViewCellsPresenter)((AvaloniaObject)this).NativeControl;
 
-        protected override AvaloniaBindableObject CreateNativeElement() => new ACC.CaptionButtons();
+        protected override AvaloniaBindableObject CreateNativeElement() => new ACP.TableViewCellsPresenter();
 
 
         static partial void RegisterAdditionalHandlers();

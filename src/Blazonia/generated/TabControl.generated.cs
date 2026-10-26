@@ -32,6 +32,14 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public global::Avalonia.Layout.HorizontalAlignment? HorizontalContentAlignment { get; set; }
         /// <summary>
+        /// Gets or sets the data template used to render the selection indicator on each tab item.
+        /// </summary>
+        [Parameter] public AC.Templates.IDataTemplate IndicatorTemplate { get; set; }
+        /// <summary>
+        /// Gets or sets the page transition to use when switching tabs.
+        /// </summary>
+        [Parameter] public global::Avalonia.Animation.IPageTransition PageTransition { get; set; }
+        /// <summary>
         /// Gets or sets the tabstrip placement of the TabControl.
         /// </summary>
         [Parameter] public AC.Dock? TabStripPlacement { get; set; }
@@ -57,6 +65,20 @@ namespace Blazonia.Components
                     {
                         HorizontalContentAlignment = (global::Avalonia.Layout.HorizontalAlignment?)value;
                         NativeControl.HorizontalContentAlignment = HorizontalContentAlignment ?? (global::Avalonia.Layout.HorizontalAlignment)AC.TabControl.HorizontalContentAlignmentProperty.GetDefaultValue(AC.TabControl.HorizontalContentAlignmentProperty.OwnerType);
+                    }
+                    break;
+                case nameof(IndicatorTemplate):
+                    if (!Equals(IndicatorTemplate, value))
+                    {
+                        IndicatorTemplate = (AC.Templates.IDataTemplate)value;
+                        NativeControl.IndicatorTemplate = IndicatorTemplate;
+                    }
+                    break;
+                case nameof(PageTransition):
+                    if (!Equals(PageTransition, value))
+                    {
+                        PageTransition = (global::Avalonia.Animation.IPageTransition)value;
+                        NativeControl.PageTransition = PageTransition;
                     }
                     break;
                 case nameof(TabStripPlacement):
