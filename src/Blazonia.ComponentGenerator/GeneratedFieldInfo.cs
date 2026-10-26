@@ -31,7 +31,6 @@ public partial class GeneratedFieldInfo
     public string ComponentName { get; }
     public Compilation Compilation { get; }
     public bool IsGeneric { get; }
-    public INamedTypeSymbol GenericTypeArgument { get; }
     public string ComponentFieldName
     {
         get => _componentFieldNameLazy.Value;
@@ -76,8 +75,9 @@ public partial class GeneratedFieldInfo
         Compilation = typeInfo.Compilation;
         ComponentName = typeInfo.TypeName;
         AvaloniaFieldName = ComponentWrapperGenerator.GetIdentifierName(fieldInfo.Name);
-        IsGeneric = typeInfo.Settings.GenericProperties.TryGetValue(fieldInfo.Name, out var genericTypeArgument);
-        GenericTypeArgument = genericTypeArgument;
+        // Attached-property fields are never mapped to the component's generic T
+        // (no Avalonia attached field shares a generic-mapped API name).
+        IsGeneric = false;
         AvaloniaContainingTypeName = GetTypeNameAndAddNamespace(fieldInfo.ContainingType);
         IsCanParseFromString = false;
         var parameterType = ((INamedTypeSymbol)fieldInfo.Type).TypeArguments[0];
@@ -318,31 +318,20 @@ public partial class GeneratedFieldInfo
     private static string GetAttachedPropertyTypeName(IFieldSymbol fieldSymbol, GeneratedTypeInfo containingType, bool isRenderFragmentProperty = false, bool makeNullable = false)
     {
         var typeSymbol = ((INamedTypeSymbol)fieldSymbol.Type).TypeArguments[0];
-        var isGeneric = containingType.Settings.GenericProperties.TryGetValue(fieldSymbol.Name, out var typeArgument);
-        var typeArgumentName = typeArgument is null ? "T" : containingType.GetTypeNameAndAddNamespace(typeArgument);
 
         if (isRenderFragmentProperty)
         {
-            return isGeneric ? $"RenderFragment<{typeArgumentName}>" : "RenderFragment";
+            return "RenderFragment";
         }
 
-        if (typeSymbol is INamedTypeSymbol namedTypeSymbol
-            && isGeneric
-            && namedTypeSymbol.GetFullName() == "Avalonia.Data.BindingBase")
-        {
-            return "Func<T, string>";
-        }
-
-        return GeneratedTypeInfo.GetMappedTypeName(typeSymbol, containingType, makeNullable, isGeneric, typeArgumentName);
+        return GeneratedTypeInfo.GetMappedTypeName(typeSymbol, containingType, makeNullable, isGeneric: false, typeArgumentName: "T");
     }
 
     private static string GetOriginalAttachedPropertyTypeName(IFieldSymbol fieldSymbol, GeneratedTypeInfo containingType, bool makeNullable = false)
     {
         var typeSymbol = ((INamedTypeSymbol)fieldSymbol.Type).TypeArguments[0];
-        var isGeneric = containingType.Settings.GenericProperties.TryGetValue(fieldSymbol.Name, out var typeArgument);
-        var typeArgumentName = typeArgument is null ? "T" : containingType.GetTypeNameAndAddNamespace(typeArgument);
 
-        return GeneratedTypeInfo.GetMappedTypeName(typeSymbol, containingType, makeNullable, isGeneric, typeArgumentName);
+        return GeneratedTypeInfo.GetMappedTypeName(typeSymbol, containingType, makeNullable, isGeneric: false, typeArgumentName: "T");
     }
 
     private static bool IsPublicField(IFieldSymbol fieldInfo)

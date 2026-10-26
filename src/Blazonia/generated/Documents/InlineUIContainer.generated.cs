@@ -11,6 +11,7 @@ using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 using Blazonia.Components;
 using Blazonia.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace Blazonia.Components.Documents
         /// <summary>
         /// The content spanned by this TextElement.
         /// </summary>
-        [Parameter] public AC.Control Child { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         public new ACD.InlineUIContainer NativeControl => (ACD.InlineUIContainer)((AvaloniaObject)this).NativeControl;
 
@@ -41,18 +42,21 @@ namespace Blazonia.Components.Documents
         {
             switch (name)
             {
-                case nameof(Child):
-                    if (!Equals(Child, value))
-                    {
-                        Child = (AC.Control)value;
-                        NativeControl.Child = Child;
-                    }
+                case nameof(ChildContent):
+                    ChildContent = (RenderFragment)value;
                     break;
 
                 default:
                     base.HandleParameter(name, value);
                     break;
             }
+        }
+
+        protected override void RenderAdditionalElementContent(RenderTreeBuilder builder, ref int sequence)
+        {
+            base.RenderAdditionalElementContent(builder, ref sequence);
+            RenderTreeBuilderHelper.AddContentProperty<ACD.InlineUIContainer>(builder, sequence++, ChildContent,
+                (nativeControl, data) => nativeControl.Child = (AC.Control)data);
         }
 
         static partial void RegisterAdditionalHandlers();

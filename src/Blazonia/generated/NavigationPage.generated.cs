@@ -9,6 +9,7 @@ using AC = Avalonia.Controls;
 using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 using Blazonia.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Threading.Tasks;
 
@@ -31,10 +32,6 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public double? BarHeight { get; set; }
         /// <summary>
-        /// Gets or sets the root page of the navigation stack.
-        /// </summary>
-        [Parameter] public object Content { get; set; }
-        /// <summary>
         /// Gets or sets whether the navigation bar has a shadow.
         /// </summary>
         [Parameter] public bool? HasShadow { get; set; }
@@ -54,6 +51,10 @@ namespace Blazonia.Components
         /// Gets or sets the transition used when pushing or popping pages.
         /// </summary>
         [Parameter] public global::Avalonia.Animation.IPageTransition PageTransition { get; set; }
+        /// <summary>
+        /// Gets or sets the root page of the navigation stack.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public EventCallback<AC.ModalPoppedEventArgs> OnModalPopped { get; set; }
         [Parameter] public EventCallback<AC.ModalPushedEventArgs> OnModalPushed { get; set; }
         [Parameter] public EventCallback<AC.PageInsertedEventArgs> OnPageInserted { get; set; }
@@ -75,13 +76,6 @@ namespace Blazonia.Components
                     {
                         BarHeight = (double?)value;
                         NativeControl.BarHeight = BarHeight ?? (double)AC.NavigationPage.BarHeightProperty.GetDefaultValue(AC.NavigationPage.BarHeightProperty.OwnerType);
-                    }
-                    break;
-                case nameof(Content):
-                    if (!Equals(Content, value))
-                    {
-                        Content = (object)value;
-                        NativeControl.Content = Content;
                     }
                     break;
                 case nameof(HasShadow):
@@ -118,6 +112,9 @@ namespace Blazonia.Components
                         PageTransition = (global::Avalonia.Animation.IPageTransition)value;
                         NativeControl.PageTransition = PageTransition;
                     }
+                    break;
+                case nameof(ChildContent):
+                    ChildContent = (RenderFragment)value;
                     break;
                 case nameof(OnModalPopped):
                     if (!Equals(OnModalPopped, value))
@@ -194,6 +191,13 @@ namespace Blazonia.Components
                     base.HandleParameter(name, value);
                     break;
             }
+        }
+
+        protected override void RenderAdditionalElementContent(RenderTreeBuilder builder, ref int sequence)
+        {
+            base.RenderAdditionalElementContent(builder, ref sequence);
+            RenderTreeBuilderHelper.AddContentProperty<AC.NavigationPage>(builder, sequence++, ChildContent,
+                (nativeControl, data) => nativeControl.Content = (object)data);
         }
 
         static partial void RegisterAdditionalHandlers();

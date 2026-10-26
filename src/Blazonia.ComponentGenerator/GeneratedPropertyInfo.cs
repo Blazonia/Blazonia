@@ -22,7 +22,6 @@ public partial class GeneratedPropertyInfo
     public string ComponentName { get; }
     public Compilation Compilation { get; }
     public bool IsGeneric { get; }
-    public INamedTypeSymbol GenericTypeArgument { get; }
 
     public BaseTypeConverter TypeConverter { get; set; }
     public string ComponentPropertyName
@@ -64,8 +63,7 @@ public partial class GeneratedPropertyInfo
         Compilation = typeInfo.Compilation;
         ComponentName = typeInfo.TypeName;
         AvaloniaPropertyName = ComponentWrapperGenerator.GetIdentifierName(propertyInfo.Name);
-        IsGeneric = typeInfo.Settings.GenericProperties.TryGetValue(propertyInfo.Name, out var genericTypeArgument);
-        GenericTypeArgument = genericTypeArgument;
+        IsGeneric = typeInfo.Settings.IsExplicitlyGeneric && IsGenericMappedType(propertyInfo.Type);
         AvaloniaContainingTypeName = GetTypeNameAndAddNamespace(propertyInfo.ContainingType);
 
         ComponentName = ComponentWrapperGenerator.GetIdentifierName(_propertyInfo.ContainingType.Name);
@@ -209,22 +207,29 @@ public partial class GeneratedPropertyInfo
     private static string GetComponentPropertyTypeName(IPropertySymbol propertySymbol, GeneratedTypeInfo containingType, bool isRenderFragmentProperty = false, bool makeNullable = false)
     {
         var typeSymbol = propertySymbol.Type;
-        var isGeneric = containingType.Settings.GenericProperties.TryGetValue(propertySymbol.Name, out var typeArgument);
-        var typeArgumentName = typeArgument is null ? "T" : containingType.GetTypeNameAndAddNamespace(typeArgument);
+        var isGeneric = containingType.Settings.IsExplicitlyGeneric && IsGenericMappedType(typeSymbol);
+        const string typeArgumentName = "T";
 
         if (isRenderFragmentProperty)
         {
             return isGeneric ? $"RenderFragment<{typeArgumentName}>" : "RenderFragment";
         }
 
-        if (typeSymbol is INamedTypeSymbol namedTypeSymbol
-            && isGeneric
-            && namedTypeSymbol.GetFullName() == "Avalonia.Data.BindingBase")
-        {
-            return "Func<T, string>";
-        }
-
         return GeneratedTypeInfo.GetMappedTypeName(typeSymbol, containingType, makeNullable, isGeneric, typeArgumentName);
+    }
+
+    /// <summary>
+    /// On generic components these types are mapped to T: item collections become
+    /// IEnumerable&lt;T&gt;/IList&lt;T&gt; and data templates become RenderFragment&lt;T&gt;.
+    /// </summary>
+    private static bool IsGenericMappedType(ITypeSymbol typeSymbol)
+    {
+        if (typeSymbol is not INamedTypeSymbol namedTypeSymbol)
+            return false;
+
+        return namedTypeSymbol.SpecialType == SpecialType.System_Collections_IEnumerable
+            || namedTypeSymbol.GetFullName() == "System.Collections.IList"
+            || namedTypeSymbol.GetFullName() == "Avalonia.Controls.Templates.IDataTemplate";
     }
 
     private static bool IsPublicProperty(IPropertySymbol propertyInfo)

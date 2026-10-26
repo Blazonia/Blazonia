@@ -29,18 +29,11 @@ using Avalonia.Controls.Remote;
 [assembly: GenerateComponentsFromAssembly("Avalonia.Controls.DataGrid")]
 [assembly: GenerateComponentsFromAssembly("Avalonia.Controls.ItemsRepeater")]
 
-[assembly: GenerateComponent(typeof(AutoCompleteBox),
-    ContentProperties = new[]
-    {
-        nameof(AutoCompleteBox.ItemTemplate)
-    })]
-[assembly: GenerateComponent(typeof(ContentControl),
-    ContentProperties = new[]
-    {
-        nameof(ContentControl.Content),
-        nameof(ContentControl.ContentTemplate)
-    })]
+[assembly: GenerateComponent(typeof(AutoCompleteBox))]
+[assembly: GenerateComponent(typeof(ContentControl))]
 [assembly: GenerateComponent(typeof(ContextMenu))]
+// ContextMenu is neither [Content]-marked nor a template type in Avalonia, so content
+// rendering and the ContextMenuSlot name cannot be inferred - both stay explicit here.
 [assembly: GenerateComponent(typeof(Control),
     ContentProperties = new[]
     {
@@ -51,149 +44,55 @@ using Avalonia.Controls.Remote;
         $"{nameof(Control.ContextMenu)}:ContextMenuSlot",
     })]
 [assembly: GenerateComponent(typeof(DatePicker))]
-[assembly: GenerateComponent(typeof(Decorator),
-    ContentProperties = new[]
-    {
-        nameof(Decorator.Child)
-    })]
+[assembly: GenerateComponent(typeof(Decorator))]
+// ITemplate<Control> cannot be rendered as content (ControlTemplateItemsComponent only
+// supports ITemplate<Panel>), so this stays a registered content property as-is.
 [assembly: GenerateComponent(typeof(DataGrid),
     ContentProperties = new[]
     {
-        nameof(DataGrid.DropLocationIndicatorTemplate),
-        nameof(DataGrid.RowDetailsTemplate)
+        nameof(DataGrid.DropLocationIndicatorTemplate)
     },
-    GenericProperties = new[]
-    {
-        nameof(DataGrid.ItemsSource),
-        nameof(DataGrid.RowDetailsTemplate)
-    })]
+    IsGeneric = true)]
+// PreviewContent is object-typed but not [Content]-marked in Avalonia.
 [assembly: GenerateComponent(typeof(GridSplitter),
     ContentProperties = new[]
     {
         nameof(GridSplitter.PreviewContent)
     })]
-[assembly: GenerateComponent(typeof(HeaderedContentControl),
-    ContentProperties = new[]
-    {
-        nameof(HeaderedContentControl.HeaderTemplate)
-    })]
-[assembly: GenerateComponent(typeof(HeaderedItemsControl),
-    ContentProperties = new[]
-    {
-        nameof(HeaderedItemsControl.HeaderTemplate)
-    })]
-[assembly: GenerateComponent(typeof(HeaderedSelectingItemsControl),
-    ContentProperties = new[]
-    {
-        nameof(HeaderedSelectingItemsControl.HeaderTemplate)
-    })]
-[assembly: GenerateComponent(typeof(DataGridColumn),
-    ContentProperties = new[]
-    {
-        nameof(DataGridColumn.HeaderTemplate)
-    })]
+[assembly: GenerateComponent(typeof(HeaderedContentControl))]
+[assembly: GenerateComponent(typeof(HeaderedItemsControl))]
+[assembly: GenerateComponent(typeof(HeaderedSelectingItemsControl))]
+[assembly: GenerateComponent(typeof(DataGridColumn))]
 [assembly: GenerateComponent(typeof(ItemsControl),
-    ContentProperties = new string[]
-    {
-        nameof(ItemsControl.ItemTemplate),
-        nameof(ItemsControl.ItemsPanel),
-        nameof(ItemsControl.Items),
-    },
     Exclude = new string[]
     {
-        //nameof(ItemsControl.ItemsPanel),
         nameof(ItemsControl.ItemsSource),
     },
-    GenericProperties = new string[]
-    {
-        nameof(ItemsControl.ItemTemplate)
-        //nameof(ListBox.SelectedItems),
-        //nameof(ListBox.Selection),
-        //nameof(ListView.ItemsSource),
-        //$"{nameof(ItemsControl.ItemsPanel)}:Avalonia.Controls.Panel",
-        //nameof(ListView.GroupDisplayBinding),
-        //nameof(ListView.GroupShortNameBinding)
-        }
-    )]
-[assembly: GenerateComponent(typeof(ItemsRepeater),
-    ContentProperties = new[]
-    {
-        nameof(ItemsRepeater.ItemTemplate)
-    })]
+    IsGeneric = true)]
+[assembly: GenerateComponent(typeof(ItemsRepeater))]
 [assembly: GenerateComponent(typeof(ListBox),
-    Exclude = new string[]
-    { 
-        //nameof(ListBox.ItemTemplate) 
-    },
     Include = new[]
     {
         nameof(ListBox.SelectionMode),
         nameof(ListBox.SelectedItems),
         nameof(ListBox.Selection)
-    },
-    ContentProperties = new string[]
-    {
-        //nameof(ListBox.ItemTemplate),
-        //nameof(ListBox.ItemsPanel),
-    },
-    GenericProperties = new string[]
-    {
-        //nameof(ListBox.SelectedItems),
-        //nameof(ListBox.Selection),
-        //nameof(ListView.ItemsSource),
-        //$"{nameof(ListBox.ItemsPanel)}:Avalonia.Controls.Panel",
-        //nameof(ListView.GroupDisplayBinding),
-        //nameof(ListView.GroupShortNameBinding)
-    },
-    Aliases = new string[] {
-        //$"{nameof(ListView.HeaderTemplate)}:Header",
-        //$"{nameof(ListView.FooterTemplate)}:Footer" 
     })]
-[assembly: GenerateComponent(typeof(Panel),
-    ContentProperties = new string[]
-    {
-        nameof(Panel.Children)
-    }
-    )]
-[assembly: GenerateComponent(typeof(SelectingItemsControl),
-    Include = new string[]
-    {
+[assembly: GenerateComponent(typeof(Panel))]
+[assembly: GenerateComponent(typeof(SelectingItemsControl))]
 
-    }
-)]
-
-[assembly: GenerateComponent(typeof(SplitView),
-    ContentProperties = new[]
-    {
-        nameof(SplitView.PaneTemplate)
-    })]
-[assembly: GenerateComponent(typeof(StyledElement),
-    Exclude = new[]
-    {
-        nameof(StyledElement.Initialized)
-    })]
-[assembly: GenerateComponent(typeof(TabControl),
-    ContentProperties = new[]
-    {
-        nameof(TabControl.ContentTemplate),
-        //nameof(TabControl.Items)
-    },
-    Include = new string[]
-    {
-        //nameof(TabControl.Items)
-    })]
+[assembly: GenerateComponent(typeof(SplitView))]
+[assembly: GenerateComponent(typeof(StyledElement))]
+[assembly: GenerateComponent(typeof(TabControl))]
+// Template is a concrete ControlTemplate (not [Content]-marked, not IControlTemplate),
+// so content rendering cannot be inferred.
 [assembly: GenerateComponent(typeof(TemplatedControl),
     ContentProperties = new string[]
     {
         nameof(TemplatedControl.Template)
     })]
 
-[assembly: GenerateComponent(typeof(ToggleSwitch),
-    ContentProperties = new[]
-    {
-        nameof(ToggleSwitch.OnContentTemplate),
-        nameof(ToggleSwitch.OffContentTemplate),
-    })]
+[assembly: GenerateComponent(typeof(ToggleSwitch))]
+// Tip is object-typed but not [Content]-marked in Avalonia.
 [assembly: GenerateComponent(typeof(ToolTip),
     ContentProperties = new[]
     {

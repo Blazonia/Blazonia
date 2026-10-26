@@ -11,6 +11,7 @@ using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 using Blazonia.Components;
 using Blazonia.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace Blazonia.Components.Media
         /// <value>
         /// The children.
         /// </value>
-        [Parameter] public AM.Transforms Children { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         public new AM.TransformGroup NativeControl => (AM.TransformGroup)((AvaloniaObject)this).NativeControl;
 
@@ -41,18 +42,21 @@ namespace Blazonia.Components.Media
         {
             switch (name)
             {
-                case nameof(Children):
-                    if (!Equals(Children, value))
-                    {
-                        Children = (AM.Transforms)value;
-                        NativeControl.Children = Children;
-                    }
+                case nameof(ChildContent):
+                    ChildContent = (RenderFragment)value;
                     break;
 
                 default:
                     base.HandleParameter(name, value);
                     break;
             }
+        }
+
+        protected override void RenderAdditionalElementContent(RenderTreeBuilder builder, ref int sequence)
+        {
+            base.RenderAdditionalElementContent(builder, ref sequence);
+            RenderTreeBuilderHelper.AddListContentProperty<AM.TransformGroup, AM.Transform>(builder, sequence++, ChildContent,
+                nativeControl => nativeControl.Children);
         }
 
         static partial void RegisterAdditionalHandlers();

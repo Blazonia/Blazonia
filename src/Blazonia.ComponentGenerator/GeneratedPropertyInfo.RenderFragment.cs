@@ -63,8 +63,7 @@ public partial class GeneratedPropertyInfo
         else if (IsDataTemplate && IsGeneric)
         {
             // RenderTreeBuilderHelper.AddDataTemplateProperty<MC.ItemsView, T>(builder, sequence++, ItemTemplate, (x, template) => x.ItemTemplate = template);
-            var itemTypeName = GenericTypeArgument is null ? "T" : GetTypeNameAndAddNamespace(GenericTypeArgument);
-            return $"\r\n            RenderTreeBuilderHelper.AddDataTemplateProperty<{AvaloniaContainingTypeName}, {itemTypeName}>(builder, sequence++, {ComponentPropertyName},\r\n                ({parameterName}, nativeTemplate) => {parameterName}.{_propertyInfo.Name} = nativeTemplate);";
+            return $"\r\n            RenderTreeBuilderHelper.AddDataTemplateProperty<{AvaloniaContainingTypeName}, T>(builder, sequence++, {ComponentPropertyName},\r\n                ({parameterName}, nativeTemplate) => {parameterName}.{_propertyInfo.Name} = nativeTemplate);";
         }
         else if (/*!ForceContent &&*/ IsIListGeneric(type, out var itemType))
         {
@@ -119,6 +118,14 @@ public partial class GeneratedPropertyInfo
 
         var type = prop.Type;
 
+        // Avalonia marks the XAML child property with [Content]; expose it as Blazor child
+        // content too - unless its type is a leaf value meant for attribute assignment or a
+        // hand-written partial already owns ChildContent (TextBlock maps raw child text to Text).
+        if (HasAvaloniaContentAttribute(prop)
+            && !ComponentOwnsHandWrittenChildContent(containingType)
+            && IsContentEligibleType(containingType, prop))
+            return true;
+
         if (IsContent(type) && HasPublicSetter(prop))
             return true;
 
@@ -164,6 +171,64 @@ public partial class GeneratedPropertyInfo
 
             return false;
         }
+    }
+
+    private static bool HasAvaloniaContentAttribute(IPropertySymbol prop)
+        => prop.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == "Avalonia.Metadata.ContentAttribute");
+
+    /// <summary>
+    /// Whether a hand-written partial of the component already declares ChildContent
+    /// (as opposed to a previously generated one); such components keep their [Content]
+    /// properties as value parameters.
+    /// </summary>
+    private static bool ComponentOwnsHandWrittenChildContent(GeneratedTypeInfo containingType)
+    {
+        return containingType.Compilation.Assembly.GlobalNamespace
+            .GetAllTypes()
+            .Any(t => t.Name == containingType.TypeName
+                && t.ContainingNamespace.GetFullName().StartsWith("Blazonia")
+                && t.GetMembers("ChildContent").Any(m => m.DeclaringSyntaxReferences.All(r => !r.SyntaxTree.FilePath.Contains("generated"))));
+    }
+
+    /// <summary>
+    /// Whether an [Content]-marked property can carry child markup. Collections go through the
+    /// getter-based list branch (no setter needed) but must hold renderable component items;
+    /// object/Control children are assigned by the render helpers and need a public setter.
+    /// Leaf values such as TextBox.Text or Image.Source stay attribute parameters.
+    /// </summary>
+    private static bool IsContentEligibleType(GeneratedTypeInfo containingType, IPropertySymbol prop)
+    {
+        var type = prop.Type;
+        var compilation = containingType.Compilation;
+
+        if (IsIListGeneric(type, out var itemType))
+            return itemType.SpecialType == SpecialType.System_Object || IsGeneratableComponent(containingType, itemType);
+
+        if (IsIList(type))
+            return true;
+
+        if (prop.SetMethod?.DeclaredAccessibility != Accessibility.Public)
+            return false;
+
+        if (type.SpecialType == SpecialType.System_Object)
+            return true;
+
+        var control = compilation.GetTypeByMetadataName("Avalonia.Controls.Control");
+        if (control == null)
+            return false;
+
+        var conversion = compilation.ClassifyConversion(type, control);
+        return conversion.IsIdentity || conversion is { IsReference: true, IsImplicit: true };
+    }
+
+    private static bool IsGeneratableComponent(GeneratedTypeInfo containingType, ITypeSymbol type)
+    {
+        var animatable = containingType.Compilation.GetTypeByMetadataName("Avalonia.Animation.Animatable");
+        if (animatable == null)
+            return false;
+
+        var conversion = containingType.Compilation.ClassifyConversion(type, animatable);
+        return conversion.IsIdentity || conversion is { IsReference: true, IsImplicit: true };
     }
 
     private static bool IsIListGeneric(ITypeSymbol type, out ITypeSymbol itemType)

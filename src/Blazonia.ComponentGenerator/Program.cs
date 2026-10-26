@@ -148,11 +148,9 @@ public class Program
                     FileHeader = FileHeader,
                     TypeAlias = typeAlias,
                     TypeSymbol = typeSymbol,
-                    Exclude = GetNamedArgumentValues(attribute, "Exclude").ToHashSet(),
+                    Exclude = GetNamedArgumentValues(attribute, "Exclude").Concat(GenerateComponentSettings.DefaultExcludes).ToHashSet(),
                     Include = GetNamedArgumentValues(attribute, "Include").ToHashSet(),
                     ContentProperties = GetNamedArgumentValues(attribute, "ContentProperties").ToHashSet(),
-                    GenericProperties = GetNamedArgumentValues(attribute, "GenericProperties").Select(v => v.Split(':')).ToDictionary(v => v[0],
-                        v => v.ElementAtOrDefault(1) is string genericArgName ? compilation.GetTypeByMetadataName(genericArgName) : null),
                     Aliases = propertiesAliases,
                     IsGeneric = (attribute.NamedArguments.FirstOrDefault(a => a.Key == "IsGeneric").Value.Value as bool?) ?? false
                 };
@@ -197,7 +195,8 @@ public class Program
                         {
                             FileHeader = FileHeader,
                             TypeSymbol = type,
-                            TypeAlias = typeNamePrefix is null ? null : typeNamePrefix + type.Name
+                            TypeAlias = typeNamePrefix is null ? null : typeNamePrefix + type.Name,
+                            Exclude = GenerateComponentSettings.DefaultExcludes.ToHashSet()
                         };
                     });
                 return result;

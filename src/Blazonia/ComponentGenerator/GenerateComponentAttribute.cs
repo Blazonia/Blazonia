@@ -18,12 +18,7 @@ public class GenerateComponentAttribute : Attribute
     public string[] Include { get; set; }
 
     /// <summary>
-    /// Generates generic component with generic properties.
-    /// </summary>
-    public string[] GenericProperties { get; set; }
-
-    /// <summary>
-    /// Generates property as RenderFragment.
+    /// Renders property as RenderFragment.
     /// </summary>
     public string[] ContentProperties { get; set; }
 

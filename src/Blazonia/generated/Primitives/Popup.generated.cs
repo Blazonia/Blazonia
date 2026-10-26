@@ -11,6 +11,7 @@ using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 using Blazonia.Components;
 using Blazonia.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Threading.Tasks;
 
@@ -28,10 +29,6 @@ namespace Blazonia.Components.Primitives
             RegisterAdditionalHandlers();
         }
 
-        /// <summary>
-        /// Gets or sets the control to display in the popup.
-        /// </summary>
-        [Parameter] public AC.Control Child { get; set; }
         /// <summary>
         /// Gets or sets a delegate handler method that positions the Popup control, when <see cref="P:Avalonia.Controls.Primitives.Popup.Placement" /> is set to <see cref="F:Avalonia.Controls.PlacementMode.Custom" />.
         /// </summary>
@@ -108,6 +105,10 @@ namespace Blazonia.Components.Primitives
         /// Gets or sets a hint to the window manager that a shadow should be added to the popup.
         /// </summary>
         [Parameter] public bool? WindowManagerAddShadowHint { get; set; }
+        /// <summary>
+        /// Gets or sets the control to display in the popup.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public EventCallback OnClosed { get; set; }
         [Parameter] public EventCallback OnOpened { get; set; }
 
@@ -119,13 +120,6 @@ namespace Blazonia.Components.Primitives
         {
             switch (name)
             {
-                case nameof(Child):
-                    if (!Equals(Child, value))
-                    {
-                        Child = (AC.Control)value;
-                        NativeControl.Child = Child;
-                    }
-                    break;
                 case nameof(CustomPopupPlacementCallback):
                     if (!Equals(CustomPopupPlacementCallback, value))
                     {
@@ -259,6 +253,9 @@ namespace Blazonia.Components.Primitives
                         NativeControl.WindowManagerAddShadowHint = WindowManagerAddShadowHint ?? (bool)ACP.Popup.WindowManagerAddShadowHintProperty.GetDefaultValue(ACP.Popup.WindowManagerAddShadowHintProperty.OwnerType);
                     }
                     break;
+                case nameof(ChildContent):
+                    ChildContent = (RenderFragment)value;
+                    break;
                 case nameof(OnClosed):
                     if (!Equals(OnClosed, value))
                     {
@@ -284,6 +281,13 @@ namespace Blazonia.Components.Primitives
                     base.HandleParameter(name, value);
                     break;
             }
+        }
+
+        protected override void RenderAdditionalElementContent(RenderTreeBuilder builder, ref int sequence)
+        {
+            base.RenderAdditionalElementContent(builder, ref sequence);
+            RenderTreeBuilderHelper.AddContentProperty<ACP.Popup>(builder, sequence++, ChildContent,
+                (nativeControl, data) => nativeControl.Child = (AC.Control)data);
         }
 
         static partial void RegisterAdditionalHandlers();

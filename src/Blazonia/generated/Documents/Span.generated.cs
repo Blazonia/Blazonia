@@ -11,6 +11,7 @@ using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 using Blazonia.Components;
 using Blazonia.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace Blazonia.Components.Documents
         /// <summary>
         /// Gets or sets the inlines.
         /// </summary>
-        [Parameter] public ACD.InlineCollection Inlines { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         public new ACD.Span NativeControl => (ACD.Span)((AvaloniaObject)this).NativeControl;
 
@@ -41,18 +42,21 @@ namespace Blazonia.Components.Documents
         {
             switch (name)
             {
-                case nameof(Inlines):
-                    if (!Equals(Inlines, value))
-                    {
-                        Inlines = (ACD.InlineCollection)value;
-                        NativeControl.Inlines = Inlines;
-                    }
+                case nameof(ChildContent):
+                    ChildContent = (RenderFragment)value;
                     break;
 
                 default:
                     base.HandleParameter(name, value);
                     break;
             }
+        }
+
+        protected override void RenderAdditionalElementContent(RenderTreeBuilder builder, ref int sequence)
+        {
+            base.RenderAdditionalElementContent(builder, ref sequence);
+            RenderTreeBuilderHelper.AddListContentProperty<ACD.Span, ACD.Inline>(builder, sequence++, ChildContent,
+                nativeControl => nativeControl.Inlines);
         }
 
         static partial void RegisterAdditionalHandlers();

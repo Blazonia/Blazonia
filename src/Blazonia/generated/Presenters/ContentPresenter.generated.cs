@@ -34,10 +34,6 @@ namespace Blazonia.Components.Presenters
         [Parameter] public OneOf.OneOf<global::Avalonia.Media.IBrush, global::Avalonia.Media.Color, string> BorderBrush { get; set; }
         [Parameter] public OneOf.OneOf<global::Avalonia.Thickness?, double, (double, double), (double, double, double, double), string> BorderThickness { get; set; }
         [Parameter] public OneOf.OneOf<global::Avalonia.Media.BoxShadows?, string> BoxShadow { get; set; }
-        /// <summary>
-        /// Gets or sets the content to be displayed by the presenter.
-        /// </summary>
-        [Parameter] public object Content { get; set; }
         [Parameter] public OneOf.OneOf<global::Avalonia.CornerRadius?, double, (double, double), (double, double, double, double), string> CornerRadius { get; set; }
         /// <summary>
         /// Gets or sets the font family.
@@ -103,6 +99,10 @@ namespace Blazonia.Components.Presenters
         /// Gets or sets the vertical alignment of the content within the border of the control.
         /// </summary>
         [Parameter] public global::Avalonia.Layout.VerticalAlignment? VerticalContentAlignment { get; set; }
+        /// <summary>
+        /// Gets or sets the content to be displayed by the presenter.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
         /// <summary>
         /// Gets or sets the data template used to display the content of the control.
         /// </summary>
@@ -197,13 +197,6 @@ namespace Blazonia.Components.Presenters
                         {
                             NativeControl.BoxShadow = global::Avalonia.Media.BoxShadows.Parse(BoxShadow.AsT1);
                         }
-                    }
-                    break;
-                case nameof(Content):
-                    if (!Equals(Content, value))
-                    {
-                        Content = (object)value;
-                        NativeControl.Content = Content;
                     }
                     break;
                 case nameof(CornerRadius):
@@ -388,6 +381,9 @@ namespace Blazonia.Components.Presenters
                         NativeControl.VerticalContentAlignment = VerticalContentAlignment ?? (global::Avalonia.Layout.VerticalAlignment)ACP.ContentPresenter.VerticalContentAlignmentProperty.GetDefaultValue(ACP.ContentPresenter.VerticalContentAlignmentProperty.OwnerType);
                     }
                     break;
+                case nameof(ChildContent):
+                    ChildContent = (RenderFragment)value;
+                    break;
                 case nameof(ContentTemplate):
                     ContentTemplate = (RenderFragment)value;
                     break;
@@ -401,6 +397,8 @@ namespace Blazonia.Components.Presenters
         protected override void RenderAdditionalElementContent(RenderTreeBuilder builder, ref int sequence)
         {
             base.RenderAdditionalElementContent(builder, ref sequence);
+            RenderTreeBuilderHelper.AddContentProperty<ACP.ContentPresenter>(builder, sequence++, ChildContent,
+                (nativeControl, data) => nativeControl.Content = (object)data);
             RenderTreeBuilderHelper.AddDataTemplateProperty<ACP.ContentPresenter>(builder, sequence++, ContentTemplate,
                 (nativeControl, nativeTemplate) => nativeControl.ContentTemplate = nativeTemplate);
         }

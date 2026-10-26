@@ -9,6 +9,7 @@ using AC = Avalonia.Controls;
 using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 using Blazonia.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Threading.Tasks;
 
@@ -27,10 +28,6 @@ namespace Blazonia.Components
         }
 
         /// <summary>
-        /// Gets or sets the child of the Viewbox
-        /// </summary>
-        [Parameter] public AC.Control Child { get; set; }
-        /// <summary>
         /// Gets or sets the stretch mode, which determines how child fits into the available space.
         /// </summary>
         [Parameter] public global::Avalonia.Media.Stretch? Stretch { get; set; }
@@ -38,6 +35,10 @@ namespace Blazonia.Components
         /// Gets or sets a value controlling in what direction contents will be stretched.
         /// </summary>
         [Parameter] public global::Avalonia.Media.StretchDirection? StretchDirection { get; set; }
+        /// <summary>
+        /// Gets or sets the child of the Viewbox
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         public new AC.Viewbox NativeControl => (AC.Viewbox)((AvaloniaObject)this).NativeControl;
 
@@ -47,13 +48,6 @@ namespace Blazonia.Components
         {
             switch (name)
             {
-                case nameof(Child):
-                    if (!Equals(Child, value))
-                    {
-                        Child = (AC.Control)value;
-                        NativeControl.Child = Child;
-                    }
-                    break;
                 case nameof(Stretch):
                     if (!Equals(Stretch, value))
                     {
@@ -68,11 +62,21 @@ namespace Blazonia.Components
                         NativeControl.StretchDirection = StretchDirection ?? (global::Avalonia.Media.StretchDirection)AC.Viewbox.StretchDirectionProperty.GetDefaultValue(AC.Viewbox.StretchDirectionProperty.OwnerType);
                     }
                     break;
+                case nameof(ChildContent):
+                    ChildContent = (RenderFragment)value;
+                    break;
 
                 default:
                     base.HandleParameter(name, value);
                     break;
             }
+        }
+
+        protected override void RenderAdditionalElementContent(RenderTreeBuilder builder, ref int sequence)
+        {
+            base.RenderAdditionalElementContent(builder, ref sequence);
+            RenderTreeBuilderHelper.AddContentProperty<AC.Viewbox>(builder, sequence++, ChildContent,
+                (nativeControl, data) => nativeControl.Child = (AC.Control)data);
         }
 
         static partial void RegisterAdditionalHandlers();

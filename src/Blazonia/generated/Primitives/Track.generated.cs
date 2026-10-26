@@ -11,6 +11,7 @@ using AvaloniaBindableObject = Avalonia.AvaloniaObject;
 using Blazonia.Components;
 using Blazonia.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Threading.Tasks;
 
@@ -33,9 +34,9 @@ namespace Blazonia.Components.Primitives
         [Parameter] public double? Maximum { get; set; }
         [Parameter] public double? Minimum { get; set; }
         [Parameter] public global::Avalonia.Layout.Orientation? Orientation { get; set; }
-        [Parameter] public ACP.Thumb Thumb { get; set; }
         [Parameter] public double? Value { get; set; }
         [Parameter] public double? ViewportSize { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         public new ACP.Track NativeControl => (ACP.Track)((AvaloniaObject)this).NativeControl;
 
@@ -101,13 +102,6 @@ namespace Blazonia.Components.Primitives
                         NativeControl.Orientation = Orientation ?? (global::Avalonia.Layout.Orientation)ACP.Track.OrientationProperty.GetDefaultValue(ACP.Track.OrientationProperty.OwnerType);
                     }
                     break;
-                case nameof(Thumb):
-                    if (!Equals(Thumb, value))
-                    {
-                        Thumb = (ACP.Thumb)value;
-                        NativeControl.Thumb = Thumb;
-                    }
-                    break;
                 case nameof(Value):
                     if (!Equals(Value, value))
                     {
@@ -122,11 +116,21 @@ namespace Blazonia.Components.Primitives
                         NativeControl.ViewportSize = ViewportSize ?? (double)ACP.Track.ViewportSizeProperty.GetDefaultValue(ACP.Track.ViewportSizeProperty.OwnerType);
                     }
                     break;
+                case nameof(ChildContent):
+                    ChildContent = (RenderFragment)value;
+                    break;
 
                 default:
                     base.HandleParameter(name, value);
                     break;
             }
+        }
+
+        protected override void RenderAdditionalElementContent(RenderTreeBuilder builder, ref int sequence)
+        {
+            base.RenderAdditionalElementContent(builder, ref sequence);
+            RenderTreeBuilderHelper.AddContentProperty<ACP.Track>(builder, sequence++, ChildContent,
+                (nativeControl, data) => nativeControl.Thumb = (ACP.Thumb)data);
         }
 
         static partial void RegisterAdditionalHandlers();

@@ -36,10 +36,6 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public object BottomCommandBar { get; set; }
         /// <summary>
-        /// Gets or sets the page content.
-        /// </summary>
-        [Parameter] public object Content { get; set; }
-        /// <summary>
         /// Gets or sets the horizontal alignment of the content within the page.
         /// </summary>
         [Parameter] public global::Avalonia.Layout.HorizontalAlignment? HorizontalContentAlignment { get; set; }
@@ -51,6 +47,10 @@ namespace Blazonia.Components
         /// Gets or sets the vertical alignment of the content within the page.
         /// </summary>
         [Parameter] public global::Avalonia.Layout.VerticalAlignment? VerticalContentAlignment { get; set; }
+        /// <summary>
+        /// Gets or sets the page content.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
         /// <summary>
         /// Gets or sets the data template used to display <see cref="P:Avalonia.Controls.ContentPage.Content" />.
         /// </summary>
@@ -78,13 +78,6 @@ namespace Blazonia.Components
                         NativeControl.BottomCommandBar = BottomCommandBar;
                     }
                     break;
-                case nameof(Content):
-                    if (!Equals(Content, value))
-                    {
-                        Content = (object)value;
-                        NativeControl.Content = Content;
-                    }
-                    break;
                 case nameof(HorizontalContentAlignment):
                     if (!Equals(HorizontalContentAlignment, value))
                     {
@@ -106,6 +99,9 @@ namespace Blazonia.Components
                         NativeControl.VerticalContentAlignment = VerticalContentAlignment ?? (global::Avalonia.Layout.VerticalAlignment)AC.ContentPage.VerticalContentAlignmentProperty.GetDefaultValue(AC.ContentPage.VerticalContentAlignmentProperty.OwnerType);
                     }
                     break;
+                case nameof(ChildContent):
+                    ChildContent = (RenderFragment)value;
+                    break;
                 case nameof(ContentTemplate):
                     ContentTemplate = (RenderFragment)value;
                     break;
@@ -119,6 +115,8 @@ namespace Blazonia.Components
         protected override void RenderAdditionalElementContent(RenderTreeBuilder builder, ref int sequence)
         {
             base.RenderAdditionalElementContent(builder, ref sequence);
+            RenderTreeBuilderHelper.AddContentProperty<AC.ContentPage>(builder, sequence++, ChildContent,
+                (nativeControl, data) => nativeControl.Content = (object)data);
             RenderTreeBuilderHelper.AddDataTemplateProperty<AC.ContentPage>(builder, sequence++, ContentTemplate,
                 (nativeControl, nativeTemplate) => nativeControl.ContentTemplate = nativeTemplate);
         }

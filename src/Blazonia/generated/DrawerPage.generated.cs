@@ -36,10 +36,6 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public double? CompactDrawerLength { get; set; }
         /// <summary>
-        /// Gets or sets the main content.
-        /// </summary>
-        [Parameter] public object Content { get; set; }
-        /// <summary>
         /// Gets or sets the <see cref="T:Avalonia.Controls.SplitViewDisplayMode" />.
         /// </summary>
         [Parameter] public AC.SplitViewDisplayMode? DisplayMode { get; set; }
@@ -116,6 +112,10 @@ namespace Blazonia.Components
         /// </summary>
         [Parameter] public global::Avalonia.Layout.VerticalAlignment? VerticalContentAlignment { get; set; }
         /// <summary>
+        /// Gets or sets the main content.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+        /// <summary>
         /// Gets or sets the data template used to display <see cref="P:Avalonia.Controls.DrawerPage.Content" />.
         /// </summary>
         [Parameter] public RenderFragment ContentTemplate { get; set; }
@@ -170,13 +170,6 @@ namespace Blazonia.Components
                     {
                         CompactDrawerLength = (double?)value;
                         NativeControl.CompactDrawerLength = CompactDrawerLength ?? (double)AC.DrawerPage.CompactDrawerLengthProperty.GetDefaultValue(AC.DrawerPage.CompactDrawerLengthProperty.OwnerType);
-                    }
-                    break;
-                case nameof(Content):
-                    if (!Equals(Content, value))
-                    {
-                        Content = (object)value;
-                        NativeControl.Content = Content;
                     }
                     break;
                 case nameof(DisplayMode):
@@ -367,6 +360,9 @@ namespace Blazonia.Components
                         NativeControl.VerticalContentAlignment = VerticalContentAlignment ?? (global::Avalonia.Layout.VerticalAlignment)AC.DrawerPage.VerticalContentAlignmentProperty.GetDefaultValue(AC.DrawerPage.VerticalContentAlignmentProperty.OwnerType);
                     }
                     break;
+                case nameof(ChildContent):
+                    ChildContent = (RenderFragment)value;
+                    break;
                 case nameof(ContentTemplate):
                     ContentTemplate = (RenderFragment)value;
                     break;
@@ -422,6 +418,8 @@ namespace Blazonia.Components
         protected override void RenderAdditionalElementContent(RenderTreeBuilder builder, ref int sequence)
         {
             base.RenderAdditionalElementContent(builder, ref sequence);
+            RenderTreeBuilderHelper.AddContentProperty<AC.DrawerPage>(builder, sequence++, ChildContent,
+                (nativeControl, data) => nativeControl.Content = (object)data);
             RenderTreeBuilderHelper.AddDataTemplateProperty<AC.DrawerPage>(builder, sequence++, ContentTemplate,
                 (nativeControl, nativeTemplate) => nativeControl.ContentTemplate = nativeTemplate);
             RenderTreeBuilderHelper.AddDataTemplateProperty<AC.DrawerPage>(builder, sequence++, DrawerFooterTemplate,
