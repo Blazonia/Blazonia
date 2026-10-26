@@ -12,6 +12,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class ToolTipInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -176,6 +178,7 @@ namespace Blazonia.Components
                 }
             });
         }
+        #pragma warning restore CA2255
     }
 
     public static class ToolTipExtensions
@@ -344,7 +347,6 @@ namespace Blazonia.Components
                     if (!Equals(BetweenShowDelay, value))
                     {
                         BetweenShowDelay = (int)value;
-                        //NativeControl.BetweenShowDelayProperty = BetweenShowDelay;
                     }
                     break;
 
@@ -352,7 +354,6 @@ namespace Blazonia.Components
                     if (!Equals(CustomPopupPlacementCallback, value))
                     {
                         CustomPopupPlacementCallback = (AC.Primitives.PopupPositioning.CustomPopupPlacementCallback)value;
-                        //NativeControl.CustomPopupPlacementCallbackProperty = CustomPopupPlacementCallback;
                     }
                     break;
 
@@ -360,7 +361,6 @@ namespace Blazonia.Components
                     if (!Equals(HorizontalOffset, value))
                     {
                         HorizontalOffset = (double)value;
-                        //NativeControl.HorizontalOffsetProperty = HorizontalOffset;
                     }
                     break;
 
@@ -368,7 +368,6 @@ namespace Blazonia.Components
                     if (!Equals(IsOpen, value))
                     {
                         IsOpen = (bool)value;
-                        //NativeControl.IsOpenProperty = IsOpen;
                     }
                     break;
 
@@ -376,7 +375,6 @@ namespace Blazonia.Components
                     if (!Equals(Placement, value))
                     {
                         Placement = (AC.PlacementMode)value;
-                        //NativeControl.PlacementProperty = Placement;
                     }
                     break;
 
@@ -384,7 +382,6 @@ namespace Blazonia.Components
                     if (!Equals(ServiceEnabled, value))
                     {
                         ServiceEnabled = (bool)value;
-                        //NativeControl.ServiceEnabledProperty = ServiceEnabled;
                     }
                     break;
 
@@ -392,7 +389,6 @@ namespace Blazonia.Components
                     if (!Equals(ShouldUseOverlayLayer, value))
                     {
                         ShouldUseOverlayLayer = (bool)value;
-                        //NativeControl.ShouldUseOverlayLayerProperty = ShouldUseOverlayLayer;
                     }
                     break;
 
@@ -400,7 +396,6 @@ namespace Blazonia.Components
                     if (!Equals(ShowDelay, value))
                     {
                         ShowDelay = (int)value;
-                        //NativeControl.ShowDelayProperty = ShowDelay;
                     }
                     break;
 
@@ -408,7 +403,6 @@ namespace Blazonia.Components
                     if (!Equals(ShowOnDisabled, value))
                     {
                         ShowOnDisabled = (bool)value;
-                        //NativeControl.ShowOnDisabledProperty = ShowOnDisabled;
                     }
                     break;
 
@@ -416,7 +410,6 @@ namespace Blazonia.Components
                     if (!Equals(ChildContent, value))
                     {
                         ChildContent = (RenderFragment)value;
-                        //NativeControl.TipProperty = ChildContent;
                     }
                     break;
 
@@ -424,7 +417,6 @@ namespace Blazonia.Components
                     if (!Equals(VerticalOffset, value))
                     {
                         VerticalOffset = (double)value;
-                        //NativeControl.VerticalOffsetProperty = VerticalOffset;
                     }
                     break;
 

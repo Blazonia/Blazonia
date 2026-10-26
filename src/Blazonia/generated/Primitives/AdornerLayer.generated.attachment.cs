@@ -14,6 +14,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class AdornerLayerInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -54,6 +56,7 @@ namespace Blazonia.Components
                     }
                 });
         }
+        #pragma warning restore CA2255
     }
 
     public static class AdornerLayerExtensions
@@ -119,7 +122,6 @@ namespace Blazonia.Components
                     if (!Equals(AdornedElement, value))
                     {
                         AdornedElement = (global::Avalonia.Visual)value;
-                        //NativeControl.AdornedElementProperty = AdornedElement;
                     }
                     break;
 
@@ -127,7 +129,6 @@ namespace Blazonia.Components
                     if (!Equals(Adorner, value))
                     {
                         Adorner = (AC.Control)value;
-                        //NativeControl.AdornerProperty = Adorner;
                     }
                     break;
 
@@ -135,7 +136,6 @@ namespace Blazonia.Components
                     if (!Equals(IsClipEnabled, value))
                     {
                         IsClipEnabled = (bool)value;
-                        //NativeControl.IsClipEnabledProperty = IsClipEnabled;
                     }
                     break;
 

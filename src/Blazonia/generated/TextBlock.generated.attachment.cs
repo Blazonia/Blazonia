@@ -12,6 +12,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class TextBlockInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -109,6 +111,7 @@ namespace Blazonia.Components
                     }
                 });
         }
+        #pragma warning restore CA2255
     }
 
     public static class TextBlockExtensions
@@ -216,7 +219,6 @@ namespace Blazonia.Components
                     if (!Equals(BaselineOffset, value))
                     {
                         BaselineOffset = (double)value;
-                        //NativeControl.BaselineOffsetProperty = BaselineOffset;
                     }
                     break;
 
@@ -224,7 +226,6 @@ namespace Blazonia.Components
                     if (!Equals(LineHeight, value))
                     {
                         LineHeight = (double)value;
-                        //NativeControl.LineHeightProperty = LineHeight;
                     }
                     break;
 
@@ -232,7 +233,6 @@ namespace Blazonia.Components
                     if (!Equals(MaxLines, value))
                     {
                         MaxLines = (int)value;
-                        //NativeControl.MaxLinesProperty = MaxLines;
                     }
                     break;
 
@@ -240,7 +240,6 @@ namespace Blazonia.Components
                     if (!Equals(TextAlignment, value))
                     {
                         TextAlignment = (global::Avalonia.Media.TextAlignment)value;
-                        //NativeControl.TextAlignmentProperty = TextAlignment;
                     }
                     break;
 
@@ -248,7 +247,6 @@ namespace Blazonia.Components
                     if (!Equals(TextTrimming, value))
                     {
                         TextTrimming = (global::Avalonia.Media.TextTrimming)value;
-                        //NativeControl.TextTrimmingProperty = TextTrimming;
                     }
                     break;
 
@@ -256,7 +254,6 @@ namespace Blazonia.Components
                     if (!Equals(TextWrapping, value))
                     {
                         TextWrapping = (global::Avalonia.Media.TextWrapping)value;
-                        //NativeControl.TextWrappingProperty = TextWrapping;
                     }
                     break;
 

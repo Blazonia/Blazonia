@@ -12,6 +12,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class CanvasInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -92,6 +94,7 @@ namespace Blazonia.Components
                 }
             });
         }
+        #pragma warning restore CA2255
     }
 
     public static class CanvasExtensions
@@ -171,7 +174,6 @@ namespace Blazonia.Components
                     if (!Equals(Bottom, value))
                     {
                         Bottom = (double)value;
-                        //NativeControl.BottomProperty = Bottom;
                     }
                     break;
 
@@ -179,7 +181,6 @@ namespace Blazonia.Components
                     if (!Equals(Left, value))
                     {
                         Left = (double)value;
-                        //NativeControl.LeftProperty = Left;
                     }
                     break;
 
@@ -187,7 +188,6 @@ namespace Blazonia.Components
                     if (!Equals(Right, value))
                     {
                         Right = (double)value;
-                        //NativeControl.RightProperty = Right;
                     }
                     break;
 
@@ -195,7 +195,6 @@ namespace Blazonia.Components
                     if (!Equals(Top, value))
                     {
                         Top = (double)value;
-                        //NativeControl.TopProperty = Top;
                     }
                     break;
 

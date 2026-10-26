@@ -12,6 +12,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class NavigationPageInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -112,6 +114,7 @@ namespace Blazonia.Components
                     }
                 });
         }
+        #pragma warning restore CA2255
     }
 
     public static class NavigationPageExtensions
@@ -247,7 +250,6 @@ namespace Blazonia.Components
                     if (!Equals(BackButtonContent, value))
                     {
                         BackButtonContent = (object)value;
-                        //NativeControl.BackButtonContentProperty = BackButtonContent;
                     }
                     break;
 
@@ -255,7 +257,6 @@ namespace Blazonia.Components
                     if (!Equals(BarHeightOverride, value))
                     {
                         BarHeightOverride = (Nullable<double>)value;
-                        //NativeControl.BarHeightOverrideProperty = BarHeightOverride;
                     }
                     break;
 
@@ -263,7 +264,6 @@ namespace Blazonia.Components
                     if (!Equals(BarLayoutBehavior, value))
                     {
                         BarLayoutBehavior = (Nullable<AC.BarLayoutBehavior>)value;
-                        //NativeControl.BarLayoutBehaviorProperty = BarLayoutBehavior;
                     }
                     break;
 
@@ -271,7 +271,6 @@ namespace Blazonia.Components
                     if (!Equals(BottomCommandBar, value))
                     {
                         BottomCommandBar = (AC.Control)value;
-                        //NativeControl.BottomCommandBarProperty = BottomCommandBar;
                     }
                     break;
 
@@ -279,7 +278,6 @@ namespace Blazonia.Components
                     if (!Equals(HasBackButton, value))
                     {
                         HasBackButton = (bool)value;
-                        //NativeControl.HasBackButtonProperty = HasBackButton;
                     }
                     break;
 
@@ -287,7 +285,6 @@ namespace Blazonia.Components
                     if (!Equals(HasNavigationBar, value))
                     {
                         HasNavigationBar = (bool)value;
-                        //NativeControl.HasNavigationBarProperty = HasNavigationBar;
                     }
                     break;
 
@@ -295,7 +292,6 @@ namespace Blazonia.Components
                     if (!Equals(IsBackButtonEnabled, value))
                     {
                         IsBackButtonEnabled = (bool)value;
-                        //NativeControl.IsBackButtonEnabledProperty = IsBackButtonEnabled;
                     }
                     break;
 
@@ -303,7 +299,6 @@ namespace Blazonia.Components
                     if (!Equals(TopCommandBar, value))
                     {
                         TopCommandBar = (AC.Control)value;
-                        //NativeControl.TopCommandBarProperty = TopCommandBar;
                     }
                     break;
 

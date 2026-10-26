@@ -12,6 +12,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class RelativePanelInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -208,6 +210,7 @@ namespace Blazonia.Components
                     }
                 });
         }
+        #pragma warning restore CA2255
     }
 
     public static class RelativePanelExtensions
@@ -455,7 +458,6 @@ namespace Blazonia.Components
                     if (!Equals(Above, value))
                     {
                         Above = (object)value;
-                        //NativeControl.AboveProperty = Above;
                     }
                     break;
 
@@ -463,7 +465,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignBottomWithPanel, value))
                     {
                         AlignBottomWithPanel = (bool)value;
-                        //NativeControl.AlignBottomWithPanelProperty = AlignBottomWithPanel;
                     }
                     break;
 
@@ -471,7 +472,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignBottomWith, value))
                     {
                         AlignBottomWith = (object)value;
-                        //NativeControl.AlignBottomWithProperty = AlignBottomWith;
                     }
                     break;
 
@@ -479,7 +479,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignHorizontalCenterWithPanel, value))
                     {
                         AlignHorizontalCenterWithPanel = (bool)value;
-                        //NativeControl.AlignHorizontalCenterWithPanelProperty = AlignHorizontalCenterWithPanel;
                     }
                     break;
 
@@ -487,7 +486,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignHorizontalCenterWith, value))
                     {
                         AlignHorizontalCenterWith = (object)value;
-                        //NativeControl.AlignHorizontalCenterWithProperty = AlignHorizontalCenterWith;
                     }
                     break;
 
@@ -495,7 +493,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignLeftWithPanel, value))
                     {
                         AlignLeftWithPanel = (bool)value;
-                        //NativeControl.AlignLeftWithPanelProperty = AlignLeftWithPanel;
                     }
                     break;
 
@@ -503,7 +500,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignLeftWith, value))
                     {
                         AlignLeftWith = (object)value;
-                        //NativeControl.AlignLeftWithProperty = AlignLeftWith;
                     }
                     break;
 
@@ -511,7 +507,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignRightWithPanel, value))
                     {
                         AlignRightWithPanel = (bool)value;
-                        //NativeControl.AlignRightWithPanelProperty = AlignRightWithPanel;
                     }
                     break;
 
@@ -519,7 +514,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignRightWith, value))
                     {
                         AlignRightWith = (object)value;
-                        //NativeControl.AlignRightWithProperty = AlignRightWith;
                     }
                     break;
 
@@ -527,7 +521,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignTopWithPanel, value))
                     {
                         AlignTopWithPanel = (bool)value;
-                        //NativeControl.AlignTopWithPanelProperty = AlignTopWithPanel;
                     }
                     break;
 
@@ -535,7 +528,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignTopWith, value))
                     {
                         AlignTopWith = (object)value;
-                        //NativeControl.AlignTopWithProperty = AlignTopWith;
                     }
                     break;
 
@@ -543,7 +535,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignVerticalCenterWithPanel, value))
                     {
                         AlignVerticalCenterWithPanel = (bool)value;
-                        //NativeControl.AlignVerticalCenterWithPanelProperty = AlignVerticalCenterWithPanel;
                     }
                     break;
 
@@ -551,7 +542,6 @@ namespace Blazonia.Components
                     if (!Equals(AlignVerticalCenterWith, value))
                     {
                         AlignVerticalCenterWith = (object)value;
-                        //NativeControl.AlignVerticalCenterWithProperty = AlignVerticalCenterWith;
                     }
                     break;
 
@@ -559,7 +549,6 @@ namespace Blazonia.Components
                     if (!Equals(Below, value))
                     {
                         Below = (object)value;
-                        //NativeControl.BelowProperty = Below;
                     }
                     break;
 
@@ -567,7 +556,6 @@ namespace Blazonia.Components
                     if (!Equals(LeftOf, value))
                     {
                         LeftOf = (object)value;
-                        //NativeControl.LeftOfProperty = LeftOf;
                     }
                     break;
 
@@ -575,7 +563,6 @@ namespace Blazonia.Components
                     if (!Equals(RightOf, value))
                     {
                         RightOf = (object)value;
-                        //NativeControl.RightOfProperty = RightOf;
                     }
                     break;
 

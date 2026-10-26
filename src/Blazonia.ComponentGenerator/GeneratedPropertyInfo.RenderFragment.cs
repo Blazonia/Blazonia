@@ -10,16 +10,13 @@ public partial class GeneratedPropertyInfo
 {
     private static readonly (string TypeName, bool AllowDescendantTypes)[] ContentTypes =
     [
-        //("Microsoft.Avalonia.IView", false),
-        //("Microsoft.Avalonia.Controls.VisualElement", true),
-        //("Microsoft.Avalonia.Controls.BaseMenuItem", true),
-        //("Microsoft.Avalonia.Controls.Brush", true),
-        //("Microsoft.Avalonia.Controls.Shadow", false),
-        //("Microsoft.Avalonia.Controls.ControlTemplate", false),
-        //("Microsoft.Avalonia.Controls.DataTemplate", false),
-        //("Microsoft.Avalonia.Controls.Shapes.Shape", true),
-        //("Microsoft.Avalonia.Graphics.IShape", false)
+        ("Avalonia.Controls.Templates.IDataTemplate", false),
     ];
+
+    /// <summary>
+    /// The only panel template shape that ControlTemplateItemsComponent can render.
+    /// </summary>
+    private const string PanelTemplateFullName = "Avalonia.Controls.ITemplate<Avalonia.Controls.Panel>";
 
     public bool IsRenderFragmentProperty => Kind == GeneratedPropertyKind.RenderFragment;
 
@@ -37,13 +34,6 @@ public partial class GeneratedPropertyInfo
 
     public string GetHandleContentProperty()
     {
-        if (ComponentPropertyName == "HeaderTemplate")
-        {
-            return $@"                case nameof({ComponentPropertyName}):
-                    {ComponentPropertyName} = ({ComponentType}<object>)value;
-                    break;
-";
-        }
         return $@"                case nameof({ComponentPropertyName}):
                     {ComponentPropertyName} = ({ComponentType})value;
                     break;
@@ -52,18 +42,9 @@ public partial class GeneratedPropertyInfo
 
     public string RenderContentProperty()
     {
-        var type = (INamedTypeSymbol)_propertyInfo.Type;
-        var parameterName = "nativeControl";//$"{type.Name[..1].ToLowerInvariant()}{type.Name[1..]}";
+        var type = _propertyInfo.Type;
+        var parameterName = "nativeControl";
 
-        if (AvaloniaContainingTypeName.Contains("ItemsControl"))
-        {
-
-        }
-
-        if (_propertyInfo.Name == "HeaderTemplate")//(AvaloniaContainingTypeName.Contains("Headered") || AvaloniaContainingTypeName == "AC.DataGridColumn")
-        {
-            return $"\r\n            RenderTreeBuilderHelper.AddDataTemplateProperty<{AvaloniaContainingTypeName}, object>(builder, sequence++, {ComponentPropertyName},\r\n                ({parameterName}, nativeTemplate) => {parameterName}.{_propertyInfo.Name} = nativeTemplate);";
-        }
         if (IsPanelTemplate)
         {
             return $"\r\n            RenderTreeBuilderHelper.AddControlTemplateProperty<{AvaloniaContainingTypeName}, AC.ITemplate<AC.Panel>>(builder, sequence++, {ComponentPropertyName},\r\n                ({parameterName}, nativeTemplate) => {parameterName}.{_propertyInfo.Name} = nativeTemplate);";
@@ -138,12 +119,6 @@ public partial class GeneratedPropertyInfo
 
         var type = prop.Type;
 
-        if (type.Name.Contains("DataTemplate") && type is INamedTypeSymbol namedType)
-        {
-            // Console.WriteLine(namedType);
-        }
-
-
         if (IsContent(type) && HasPublicSetter(prop))
             return true;
 
@@ -154,14 +129,41 @@ public partial class GeneratedPropertyInfo
 
         return false;
 
-        bool IsContent(ITypeSymbol type) => ContentTypes.Any(t =>
+        bool IsContent(ITypeSymbol type)
         {
             var compilation = containingType.Compilation;
-            var contentTypeSymbol = compilation.GetTypeByMetadataName(t.TypeName);
-            var conversion = compilation.ClassifyConversion(type, contentTypeSymbol);
-            return conversion is { IsIdentity: true }
-                || t.AllowDescendantTypes && conversion is { IsReference: true, IsImplicit: true };
-        });
+            foreach (var contentType in ContentTypes)
+            {
+                var contentTypeSymbol = compilation.GetTypeByMetadataName(contentType.TypeName);
+                if (contentTypeSymbol == null)
+                    continue;
+
+                if (SymbolEqualityComparer.Default.Equals(type, contentTypeSymbol))
+                    return true;
+
+                // Constructed generics (e.g. ITemplate<Panel>) match their unbound definition (ITemplate`1).
+                if (type is INamedTypeSymbol { IsGenericType: true } constructed
+                    && SymbolEqualityComparer.Default.Equals(constructed.ConstructedFrom, contentTypeSymbol))
+                    return true;
+
+                var conversion = compilation.ClassifyConversion(type, contentTypeSymbol);
+                if (conversion is { IsIdentity: true })
+                    return true;
+                if (contentType.AllowDescendantTypes && conversion is { IsReference: true, IsImplicit: true })
+                    return true;
+            }
+
+            // Panel templates render via AddControlTemplateProperty, which only supports
+            // ITemplate<Panel> and requires a TemplatedControl host.
+            if (type.GetFullName() == PanelTemplateFullName)
+            {
+                var templatedControl = compilation.GetTypeByMetadataName("Avalonia.Controls.Primitives.TemplatedControl");
+                return templatedControl != null
+                    && compilation.ClassifyConversion(containingType.AvaloniaType, templatedControl) is { IsReference: true, IsImplicit: true };
+            }
+
+            return false;
+        }
     }
 
     private static bool IsIListGeneric(ITypeSymbol type, out ITypeSymbol itemType)

@@ -12,6 +12,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class TabbedPageInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -28,6 +30,7 @@ namespace Blazonia.Components
                     }
                 });
         }
+        #pragma warning restore CA2255
     }
 
     public static class TabbedPageExtensions
@@ -65,7 +68,6 @@ namespace Blazonia.Components
                     if (!Equals(IsTabEnabled, value))
                     {
                         IsTabEnabled = (bool)value;
-                        //NativeControl.IsTabEnabledProperty = IsTabEnabled;
                     }
                     break;
 

@@ -59,11 +59,6 @@ public partial class GeneratedPropertyInfo
         
         _propertyInfo = propertyInfo;
         Kind = kind;
-        if (typeInfo.TypeName.StartsWith("TabControl"))
-        {
-
-        }
-
 
         ContainingType = typeInfo;
         Compilation = typeInfo.Compilation;
@@ -78,15 +73,16 @@ public partial class GeneratedPropertyInfo
         _componentTypeLazy = new Lazy<string>(() => GetComponentPropertyTypeName(_propertyInfo, typeInfo, IsRenderFragmentProperty, makeNullable: true));
 
 
-        var parameterType = ((INamedTypeSymbol)propertyInfo.Type);
-        foreach (var converter in BaseTypeConverter.TypeConverters)
+        if (propertyInfo.Type is INamedTypeSymbol parameterType)
         {
-            if (converter.ShouldConvert(parameterType))
+            foreach (var converter in BaseTypeConverter.TypeConverters)
             {
-                TypeConverter = converter;
-                break;
+                if (converter.ShouldConvert(parameterType))
+                {
+                    TypeConverter = converter;
+                    break;
+                }
             }
-
         }
         string GetComponentPropertyName()
         {
@@ -115,14 +111,6 @@ public partial class GeneratedPropertyInfo
 
         var xmlDocContents = _propertyInfo is null ? "" : ComponentWrapperGenerator.GetXmlDocContents(_propertyInfo, indent);
 
-        // RenderFragment-based HeaderTemplate is exposed as RenderFragment<object>;
-        // plain value properties (e.g. Page.HeaderTemplate of type IDataTemplate) must keep their original type.
-        if (ComponentPropertyName == "HeaderTemplate" && IsRenderFragmentProperty)
-        {
-            return $@"{xmlDocContents}{indent}[Parameter] public {ComponentType}<object> {ComponentPropertyName} {{ get; set; }}
-";
-
-        }
         if (TypeConverter != null)
         {
             return $@"{xmlDocContents}{indent}[Parameter] public {TypeConverter.GetBlazorTypeFullName(ComponentType)} {ComponentPropertyName} {{ get; set; }}
@@ -169,11 +157,6 @@ public partial class GeneratedPropertyInfo
                     return $"{propName} ?? {defaultValue}";
                 }
 
-                if (IsGeneric && namedType.GetFullName() == "Microsoft.Avalonia.Controls.BindingBase")
-                {
-                    return $"AttributeHelper.GetBinding({propName})";
-                }
-
                 if (IsGeneric && namedType.GetFullName() == "System.Collections.IList")
                 {
                     return $"AttributeHelper.GetIList({propName})";
@@ -193,7 +176,6 @@ public partial class GeneratedPropertyInfo
             .Where(p => !componentInfo.ContentProperties.Contains(p.Name))
             .Where(IsPublicProperty)
             .Where(HasPublicSetter)
-            .Where(prop => IsExplicitlyAllowed(prop, generatedType) || !DisallowedComponentTypes.Contains(prop.Type.GetFullName()))
             .Where(prop => prop.Type.GetFullName() == "Avalonia.Media.Brush" || !IsRenderFragmentPropertySymbol(generatedType, prop))
             .OrderBy(prop => prop.Name, StringComparer.OrdinalIgnoreCase);
 
@@ -230,51 +212,19 @@ public partial class GeneratedPropertyInfo
         var isGeneric = containingType.Settings.GenericProperties.TryGetValue(propertySymbol.Name, out var typeArgument);
         var typeArgumentName = typeArgument is null ? "T" : containingType.GetTypeNameAndAddNamespace(typeArgument);
 
-        if (typeSymbol is not INamedTypeSymbol namedTypeSymbol)
-        {
-            return containingType.GetTypeNameAndAddNamespace(typeSymbol);
-        }
-        else if (namedTypeSymbol.IsGenericType
-            && namedTypeSymbol.ConstructedFrom.SpecialType == SpecialType.System_Collections_Generic_IList_T
-            && namedTypeSymbol.TypeArguments[0].SpecialType == SpecialType.System_String)
-        {
-            // Lists of strings are special-cased because they are handled specially by the handlers as a comma-separated list
-            return "string";
-        }
-        else if (isRenderFragmentProperty)
+        if (isRenderFragmentProperty)
         {
             return isGeneric ? $"RenderFragment<{typeArgumentName}>" : "RenderFragment";
         }
-        else if (makeNullable && namedTypeSymbol.IsValueType && !namedTypeSymbol.IsNullableStruct())
-        {
-            return containingType.GetTypeNameAndAddNamespace(typeSymbol) + "?";
-        }
-        else if (namedTypeSymbol.SpecialType == SpecialType.System_Collections_IEnumerable && isGeneric)
-        {
-            return containingType.GetTypeNameAndAddNamespace("System.Collections.Generic", $"IEnumerable<{typeArgumentName}>");
-        }
-        else if (namedTypeSymbol.GetFullName() == "System.Collections.IList" && isGeneric)
-        {
-            return containingType.GetTypeNameAndAddNamespace("System.Collections.Generic", $"IList<{typeArgumentName}>");
-        }
-        else if (namedTypeSymbol.GetFullName() == "Avalonia.Data.BindingBase" && isGeneric)
+
+        if (typeSymbol is INamedTypeSymbol namedTypeSymbol
+            && isGeneric
+            && namedTypeSymbol.GetFullName() == "Avalonia.Data.BindingBase")
         {
             return "Func<T, string>";
         }
-        else if (namedTypeSymbol.SpecialType == SpecialType.System_Object && isGeneric)
-        {
-            return typeArgumentName;
-        }
-        else
-        {
-            return containingType.GetTypeNameAndAddNamespace(namedTypeSymbol);
-        }
-    }
 
-    private static bool IsExplicitlyAllowed(IPropertySymbol propertyInfo, GeneratedTypeInfo generatedType)
-    {
-        return generatedType.Settings.Include.Contains(propertyInfo.Name)
-            || propertyInfo.Type.SpecialType == SpecialType.System_Object && generatedType.Settings.GenericProperties.ContainsKey(propertyInfo.Name);
+        return GeneratedTypeInfo.GetMappedTypeName(typeSymbol, containingType, makeNullable, isGeneric, typeArgumentName);
     }
 
     private static bool IsPublicProperty(IPropertySymbol propertyInfo)
@@ -301,35 +251,6 @@ public partial class GeneratedPropertyInfo
     {
         return symbol.GetAttributes().Any(a => a.AttributeClass.Name == nameof(ObsoleteAttribute));
     }
-
-    private static readonly List<string> DisallowedComponentTypes = new()
-    {
-        //"Microsoft.Avalonia.Controls.Button.ButtonContentLayout", // TODO: This is temporary; should be possible to add support later
-        //"Microsoft.Avalonia.Controls.ColumnDefinitionCollection",
-        //"Microsoft.Avalonia.Controls.PointCollection",
-        //"Microsoft.Avalonia.Controls.DoubleCollection",
-        //"Microsoft.Avalonia.Controls.ControlTemplate",
-        //"Microsoft.Avalonia.Controls.DataTemplate",
-        //"Microsoft.Avalonia.Controls.Element",
-        //"Microsoft.Avalonia.Font", // TODO: This is temporary; should be possible to add support later
-        //"Microsoft.Avalonia.Graphics.Font", // TODO: This is temporary; should be possible to add support later
-        //"Microsoft.Avalonia.Controls.FormattedString",
-        //"Microsoft.Avalonia.Controls.Shapes.Geometry",
-        //"Microsoft.Avalonia.Controls.GradientStopCollection",
-        //"System.Windows.Input.ICommand",
-        //"System.Object",
-        //"Microsoft.Avalonia.Controls.Page",
-        //"Microsoft.Avalonia.Controls.RowDefinitionCollection",
-        //"Microsoft.Avalonia.Controls.Shadow",
-        //"Microsoft.Avalonia.Controls.ShellContent",
-        //"Microsoft.Avalonia.Controls.ShellItem",
-        //"Microsoft.Avalonia.Controls.ShellSection",
-        //"Microsoft.Avalonia.Controls.IVisual",
-        //"Microsoft.Avalonia.Controls.View",
-        //"Microsoft.Avalonia.Graphics.IShape",
-        //"Microsoft.Avalonia.IView",
-        //"Microsoft.Avalonia.IViewHandler"
-    };
 
     private string GetTypeNameAndAddNamespace(ITypeSymbol type)
     {

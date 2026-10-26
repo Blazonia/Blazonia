@@ -100,36 +100,17 @@ public partial class GeneratedPropertyInfo
         var componentInfo = containingType.Settings;
         var componentType = componentInfo.TypeSymbol;
 
-        var propertyChangedEvents = componentInfo.PropertyChangedEvents
-            .Select(propertyForEvent =>
-            {
-                var propertyInfo = componentType.GetProperty(propertyForEvent)
-                    ?? throw new Exception($"Cannot find property {componentType.Name}.{propertyForEvent}.");
-
-                var eventInfo = componentType.GetEvent("PropertyChanged", includeBaseTypes: true);
-
-                var componentEventName = $"{propertyInfo.Name}Changed";
-
-                var generatedPropertyInfo = new GeneratedPropertyInfo(
-                    containingType,
-                    "PropertyChanged",
-                    containingType.GetTypeNameAndAddNamespace(componentType),
-                    componentEventName,
-                    GetEventCallbackType(containingType, null, propertyInfo),
-                    GeneratedPropertyKind.EventCallback);
-
-                generatedPropertyInfo._bindedProperty = propertyInfo;
-                generatedPropertyInfo._eventHandlerType = (INamedTypeSymbol)eventInfo.Type;
-                return generatedPropertyInfo;
-            });
-
         var inferredEvents = GetMembers<IEventSymbol>(componentInfo.TypeSymbol, containingType.Settings.Include)
             .Where(e => !componentInfo.Exclude.Contains(e.Name))
-            .Where(e => e.DeclaredAccessibility == Accessibility.Public && IsBrowsable(e))
+            .Where(e => e.DeclaredAccessibility == Accessibility.Public && IsBrowsable(e) && !IsObsolete(e))
+            .OrderBy(e => e.Name, StringComparer.Ordinal)
             .Select(eventInfo =>
             {
                 if (!IsStandardEventHandler(eventInfo.Type))
+                {
+                    GeneratorLog.Note($"Skipped event {componentType.Name}.{eventInfo.Name}: delegate '{eventInfo.Type.ToDisplayString()}' does not use the (object sender, TEventArgs) pattern.");
                     return null;
+                }
 
                 var isBindEvent = IsBindEvent(eventInfo, out var bindedProperty);
 
@@ -152,7 +133,7 @@ public partial class GeneratedPropertyInfo
             })
                 .Where(e => e != null);
 
-        return propertyChangedEvents.Concat(inferredEvents).ToArray();
+        return inferredEvents.ToArray();
     }
 
     private static string GetEventCallbackType(GeneratedTypeInfo containingType, IEventSymbol eventInfo, IPropertySymbol bindedProperty)

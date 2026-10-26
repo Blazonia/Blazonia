@@ -12,6 +12,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class ScrollViewerInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -148,6 +150,7 @@ namespace Blazonia.Components
                     }
                 });
         }
+        #pragma warning restore CA2255
     }
 
     public static class ScrollViewerExtensions
@@ -325,7 +328,6 @@ namespace Blazonia.Components
                     if (!Equals(AllowAutoHide, value))
                     {
                         AllowAutoHide = (bool)value;
-                        //NativeControl.AllowAutoHideProperty = AllowAutoHide;
                     }
                     break;
 
@@ -333,7 +335,6 @@ namespace Blazonia.Components
                     if (!Equals(BringIntoViewOnFocusChange, value))
                     {
                         BringIntoViewOnFocusChange = (bool)value;
-                        //NativeControl.BringIntoViewOnFocusChangeProperty = BringIntoViewOnFocusChange;
                     }
                     break;
 
@@ -341,7 +342,6 @@ namespace Blazonia.Components
                     if (!Equals(HorizontalScrollBarVisibility, value))
                     {
                         HorizontalScrollBarVisibility = (AC.Primitives.ScrollBarVisibility)value;
-                        //NativeControl.HorizontalScrollBarVisibilityProperty = HorizontalScrollBarVisibility;
                     }
                     break;
 
@@ -349,7 +349,6 @@ namespace Blazonia.Components
                     if (!Equals(HorizontalSnapPointsAlignment, value))
                     {
                         HorizontalSnapPointsAlignment = (AC.Primitives.SnapPointsAlignment)value;
-                        //NativeControl.HorizontalSnapPointsAlignmentProperty = HorizontalSnapPointsAlignment;
                     }
                     break;
 
@@ -357,7 +356,6 @@ namespace Blazonia.Components
                     if (!Equals(HorizontalSnapPointsType, value))
                     {
                         HorizontalSnapPointsType = (AC.Primitives.SnapPointsType)value;
-                        //NativeControl.HorizontalSnapPointsTypeProperty = HorizontalSnapPointsType;
                     }
                     break;
 
@@ -365,7 +363,6 @@ namespace Blazonia.Components
                     if (!Equals(IsDeferredScrollingEnabled, value))
                     {
                         IsDeferredScrollingEnabled = (bool)value;
-                        //NativeControl.IsDeferredScrollingEnabledProperty = IsDeferredScrollingEnabled;
                     }
                     break;
 
@@ -373,7 +370,6 @@ namespace Blazonia.Components
                     if (!Equals(IsScrollChainingEnabled, value))
                     {
                         IsScrollChainingEnabled = (bool)value;
-                        //NativeControl.IsScrollChainingEnabledProperty = IsScrollChainingEnabled;
                     }
                     break;
 
@@ -381,7 +377,6 @@ namespace Blazonia.Components
                     if (!Equals(IsScrollInertiaEnabled, value))
                     {
                         IsScrollInertiaEnabled = (bool)value;
-                        //NativeControl.IsScrollInertiaEnabledProperty = IsScrollInertiaEnabled;
                     }
                     break;
 
@@ -389,7 +384,6 @@ namespace Blazonia.Components
                     if (!Equals(VerticalScrollBarVisibility, value))
                     {
                         VerticalScrollBarVisibility = (AC.Primitives.ScrollBarVisibility)value;
-                        //NativeControl.VerticalScrollBarVisibilityProperty = VerticalScrollBarVisibility;
                     }
                     break;
 
@@ -397,7 +391,6 @@ namespace Blazonia.Components
                     if (!Equals(VerticalSnapPointsAlignment, value))
                     {
                         VerticalSnapPointsAlignment = (AC.Primitives.SnapPointsAlignment)value;
-                        //NativeControl.VerticalSnapPointsAlignmentProperty = VerticalSnapPointsAlignment;
                     }
                     break;
 
@@ -405,7 +398,6 @@ namespace Blazonia.Components
                     if (!Equals(VerticalSnapPointsType, value))
                     {
                         VerticalSnapPointsType = (AC.Primitives.SnapPointsType)value;
-                        //NativeControl.VerticalSnapPointsTypeProperty = VerticalSnapPointsType;
                     }
                     break;
 

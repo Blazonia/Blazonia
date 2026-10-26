@@ -71,11 +71,6 @@ public partial class GeneratedFieldInfo
         _fieldInfo = fieldInfo;
         _typeInfo = typeInfo;
         Kind = kind;
-        if (typeInfo.TypeName.StartsWith("ToolTip"))
-        {
-
-        }
-
 
         ContainingType = typeInfo;
         Compilation = typeInfo.Compilation;
@@ -102,7 +97,7 @@ public partial class GeneratedFieldInfo
 
         var getMethod = fieldInfo.ContainingType.GetMethod("Get" + fieldInfo.Name[..^8]);
 
-        if (getMethod != null)
+        if (getMethod != null && getMethod.Parameters.Length > 0)
         {
             HostType = getMethod.Parameters[0].Type;
         }
@@ -133,7 +128,7 @@ public partial class GeneratedFieldInfo
 
     public string GetOriginalAttachedPropertyType()
     {
-        return GetOriginalAttachedPropertyTypeName(_fieldInfo, ContainingType, IsRenderFragmentProperty, makeNullable: false);
+        return GetOriginalAttachedPropertyTypeName(_fieldInfo, ContainingType, makeNullable: false);
     }
 
     public string GetAttachedPropertyNameWithoutSuffix()
@@ -150,7 +145,6 @@ public partial class GeneratedFieldInfo
         }
 
         const string indent = "        ";
-        var xmlDocContents = _fieldInfo is null ? "" : ComponentWrapperGenerator.GetXmlDocContents(_fieldInfo, indent);
 
         var effectiveBindingHostType = HostType.GetFullName();
 
@@ -272,83 +266,9 @@ public partial class GeneratedFieldInfo
                     if (!Equals({propName}, value))
                     {{
                         {propName} = ({GetAttachedPropertyType()})value;
-                        //NativeControl.{AvaloniaFieldName} = {GetConvertedField(_fieldInfo.Type, propName)};
                     }}
                     break;
 ";
-
-        string GetConvertedField(ITypeSymbol fieldType, string propName)
-        {
-            if (fieldType is INamedTypeSymbol namedType)
-            {
-                if (namedType.IsGenericType
-                    && namedType.ConstructedFrom.SpecialType == SpecialType.System_Collections_Generic_IList_T
-                    && namedType.TypeArguments[0].SpecialType == SpecialType.System_String)
-                {
-                    return $"AttributeHelper.GetStringList({propName})";
-                }
-
-                if (namedType.IsValueType && !namedType.IsNullableStruct())
-                {
-                    var hasBindingField = !_fieldInfo.ContainingType.GetMembers($"{propName}Field").IsEmpty;
-                    var defaultValue = hasBindingField
-                        ? $"({GetTypeNameAndAddNamespace(fieldType)}){AvaloniaContainingTypeName}.{propName}Field.GetDefaultValue({AvaloniaContainingTypeName}.{propName}Field.OwnerType)"
-                        : "default";
-
-                    return $"{propName} ?? {defaultValue}";
-                }
-
-                if (IsGeneric && namedType.GetFullName() == "Microsoft.Avalonia.Controls.BindingBase")
-                {
-                    return $"AttributeHelper.GetBinding({propName})";
-                }
-
-                if (IsGeneric && namedType.GetFullName() == "System.Collections.IList")
-                {
-                    return $"AttributeHelper.GetIList({propName})";
-                }
-            }
-
-            return propName;
-        }
-    }
-
-    internal static GeneratedFieldInfo[] GetValueProperties(GeneratedTypeInfo generatedType)
-    {
-        var componentInfo = generatedType.Settings;
-
-        var props = GetMembers<IFieldSymbol>(componentInfo.TypeSymbol, generatedType.Settings.Include)
-            .Where(p => !componentInfo.Exclude.Contains(p.Name))
-            .Where(p => !componentInfo.ContentProperties.Contains(p.Name))
-            .Where(IsPublicField)
-            .Where(prop => IsExplicitlyAllowed(prop, generatedType) || !DisallowedComponentTypes.Contains(prop.Type.GetFullName()))
-            .Where(prop => prop.Type.GetFullName() == "Avalonia.Media.Brush")
-            .OrderBy(prop => prop.Name, StringComparer.OrdinalIgnoreCase);
-
-        return props.Select(prop =>
-            {
-                if (prop.Type.GetFullName() == "Avalonia.Media.Brush")
-                {
-                    var propName = prop.Name.Replace("Brush", "") + "Color";
-
-                    if (prop.ContainingType.GetProperty(propName, includeBaseTypes: true) != null)
-                    {
-                        return null;
-                    }
-
-                    return new GeneratedFieldInfo(generatedType, prop, GeneratedFieldKind.AttachedProperty)
-                    {
-                        ComponentFieldName = propName,
-                        //ComponentType = generatedType.GetTypeNameAndAddNamespace("Avalonia.Media", "Color")
-                    };
-                }
-                else
-                {
-                    return new GeneratedFieldInfo(generatedType, prop, GeneratedFieldKind.AttachedProperty);
-                }
-            })
-            .Where(p => p != null)
-            .ToArray();
     }
 
     internal static GeneratedFieldInfo[] GetAttachedProperties(GeneratedTypeInfo generatedType)
@@ -361,7 +281,7 @@ public partial class GeneratedFieldInfo
             .Where(p => p.Name.EndsWith("Property"))
             .Where(P => P.ContainingType.GetMethod("Get" + P.Name[..^8]) != null)
             .Where(p => componentInfo.TypeSymbol.GetMethod("Set" + p.Name[..^8])?.DeclaredAccessibility == Accessibility.Public)
-            .Where(prop => IsExplicitlyAllowed(prop, generatedType) || !DisallowedComponentTypes.Contains(prop.Type.GetFullName()))
+            .Where(p => p.Type is INamedTypeSymbol { IsGenericType: true } fieldType && fieldType.TypeArguments.Length > 0)
             .Where(prop => prop.Type.GetFullName().StartsWith("Avalonia.AttachedProperty"))
             .OrderBy(prop => prop.Name, StringComparer.OrdinalIgnoreCase)
             .ToList();
@@ -401,90 +321,28 @@ public partial class GeneratedFieldInfo
         var isGeneric = containingType.Settings.GenericProperties.TryGetValue(fieldSymbol.Name, out var typeArgument);
         var typeArgumentName = typeArgument is null ? "T" : containingType.GetTypeNameAndAddNamespace(typeArgument);
 
-        if (typeSymbol is not INamedTypeSymbol namedTypeSymbol)
-        {
-            return containingType.GetTypeNameAndAddNamespace(typeSymbol);
-        }
-        else if (namedTypeSymbol.IsGenericType
-            && namedTypeSymbol.ConstructedFrom.SpecialType == SpecialType.System_Collections_Generic_IList_T
-            && namedTypeSymbol.TypeArguments[0].SpecialType == SpecialType.System_String)
-        {
-            // Lists of strings are special-cased because they are handled specially by the handlers as a comma-separated list
-            return "string";
-        }
-        else if (isRenderFragmentProperty)
+        if (isRenderFragmentProperty)
         {
             return isGeneric ? $"RenderFragment<{typeArgumentName}>" : "RenderFragment";
         }
-        else if (makeNullable && namedTypeSymbol.IsValueType && !namedTypeSymbol.IsNullableStruct())
-        {
-            return containingType.GetTypeNameAndAddNamespace(typeSymbol) + "?";
-        }
-        else if (namedTypeSymbol.SpecialType == SpecialType.System_Collections_IEnumerable && isGeneric)
-        {
-            return containingType.GetTypeNameAndAddNamespace("System.Collections.Generic", $"IEnumerable<{typeArgumentName}>");
-        }
-        else if (namedTypeSymbol.GetFullName() == "System.Collections.IList" && isGeneric)
-        {
-            return containingType.GetTypeNameAndAddNamespace("System.Collections.Generic", $"IList<{typeArgumentName}>");
-        }
-        else if (namedTypeSymbol.GetFullName() == "Avalonia.Data.BindingBase" && isGeneric)
+
+        if (typeSymbol is INamedTypeSymbol namedTypeSymbol
+            && isGeneric
+            && namedTypeSymbol.GetFullName() == "Avalonia.Data.BindingBase")
         {
             return "Func<T, string>";
         }
-        else if (namedTypeSymbol.SpecialType == SpecialType.System_Object && isGeneric)
-        {
-            return typeArgumentName;
-        }
-        else
-        {
-            return containingType.GetTypeNameAndAddNamespace(namedTypeSymbol);
-        }
+
+        return GeneratedTypeInfo.GetMappedTypeName(typeSymbol, containingType, makeNullable, isGeneric, typeArgumentName);
     }
 
-    private static string GetOriginalAttachedPropertyTypeName(IFieldSymbol fieldSymbol, GeneratedTypeInfo containingType, bool isRenderFragmentProperty = false, bool makeNullable = false)
+    private static string GetOriginalAttachedPropertyTypeName(IFieldSymbol fieldSymbol, GeneratedTypeInfo containingType, bool makeNullable = false)
     {
         var typeSymbol = ((INamedTypeSymbol)fieldSymbol.Type).TypeArguments[0];
         var isGeneric = containingType.Settings.GenericProperties.TryGetValue(fieldSymbol.Name, out var typeArgument);
         var typeArgumentName = typeArgument is null ? "T" : containingType.GetTypeNameAndAddNamespace(typeArgument);
 
-        if (typeSymbol is not INamedTypeSymbol namedTypeSymbol)
-        {
-            return containingType.GetTypeNameAndAddNamespace(typeSymbol);
-        }
-        else if (namedTypeSymbol.IsGenericType
-            && namedTypeSymbol.ConstructedFrom.SpecialType == SpecialType.System_Collections_Generic_IList_T
-            && namedTypeSymbol.TypeArguments[0].SpecialType == SpecialType.System_String)
-        {
-            // Lists of strings are special-cased because they are handled specially by the handlers as a comma-separated list
-            return "string";
-        }
-        else if (makeNullable && namedTypeSymbol.IsValueType && !namedTypeSymbol.IsNullableStruct())
-        {
-            return containingType.GetTypeNameAndAddNamespace(typeSymbol) + "?";
-        }
-        else if (namedTypeSymbol.SpecialType == SpecialType.System_Collections_IEnumerable && isGeneric)
-        {
-            return containingType.GetTypeNameAndAddNamespace("System.Collections.Generic", $"IEnumerable<{typeArgumentName}>");
-        }
-        else if (namedTypeSymbol.GetFullName() == "System.Collections.IList" && isGeneric)
-        {
-            return containingType.GetTypeNameAndAddNamespace("System.Collections.Generic", $"IList<{typeArgumentName}>");
-        }
-        else if (namedTypeSymbol.SpecialType == SpecialType.System_Object && isGeneric)
-        {
-            return typeArgumentName;
-        }
-        else
-        {
-            return containingType.GetTypeNameAndAddNamespace(namedTypeSymbol);
-        }
-    }
-
-    private static bool IsExplicitlyAllowed(IFieldSymbol fieldInfo, GeneratedTypeInfo generatedType)
-    {
-        return generatedType.Settings.Include.Contains(fieldInfo.Name)
-            || fieldInfo.Type.SpecialType == SpecialType.System_Object && generatedType.Settings.GenericProperties.ContainsKey(fieldInfo.Name);
+        return GeneratedTypeInfo.GetMappedTypeName(typeSymbol, containingType, makeNullable, isGeneric, typeArgumentName);
     }
 
     private static bool IsPublicField(IFieldSymbol fieldInfo)
@@ -505,10 +363,6 @@ public partial class GeneratedFieldInfo
     {
         return symbol.GetAttributes().Any(a => a.AttributeClass.Name == nameof(ObsoleteAttribute));
     }
-
-    private static readonly List<string> DisallowedComponentTypes = new()
-    {
-    };
 
     private string GetTypeNameAndAddNamespace(ITypeSymbol type)
     {

@@ -12,6 +12,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class GridInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -104,6 +106,7 @@ namespace Blazonia.Components
                 }
             });
         }
+        #pragma warning restore CA2255
     }
 
     public static class GridExtensions
@@ -197,7 +200,6 @@ namespace Blazonia.Components
                     if (!Equals(Column, value))
                     {
                         Column = (int)value;
-                        //NativeControl.ColumnProperty = Column;
                     }
                     break;
 
@@ -205,7 +207,6 @@ namespace Blazonia.Components
                     if (!Equals(ColumnSpan, value))
                     {
                         ColumnSpan = (int)value;
-                        //NativeControl.ColumnSpanProperty = ColumnSpan;
                     }
                     break;
 
@@ -213,7 +214,6 @@ namespace Blazonia.Components
                     if (!Equals(IsSharedSizeScope, value))
                     {
                         IsSharedSizeScope = (bool)value;
-                        //NativeControl.IsSharedSizeScopeProperty = IsSharedSizeScope;
                     }
                     break;
 
@@ -221,7 +221,6 @@ namespace Blazonia.Components
                     if (!Equals(Row, value))
                     {
                         Row = (int)value;
-                        //NativeControl.RowProperty = Row;
                     }
                     break;
 
@@ -229,7 +228,6 @@ namespace Blazonia.Components
                     if (!Equals(RowSpan, value))
                     {
                         RowSpan = (int)value;
-                        //NativeControl.RowSpanProperty = RowSpan;
                     }
                     break;
 

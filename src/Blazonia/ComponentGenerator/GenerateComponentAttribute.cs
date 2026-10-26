@@ -18,11 +18,6 @@ public class GenerateComponentAttribute : Attribute
     public string[] Include { get; set; }
 
     /// <summary>
-    /// Generate EventCallback for property based on PropertyChanged event.
-    /// </summary>
-    public string[] PropertyChangedEvents { get; set; }
-
-    /// <summary>
     /// Generates generic component with generic properties.
     /// </summary>
     public string[] GenericProperties { get; set; }

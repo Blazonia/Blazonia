@@ -99,4 +99,51 @@ public class GeneratedTypeInfo
         typeNameBuilder.Append('>');
         return typeNameBuilder.ToString();
     }
+
+    /// <summary>
+    /// Shared mapping from an Avalonia API type to the component parameter type.
+    /// Single implementation used by property, attached-property and original-type lookups.
+    /// </summary>
+    internal static string GetMappedTypeName(
+        ITypeSymbol typeSymbol,
+        GeneratedTypeInfo containingType,
+        bool makeNullable,
+        bool isGeneric,
+        string typeArgumentName)
+    {
+        if (typeSymbol is not INamedTypeSymbol namedTypeSymbol)
+        {
+            return containingType.GetTypeNameAndAddNamespace(typeSymbol);
+        }
+
+        if (namedTypeSymbol.IsGenericType
+            && namedTypeSymbol.ConstructedFrom.SpecialType == SpecialType.System_Collections_Generic_IList_T
+            && namedTypeSymbol.TypeArguments[0].SpecialType == SpecialType.System_String)
+        {
+            // Lists of strings are special-cased because they are handled specially by the handlers as a comma-separated list
+            return "string";
+        }
+
+        if (makeNullable && namedTypeSymbol.IsValueType && !namedTypeSymbol.IsNullableStruct())
+        {
+            return containingType.GetTypeNameAndAddNamespace(typeSymbol) + "?";
+        }
+
+        if (namedTypeSymbol.SpecialType == SpecialType.System_Collections_IEnumerable && isGeneric)
+        {
+            return containingType.GetTypeNameAndAddNamespace("System.Collections.Generic", $"IEnumerable<{typeArgumentName}>");
+        }
+
+        if (namedTypeSymbol.GetFullName() == "System.Collections.IList" && isGeneric)
+        {
+            return containingType.GetTypeNameAndAddNamespace("System.Collections.Generic", $"IList<{typeArgumentName}>");
+        }
+
+        if (namedTypeSymbol.SpecialType == SpecialType.System_Object && isGeneric)
+        {
+            return typeArgumentName;
+        }
+
+        return containingType.GetTypeNameAndAddNamespace(namedTypeSymbol);
+    }
 }

@@ -14,6 +14,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class InlineInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -30,6 +32,7 @@ namespace Blazonia.Components
                     }
                 });
         }
+        #pragma warning restore CA2255
     }
 
     public static class InlineExtensions
@@ -67,7 +70,6 @@ namespace Blazonia.Components
                     if (!Equals(TextDecorations, value))
                     {
                         TextDecorations = (global::Avalonia.Media.TextDecorationCollection)value;
-                        //NativeControl.TextDecorationsProperty = TextDecorations;
                     }
                     break;
 

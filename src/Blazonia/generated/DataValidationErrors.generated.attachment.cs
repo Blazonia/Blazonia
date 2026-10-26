@@ -12,6 +12,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class DataValidationErrorsInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -40,6 +42,7 @@ namespace Blazonia.Components
                     }
                 });
         }
+        #pragma warning restore CA2255
     }
 
     public static class DataValidationErrorsExtensions
@@ -91,7 +94,6 @@ namespace Blazonia.Components
                     if (!Equals(ErrorConverter, value))
                     {
                         ErrorConverter = (Func<object, object>)value;
-                        //NativeControl.ErrorConverterProperty = ErrorConverter;
                     }
                     break;
 
@@ -99,7 +101,6 @@ namespace Blazonia.Components
                     if (!Equals(Errors, value))
                     {
                         Errors = (IEnumerable<object>)value;
-                        //NativeControl.ErrorsProperty = Errors;
                     }
                     break;
 

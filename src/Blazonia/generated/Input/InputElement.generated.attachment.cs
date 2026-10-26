@@ -14,6 +14,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class InputElementInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -42,6 +44,7 @@ namespace Blazonia.Components
                     }
                 });
         }
+        #pragma warning restore CA2255
     }
 
     public static class InputElementExtensions
@@ -93,7 +96,6 @@ namespace Blazonia.Components
                     if (!Equals(IsHoldingEnabled, value))
                     {
                         IsHoldingEnabled = (bool)value;
-                        //NativeControl.IsHoldingEnabledProperty = IsHoldingEnabled;
                     }
                     break;
 
@@ -101,7 +103,6 @@ namespace Blazonia.Components
                     if (!Equals(IsHoldWithMouseEnabled, value))
                     {
                         IsHoldWithMouseEnabled = (bool)value;
-                        //NativeControl.IsHoldWithMouseEnabledProperty = IsHoldWithMouseEnabled;
                     }
                     break;
 

@@ -14,6 +14,8 @@ namespace Blazonia.Components
     [RequiresPreviewFeatures]
     internal static class TextElementInitializer
     {
+        // CA2255: module initializer is the only registration hook that needs no app startup code.
+        #pragma warning disable CA2255
         [System.Runtime.CompilerServices.ModuleInitializer]
         internal static void RegisterAdditionalHandlers()
         {
@@ -128,6 +130,7 @@ namespace Blazonia.Components
                 }
             });
         }
+        #pragma warning restore CA2255
     }
 
     public static class TextElementExtensions
@@ -263,7 +266,6 @@ namespace Blazonia.Components
                     if (!Equals(FontFamily, value))
                     {
                         FontFamily = (global::Avalonia.Media.FontFamily)value;
-                        //NativeControl.FontFamilyProperty = FontFamily;
                     }
                     break;
 
@@ -271,7 +273,6 @@ namespace Blazonia.Components
                     if (!Equals(FontFeatures, value))
                     {
                         FontFeatures = (global::Avalonia.Media.FontFeatureCollection)value;
-                        //NativeControl.FontFeaturesProperty = FontFeatures;
                     }
                     break;
 
@@ -279,7 +280,6 @@ namespace Blazonia.Components
                     if (!Equals(FontSize, value))
                     {
                         FontSize = (double)value;
-                        //NativeControl.FontSizeProperty = FontSize;
                     }
                     break;
 
@@ -287,7 +287,6 @@ namespace Blazonia.Components
                     if (!Equals(FontStretch, value))
                     {
                         FontStretch = (global::Avalonia.Media.FontStretch)value;
-                        //NativeControl.FontStretchProperty = FontStretch;
                     }
                     break;
 
@@ -295,7 +294,6 @@ namespace Blazonia.Components
                     if (!Equals(FontStyle, value))
                     {
                         FontStyle = (global::Avalonia.Media.FontStyle)value;
-                        //NativeControl.FontStyleProperty = FontStyle;
                     }
                     break;
 
@@ -303,7 +301,6 @@ namespace Blazonia.Components
                     if (!Equals(FontWeight, value))
                     {
                         FontWeight = (global::Avalonia.Media.FontWeight)value;
-                        //NativeControl.FontWeightProperty = FontWeight;
                     }
                     break;
 
@@ -311,7 +308,6 @@ namespace Blazonia.Components
                     if (!Equals(Foreground, value))
                     {
                         Foreground = (global::Avalonia.Media.IBrush)value;
-                        //NativeControl.ForegroundProperty = Foreground;
                     }
                     break;
 
@@ -319,7 +315,6 @@ namespace Blazonia.Components
                     if (!Equals(LetterSpacing, value))
                     {
                         LetterSpacing = (double)value;
-                        //NativeControl.LetterSpacingProperty = LetterSpacing;
                     }
                     break;
 
