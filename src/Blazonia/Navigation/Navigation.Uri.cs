@@ -113,7 +113,12 @@ public partial class BlazorNavigation
         (var router, _) = await _renderer.AddRootComponent<Router>(new()
         {
             [nameof(Router.AppAssembly)] = GetDefaultAssembly(),
+            // Router.NotFound is obsolete in .NET 10, but this fragment is not UI: it is the
+            // signal that completes WaitForRoute when no route matches. NotFoundPage only takes
+            // a routed component Type and cannot express a callback, so the RenderFragment stays.
+#pragma warning disable CS0618 // Router.NotFound is obsolete
             [nameof(Router.NotFound)] = notFound,
+#pragma warning restore CS0618
             [nameof(Router.Found)] = found
         });
 
