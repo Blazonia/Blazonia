@@ -2,7 +2,7 @@
 [![Nuget](https://img.shields.io/nuget/v/Blazonia)](https://www.nuget.org/packages/Blazonia/)
 
 
-[English](./readme.md) | 中文
+[English](./Readme.md) | 中文
 ## 🤔 这是啥子？
 
 Blazonia可以让开发者使用 **<a href="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor">Blazor</a>的语法**来开发 **<a href="https://avaloniaui.net/">Avalonia</a>程序**。相比原版Avalonia的axmal语法， Blazonia使用的Blazor语法更加的简洁和简单，只需要**单个文件**即可完成页面的开发。适用于**中小型规模**的客户端程序。
